@@ -57,19 +57,21 @@ def Filter(crashed_source, re_missing):
     return [crash_set, missing_set]
 
 
-def differential_testing(gcc_file, clang_file):
+def differential_testing(gcc_error_file, clang_error_file):
     gcc_errors = ''
     clang_errors = ''
 
-    # 打开文件并读取内容
-    with open(gcc_file, 'r') as f:
-        # 读取整个文件内容
-        gcc_errors = f.read()
+    if gcc_error_file:
+        # 打开文件并读取内容
+        with open(gcc_error_file, 'r') as f:
+            # 读取整个文件内容
+            gcc_errors = f.read()
 
-    # 打开文件并读取内容
-    with open(clang_file, 'r') as f:
-        # 读取整个文件内容
-        clang_errors = f.read()
+    if clang_error_file:
+        # 打开文件并读取内容
+        with open(clang_error_file, 'r') as f:
+            # 读取整个文件内容
+            clang_errors = f.read()
 
     gcc_results = EDecomposer(gcc_errors)
     clang_results = EDecomposer(clang_errors)
@@ -80,7 +82,7 @@ def differential_testing(gcc_file, clang_file):
 
     if crash_set or missing_set:
         path_1 = path.join(getcwd(), "..", "results")
-        file_path = path_1 + gcc_file + clang_file + 'missing.txt'
+        file_path = path_1 + gcc_error_file + clang_error_file + 'missing.txt'
         with open(file_path, 'w') as f:
             f.write(missing_set)
         return 1
