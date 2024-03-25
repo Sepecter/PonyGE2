@@ -25,8 +25,9 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
 def compile_code(code):
     result = 0
     # 指定文件路径
-    path_1 = path.join(getcwd(), "..", "results\\code")
-    file_path = path_1 + '\\' + datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f') + '.cpp'
+    path_1 = path.join(getcwd(), "..", "results")
+    path_1 = path.join(path_1, "code")
+    file_path = path.join(path_1, datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f') + '.cpp')
 
     # 打开文件并将内容写入
     with open(file_path, 'w') as f:
