@@ -37,10 +37,10 @@ def compile_code(code):
 
     # 定义编译器命令
     compiler1 = 'g++'
-    compiler2 = 'clang'
+    compiler2 = 'clang-7'
     output_dir = path_1 + 'bin'  # 编译后的可执行文件存放目录
-    compile_command1 = [compiler1, '-o', '', '-std=c++11']  # 可以添加其他编译选项，比如 -O3（优化等级）
-    compile_command2 = [compiler2, '-o', '', '-std=c++11']
+    compile_command1 = [compiler1, '-o', '', '-c']  # 可以添加其他编译选项，比如 -O3（优化等级）
+    compile_command2 = [compiler2, '-o', '', '-c']
     # 确保输出目录存在
     os.makedirs(output_dir, exist_ok=True)
 
