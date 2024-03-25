@@ -1,0 +1,6 @@
+<namespaceName>::=<namespaceAlias>|<originalNamespaceName>
+<originalNamespaceName>::=<Identifier>
+<namespaceDefinition>::=<Inline> <Namespace> <originalNamespaceName> <LeftBrace> <RightBrace>
+<namespaceAlias>::=<Identifier>
+<namespaceAliasDefinition>::=<Namespace> <Identifier> <Assign> <qualifiednamespacespecifier> <Semi>
+<qualifiednamespacespecifier>::=<nestedNameSpecifier> <namespaceName>

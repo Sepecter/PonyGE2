@@ -1,0 +1,3 @@
+<lambdaExpression>::=<lambdaIntroducer> <lambdaDeclarator> <compoundStatement>
+<lambdaIntroducer>::=<LeftBracket> <lambdaCapture> <RightBracket>
+<lambdaCapture>::=<captureDefault> <Comma> <captureList>|<captureList>

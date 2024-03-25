@@ -1,0 +1,6 @@
+<className>::=<simpleTemplateId>|<Identifier>
+<classSpecifier>::=<classHead> <LeftBrace> <memberSpecification> <RightBrace>
+<classHead>::=<Union> <attributeSpecifierSeq> <classHeadName> <classVirtSpecifier>|<classKey> <attributeSpecifierSeq> <classHeadName> <classVirtSpecifier>
+<classHeadName>::=<nestedNameSpecifier> <className>
+<classVirtSpecifier>::=<Final>
+<classKey>::=<Struct>|<Class>

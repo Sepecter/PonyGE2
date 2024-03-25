@@ -1,9 +1,9 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from os import getcwd, path
-from differential_testing import differential_testing
+from fitness.cpp_code_gen.differential_testing import differential_testing
 import os
 import subprocess
-import datetime
+from datetime import datetime
 import math
 
 
@@ -26,7 +26,8 @@ def compile_code(code):
     result = 0
     # 指定文件路径
     path_1 = path.join(getcwd(), "..", "results")
-    file_path = path_1 + str(datetime.datetime().now()) + '.cpp'
+    print(path_1)
+    file_path = path_1 + '\\'+ datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + '.cpp'
 
     # 打开文件并将内容写入
     with open(file_path, 'w') as f:
@@ -85,7 +86,7 @@ def fill_identifiers(raw_code):
     code = ''
     for i in range(length):
         if raw_code[i] == 'Identifier':
-            raw_code[i] = 'X' + chr(cnt)
+            raw_code[i] = 'X' + str(cnt)
             cnt += 1
     for i in raw_code:
         code += i + ' '

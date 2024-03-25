@@ -1,0 +1,5 @@
+<pointerDeclarator>::=<pointerOperator> <Const> <noPointerDeclarator>
+<noPointerDeclarator>::=<LeftParen> <pointerDeclarator> <RightParen>|<noPointerDeclarator> <LeftBracket> <RightBracket> <attributeSpecifierSeq>|<declaratorid> <attributeSpecifierSeq>
+<parametersAndQualifiers>::=<LeftParen> <parameterDeclarationClause> <RightParen> <cvqualifierseq> <refqualifier> <exceptionSpecification> <attributeSpecifierSeq>
+<trailingReturnType>::=<Arrow> <trailingTypeSpecifierSeq> <abstractDeclarator>
+<pointerOperator>::=<nestedNameSpecifier> <Star> <attributeSpecifierSeq> <cvqualifierseq>|<AndAnd> <attributeSpecifierSeq>

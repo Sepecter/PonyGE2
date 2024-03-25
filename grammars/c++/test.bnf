@@ -1,0 +1,5 @@
+<program> ::= <expression>|<expression> <expression>
+<expression> ::= <charExpression>|<intExpression>|<floatExpression>
+<charExpression> ::= char Identifier ;
+<intExpression> ::= int Identifier ;
+<floatExpression> ::= float Identifier ;
