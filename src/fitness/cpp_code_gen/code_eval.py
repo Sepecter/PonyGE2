@@ -14,11 +14,11 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
     if differential_testing_result == 1:
         return 0
     if compiling_result == 0:
-        fitness = 1000
+        fitness = 200
     elif compiling_result == 1 or compiling_result == 2:
         fitness = 0
     else:
-        fitness = 500 - 100 * (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2))
+        fitness = 200 - 100 * (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2))
         # 越接近fitness越小
     return fitness
 
@@ -27,8 +27,10 @@ def compile_code(code):
     result = 0
     # 指定文件路径
     path_1 = path.join(getcwd(), "..", "results")
+    output_dir = path.join(path_1, "bin")  # 编译后的可执行文件存放目录
     path_1 = path.join(path_1, "code")
-    file_path = path.join(path_1, datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f') + '.cpp')
+    now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
+    file_path = path.join(path_1, now + '.cpp')
 
     # 打开文件并将内容写入
     with open(file_path, 'w') as f:
@@ -40,7 +42,7 @@ def compile_code(code):
     compiler1 = 'g++'
     compiler2 = 'clang-7'
     # compiler2 = 'g++'
-    output_dir = path_1 + 'bin'  # 编译后的可执行文件存放目录
+
     compile_command1 = [compiler1, '-o', '', '-c']  # 可以添加其他编译选项，比如 -O3（优化等级）
     compile_command2 = [compiler2, '-o', '', '-c']
     # 确保输出目录存在
@@ -49,7 +51,7 @@ def compile_code(code):
     # 循环编译每个C++文件
 
     # 构建输出文件的完整路径
-    output_file = os.path.join(output_dir, os.path.splitext(cpp_file)[0])
+    output_file = path.join(output_dir, now)
     compile_command1[2] = output_file  # 更新编译器命令中的输出文件路径
     compile_command1.append(cpp_file)  # 添加要编译的C++文件路径
     compile_command2[2] = output_file
