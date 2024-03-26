@@ -3,12 +3,13 @@ from os import getcwd, path
 from fitness.cpp_code_gen.differential_testing import differential_testing
 import os
 import subprocess
+import random
 from datetime import datetime
 import math
 
 
 def calculate_fitness(length, number, compiling_result, differential_testing_result):
-    expected_length = 100
+    expected_length = 50
     expected_number = 30
     if differential_testing_result == 1:
         return 0
@@ -87,8 +88,10 @@ def fill_identifiers(raw_code):
     code = ''
     for i in range(length):
         if raw_code[i] == 'Identifier':
-            raw_code[i] = 'X' + str(cnt)
-            cnt += 1
+            num = random.randint(0, cnt + 1)
+            if num == cnt + 1:
+                cnt += 1
+            raw_code[i] = 'X' + str(num)
     for i in raw_code:
         code += i + ' '
     return code
