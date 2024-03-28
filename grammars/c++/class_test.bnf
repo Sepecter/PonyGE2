@@ -1,0 +1,20 @@
+<classSpecifier>::=<classHead> <LeftBrace> <RightBrace>
+<classHead>::=<classKey> Identifier
+<classKey>::=<Struct>|<Class>
+<simpleDeclaration>::=<initDeclarator> <Semi>
+<initDeclarator>::=Identifier <Assign> <initializerClause> <initializerClause>|Identifier <Assign> <initializerClause>
+<initializerClause>::=<LeftBrace> <RightBrace>|<LeftParen> <theTypeId> <RightParen>
+<theTypeId>::=<Const> <parametersAndQualifiers>
+<parametersAndQualifiers>::=Identifier|Identifier <refqualifier>
+<refqualifier>::=<AndAnd>|<And>
+<LeftBrace>::={
+<RightBrace>::=}
+<Struct>::=struct
+<Class>::=class
+<Semi>::=;
+<Assign>::==
+<LeftParen>::=(
+<RightParen>::=)
+<Const>::=const
+<AndAnd>::=&&
+<And>::=&
