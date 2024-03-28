@@ -85,7 +85,7 @@ def differential_testing(gcc_error_file, clang_error_file, time):
         path_1 = path.join(getcwd(), "..", "results", "differential_testing")
         file_path = path.join(path_1, time + '_missing.txt')
         with open(file_path, 'w') as f:
-            f.write(missing_set)
+            f.write(str(missing_set))
         return 1
     else:
         return 0
