@@ -80,7 +80,7 @@ def compile_code(code):
         clang_error_file = error_file_path
         with open(error_file_path, 'w') as error_file:
             error_file.write(e.output)
-    return result, gcc_error_file, clang_error_file
+    return result, gcc_error_file, clang_error_file, now
 
 
 def fill_identifiers(raw_code):
@@ -121,12 +121,12 @@ class code_eval(base_ff):
     def evaluate(self, ind, **kwargs):
         raw_code = ind.phenotype
         code = fill_identifiers(raw_code)
-        compiling_result, gcc_error_file, clang_error_file = compile_code(code)
+        compiling_result, gcc_error_file, clang_error_file, time = compile_code(code)
         length = calculate_length(raw_code)
         number = calculate_number(raw_code)
         differential_testing_result = 0
         if compiling_result != 0:
-            differential_testing_result = differential_testing(gcc_error_file, clang_error_file)
+            differential_testing_result = differential_testing(gcc_error_file, clang_error_file, time)
         fitness = calculate_fitness(length, number, compiling_result, differential_testing_result)
 
         return fitness

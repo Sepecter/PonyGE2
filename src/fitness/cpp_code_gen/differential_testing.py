@@ -1,5 +1,6 @@
 from os import getcwd, path
 
+
 def EDecomposer(text):
     # lines contain error messages
     error_lines = []
@@ -57,7 +58,7 @@ def Filter(crashed_source, re_missing):
     return [crash_set, missing_set]
 
 
-def differential_testing(gcc_error_file, clang_error_file):
+def differential_testing(gcc_error_file, clang_error_file, time):
     gcc_errors = ''
     clang_errors = ''
 
@@ -81,8 +82,8 @@ def differential_testing(gcc_error_file, clang_error_file):
     crash_set, missing_set = Filter([], missing)
 
     if crash_set or missing_set:
-        path_1 = path.join(getcwd(), "..", "results")
-        file_path = path_1 + gcc_error_file + clang_error_file + 'missing.txt'
+        path_1 = path.join(getcwd(), "..", "results", "differential_testing")
+        file_path = path.join(path_1, time + '_missing.txt')
         with open(file_path, 'w') as f:
             f.write(missing_set)
         return 1
