@@ -1,0 +1,15 @@
+<program> = <simpleDeclaration>|<simpleDeclaration> <program>
+<simpleDeclaration>::=<classSpecifier> <Semi>
+<classSpecifier>::=<classHead> <LeftBrace> <RightBrace>
+<classHead>::=<Union>|<Union> <classHeadName>|<classKey>|<classKey> <classHeadName>
+<classHeadName>::=<className>|<nestedNameSpecifier> <className>
+<classKey>::=<Struct>|<Class>
+<nestedNameSpecifier>::=<Doublecolon>
+<className>::=Identifier
+<Semi>::=;
+<LeftBrace>::={
+<RightBrace>::=}
+<Union>::=union
+<Struct>::=struct
+<Class>::=class
+<Doublecolon>::=::

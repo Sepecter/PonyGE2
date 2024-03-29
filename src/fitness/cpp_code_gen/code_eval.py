@@ -9,16 +9,14 @@ import math
 
 
 def calculate_fitness(length, number, compiling_result, differential_testing_result):
-    expected_length = 50
-    expected_number = 30
+    expected_length = 10
+    expected_number = 8
     if differential_testing_result == 1:
         return 0
-    if compiling_result == 0:
-        fitness = 200
-    elif compiling_result == 1 or compiling_result == 2:
+    if compiling_result == 1 or compiling_result == 2:
         fitness = 0
     else:
-        fitness = 200 - 100 * (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2))
+        fitness = 300 - 100 * (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2))
         # 越接近fitness越小
     return fitness
 
