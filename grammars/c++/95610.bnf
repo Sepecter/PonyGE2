@@ -1,6 +1,6 @@
-<program> = <simpleDeclaration>|<simpleDeclaration> <program>
+<program>::=<simpleDeclaration>|<simpleDeclaration> <program>
 <simpleDeclaration>::=<classSpecifier> <Semi>
-<classSpecifier>::=<classHead> <LeftBrace> <RightBrace>
+<classSpecifier>::=<classHead> <LeftBrace> <RightBrace> |<classHead>
 <classHead>::=<Union>|<Union> <classHeadName>|<classKey>|<classKey> <classHeadName>
 <classHeadName>::=<className>|<nestedNameSpecifier> <className>
 <classKey>::=<Struct>|<Class>
