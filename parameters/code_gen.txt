@@ -6,12 +6,12 @@ DEBUG:                  False
 GENERATIONS:            50
 MAX_GENOME_LENGTH:      500
 GRAMMAR_FILE:           c++/46419.bnf
-INITIALISATION:         rvd
+INITIALISATION:         PI_grow
 INVALID_SELECTION:      False
 MAX_INIT_TREE_DEPTH:    10
 MAX_TREE_DEPTH:         17
 MUTATION:               int_flip_per_codon
-POPULATION_SIZE:        5
+POPULATION_SIZE:        50
 FITNESS_FUNCTION:       cpp_code_gen.code_eval
 REPLACEMENT:            generational
 SELECTION:              tournament

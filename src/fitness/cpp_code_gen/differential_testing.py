@@ -4,7 +4,7 @@ from os import getcwd, path
 def EDecomposer(text):
     # lines contain error messages
     error_lines = []
-    # a dictionary record of a error message compiler front-end
+    # a dictionary record of an error message compiler front-end
     result = set()
 
     for line in text.split('\n'):
