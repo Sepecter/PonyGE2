@@ -1,0 +1,21 @@
+<expressionStatement>::=<expression> <Semi>
+<expression>::=<assignmentExpression>
+<assignmentExpression>::=<throwExpression>|<postfixExpression> <Assign> <assignmentExpression>|<postfixExpression>
+<throwExpression>::=<Throw>|<Throw> <assignmentExpression>
+<postfixExpression>::=<postfixExpression> <Arrow> <idExpression>|<postfixExpression> <Dot> <idExpression>|<postfixExpression> <LeftBracket> <expression> <RightBracket>|<primaryExpression>
+<decltypeSpecifier>::=<Decltype> <LeftParen> <expression> <RightParen>|<Decltype> <LeftParen> <Auto> <RightParen>
+<primaryExpression>::=<idExpression>|<LeftParen> <expression> <RightParen>
+<idExpression>::=<unqualifiedId>
+<unqualifiedId>::=<Tilde> <decltypeSpecifier>|Identifier
+<Semi>::=;
+<Dot>::=.
+<Assign>::==
+<Throw>::=throw
+<Arrow>::=->
+<Decltype>::=
+<LeftParen>::=(
+<RightParen>::=)
+<Auto>::=auto
+<Tilde>::=~
+<LeftBracket>::=[
+<RightBracket>::=]
