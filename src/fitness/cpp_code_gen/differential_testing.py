@@ -74,14 +74,28 @@ def differential_testing(gcc_error_file, clang_error_file, time):
             # 读取整个文件内容
             clang_errors = f.read()
 
+    gcc_crash = gcc_errors.find('report')
+    clang_crash = clang_errors.find('report')
+    crashed_source = ''
+    if gcc_crash != -1:
+        crashed_source += gcc_errors
+    if clang_crash != -1:
+        crashed_source += clang_errors
+
     gcc_results = EDecomposer(gcc_errors)
     clang_results = EDecomposer(clang_errors)
 
     missing = EAligner(gcc_results, clang_results)
 
-    crash_set, missing_set = Filter([], missing)
+    crash_set, missing_set = Filter(crashed_source.split('\n'), missing)
 
-    if crash_set or missing_set:
+    if crash_set:
+        path_1 = path.join(getcwd(), "..", "results", "differential_testing")
+        file_path = path.join(path_1, time + '_crash.txt')
+        with open(file_path, 'w') as f:
+            f.write(str(crash_set))
+
+    if missing_set:
         path_1 = path.join(getcwd(), "..", "results", "differential_testing")
         file_path = path.join(path_1, time + '_missing.txt')
         with open(file_path, 'w') as f:

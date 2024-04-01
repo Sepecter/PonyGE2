@@ -12,7 +12,7 @@
 <Assign>::==
 <Throw>::=throw
 <Arrow>::=->
-<Decltype>::=
+<Decltype>::=decltype
 <LeftParen>::=(
 <RightParen>::=)
 <Auto>::=auto
