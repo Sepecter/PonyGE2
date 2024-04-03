@@ -1,0 +1,24 @@
+<declarationseq>::=<simpleDeclaration>|<simpleDeclaration> <declarationseq>
+<simpleDeclaration>::=<declSpecifierSeq> <initDeclaratorList> <Semi>
+<initDeclaratorList>::=<initDeclarator>
+<initDeclarator>::=Identifier <Assign> 0
+<simpleTypeSpecifier>::=<decltypeSpecifier>|<Auto>|<Void>|<Double>|<Unsigned>|<Signed>|<Float>|<Long>|<Int>
+<declSpecifierSeq>::=<declSpecifier> <declSpecifierSeq>|<declSpecifier>
+<declSpecifier>::=<Constexpr>|<Typedef>|<Friend>|<simpleTypeSpecifier>
+<decltypeSpecifier>::=<Decltype> <LeftParen> <Auto> <RightParen>
+<Semi>::=;
+<Assign>::==
+<Auto>::=auto
+<Void>::=void
+<Double>::=double
+<Float>::=float
+<Unsigned>::=unsigned
+<Signed>::=signed
+<Long>::=long
+<Int>::=int
+<Constexpr>::=constexpr
+<Typedef>::=typedef
+<Friend>::=friend
+<Decltype>::=decltype
+<LeftParen>::=(
+<RightParen>::=)
