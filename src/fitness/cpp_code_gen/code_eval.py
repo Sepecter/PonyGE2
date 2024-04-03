@@ -126,6 +126,8 @@ class code_eval(base_ff):
         compiling_result, gcc_errors, clang_errors, time = compile_code(code)
         length = calculate_length(raw_code)
         number = calculate_number(raw_code)
+
+        # crash error
         gcc_crash = gcc_errors.find('report')
         clang_crash = clang_errors.find('report')
         crashed_source = ''
@@ -133,8 +135,17 @@ class code_eval(base_ff):
             crashed_source += gcc_errors
         if clang_crash != -1:
             crashed_source += clang_errors
+
+        # diagnostic error
+        diagnostic = 0
+        gcc_count = gcc_errors.count('error')
+        clang_count = clang_errors.count('error')
+        if abs(gcc_count-clang_count) >= 3:
+            diagnostic = 1
+
+        # differential_testing
         differential_testing_result = 0
-        if compiling_result != 0 or crashed_source != '':
+        if compiling_result != 0 or crashed_source != '' or diagnostic == 1:
             differential_testing_result = differential_testing(gcc_errors, clang_errors, crashed_source, time)
         fitness = calculate_fitness(length, number, compiling_result, differential_testing_result)
 
