@@ -56,6 +56,8 @@ def compile_code(code):
     compile_command2.append(cpp_file)
     gcc_error_file = ''
     clang_error_file = ''
+    gcc_errors = ''
+    clang_errors = ''
     # 执行编译器1命令
     try:
         output = subprocess.check_output(compile_command1, stderr=subprocess.STDOUT, universal_newlines=True)
@@ -65,6 +67,7 @@ def compile_code(code):
         # print(f'Failed to compile {cpp_file}.')
         error_file_path = f'{output_file}_gcc_error.txt'
         gcc_error_file = error_file_path
+        gcc_errors = e.output
         with open(error_file_path, 'w') as error_file:
             error_file.write(e.output)
     # 执行编译器2命令
@@ -76,9 +79,10 @@ def compile_code(code):
         # print(f'Failed to compile {cpp_file}.')
         error_file_path = f'{output_file}_clang_error.txt'
         clang_error_file = error_file_path
+        clang_errors = e.output
         with open(error_file_path, 'w') as error_file:
             error_file.write(e.output)
-    return result, gcc_error_file, clang_error_file, now
+    return result, gcc_errors, clang_errors, now
 
 
 def fill_identifiers(raw_code):
@@ -119,12 +123,19 @@ class code_eval(base_ff):
     def evaluate(self, ind, **kwargs):
         raw_code = ind.phenotype
         code = fill_identifiers(raw_code)
-        compiling_result, gcc_error_file, clang_error_file, time = compile_code(code)
+        compiling_result, gcc_errors, clang_errors, time = compile_code(code)
         length = calculate_length(raw_code)
         number = calculate_number(raw_code)
+        gcc_crash = gcc_errors.find('report')
+        clang_crash = clang_errors.find('report')
+        crashed_source = ''
+        if gcc_crash != -1:
+            crashed_source += gcc_errors
+        if clang_crash != -1:
+            crashed_source += clang_errors
         differential_testing_result = 0
-        if compiling_result != 0:
-            differential_testing_result = differential_testing(gcc_error_file, clang_error_file, time)
+        if compiling_result != 0 or crashed_source != '':
+            differential_testing_result = differential_testing(gcc_errors, clang_errors, crashed_source, time)
         fitness = calculate_fitness(length, number, compiling_result, differential_testing_result)
 
         return fitness
