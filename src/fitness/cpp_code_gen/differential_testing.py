@@ -1,3 +1,4 @@
+import os
 from os import getcwd, path
 
 
@@ -67,14 +68,15 @@ def differential_testing(gcc_errors, clang_errors, crashed_source, time):
 
     crash_set, missing_set = Filter(crashed_source.split('\n'), missing)
 
-    if crash_set:
-        path_1 = path.join(getcwd(), "..", "results", "differential_testing")
+    path_1 = path.join(getcwd(), "..", "results", "differential_testing")
+    os.makedirs(path_1, exist_ok=True)
+
+    if crash_set and str(crash_set) != "{\'\'}":
         file_path = path.join(path_1, time + '_crash.txt')
         with open(file_path, 'w') as f:
             f.write(str(crash_set))
 
     if missing_set:
-        path_1 = path.join(getcwd(), "..", "results", "differential_testing")
         file_path = path.join(path_1, time + '_missing.txt')
         with open(file_path, 'w') as f:
             f.write(str(missing_set))

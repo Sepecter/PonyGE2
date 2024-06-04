@@ -27,6 +27,8 @@ def compile_code(code):
     path_1 = path.join(getcwd(), "..", "results")
     output_dir = path.join(path_1, "bin")  # 编译后的可执行文件存放目录
     path_1 = path.join(path_1, "code")
+    os.makedirs(path_1, exist_ok=True)
+
     now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
     file_path = path.join(path_1, now + '.cpp')
 
@@ -39,7 +41,7 @@ def compile_code(code):
     # 定义编译器命令
     compiler1 = 'g++'
     compiler2 = 'clang-7'
-    # compiler2 = 'g++'
+    # compiler2 = 'g+ +'
 
     compile_command1 = [compiler1, '-o', '', '-c']  # 可以添加其他编译选项，比如 -O3（优化等级）
     compile_command2 = [compiler2, '-o', '', '-c']
