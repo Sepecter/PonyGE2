@@ -1,6 +1,7 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from os import getcwd, path
 from fitness.cpp_code_gen.differential_testing import differential_testing
+from algorithm.parameters import params
 import os
 import subprocess
 import random
@@ -16,7 +17,7 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
     if compiling_result == 1 or compiling_result == 2:
         fitness = 0
     else:
-        fitness = 300 - 100 * (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2))
+        fitness = 3 - (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2))
         # 越接近fitness越小
     return fitness
 
@@ -24,13 +25,14 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
 def compile_code(code):
     result = 0
     # 指定文件路径
-    path_1 = path.join(getcwd(), "..", "results")
+    path_1 = path.join(params['FILE_PATH'], "code_results")
     output_dir = path.join(path_1, "bin")  # 编译后的可执行文件存放目录
+    bug_path = path.join(path_1, "bug")
     path_1 = path.join(path_1, "code")
-    os.makedirs(path_1, exist_ok=True)
 
     now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
     file_path = path.join(path_1, now + '.cpp')
+    bug_path = path.join(bug_path, now + '.cpp')
 
     # 打开文件并将内容写入
     with open(file_path, 'w') as f:
@@ -40,13 +42,12 @@ def compile_code(code):
 
     # 定义编译器命令
     compiler1 = 'g++'
-    compiler2 = 'clang-7'
-    # compiler2 = 'g+ +'
+    compiler2 = 'clang++'
+    # compiler2 = 'g++'
 
     compile_command1 = [compiler1, '-o', '', '-c']  # 可以添加其他编译选项，比如 -O3（优化等级）
     compile_command2 = [compiler2, '-o', '', '-c']
-    # 确保输出目录存在
-    os.makedirs(output_dir, exist_ok=True)
+
 
     # 循环编译每个C++文件
 
@@ -66,24 +67,38 @@ def compile_code(code):
         result |= 1
         # print(f'Compiled {cpp_file} successfully!')
     except subprocess.CalledProcessError as e:
-        # print(f'Failed to compile {cpp_file}.')
-        error_file_path = f'{output_file}_gcc_error.txt'
-        gcc_error_file = error_file_path
         gcc_errors = e.output
-        with open(error_file_path, 'w') as error_file:
-            error_file.write(e.output)
+
+        # print(f'Failed to compile {cpp_file}.')
+        # gcc_error_file = f'{output_file}_gcc_error.txt'
+        # gcc_error_file = error_file_path
+        # with open(error_file_path, 'w') as error_file:
+        #     error_file.write(gcc_errors)
     # 执行编译器2命令
     try:
         output = subprocess.check_output(compile_command2, stderr=subprocess.STDOUT, universal_newlines=True)
         result |= 2
         # print(f'Compiled {cpp_file} successfully!')
     except subprocess.CalledProcessError as e:
-        # print(f'Failed to compile {cpp_file}.')
-        error_file_path = f'{output_file}_clang_error.txt'
-        clang_error_file = error_file_path
         clang_errors = e.output
-        with open(error_file_path, 'w') as error_file:
-            error_file.write(e.output)
+
+        # print(f'Failed to compile {cpp_file}.')
+        # clang_error_file = f'{output_file}_clang_error.txt'
+        # clang_error_file = error_file_path
+        # with open(error_file_path, 'w') as error_file:
+        #     error_file.write(clang_errors)
+
+    # 输出触发缺陷程序与编译结果
+
+    if result == 1:
+        clang_error_file = f'{output_file}_clang_error.txt'
+        with open(clang_error_file, 'w') as error_file:
+            error_file.write(clang_errors)
+    elif result == 2:
+        gcc_error_file = f'{output_file}_gcc_error.txt'
+        with open(gcc_error_file, 'w') as error_file:
+            error_file.write(gcc_errors)
+
     return result, gcc_errors, clang_errors, now
 
 
@@ -124,7 +139,12 @@ class code_eval(base_ff):
 
     def evaluate(self, ind, **kwargs):
         raw_code = ind.phenotype
-        code = fill_identifiers(raw_code)
+
+        # 变量池
+        identifier_pool = 'int X0,X1,X2,X3,X4,X5; '
+        # 填充代码标识符
+        code = identifier_pool + fill_identifiers(raw_code)
+        # 编译
         compiling_result, gcc_errors, clang_errors, time = compile_code(code)
         length = calculate_length(raw_code)
         number = calculate_number(raw_code)
@@ -142,13 +162,14 @@ class code_eval(base_ff):
         diagnostic = 0
         gcc_count = gcc_errors.count('error')
         clang_count = clang_errors.count('error')
-        if abs(gcc_count-clang_count) >= 3:
+        if abs(gcc_count - clang_count) >= 3:
             diagnostic = 1
 
         # differential_testing
         differential_testing_result = 0
-        if compiling_result != 0 or crashed_source != '' or diagnostic == 1:
-            differential_testing_result = differential_testing(gcc_errors, clang_errors, crashed_source, time)
+        if crashed_source != '' or diagnostic == 1 or (compiling_result != 0 and compiling_result != 3):
+            differential_testing_result = differential_testing(gcc_errors, clang_errors, crashed_source,
+                                                               time, compiling_result)
         fitness = calculate_fitness(length, number, compiling_result, differential_testing_result)
 
         return fitness

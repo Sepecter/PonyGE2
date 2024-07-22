@@ -1,6 +1,6 @@
 import os
 from os import getcwd, path
-
+from algorithm.parameters import params
 
 def EDecomposer(text):
     # lines contain error messages
@@ -59,7 +59,7 @@ def Filter(crashed_source, re_missing):
     return [crash_set, missing_set]
 
 
-def differential_testing(gcc_errors, clang_errors, crashed_source, time):
+def differential_testing(gcc_errors, clang_errors, crashed_source, time, compiling_result):
 
     gcc_results = EDecomposer(gcc_errors)
     clang_results = EDecomposer(clang_errors)
@@ -68,8 +68,7 @@ def differential_testing(gcc_errors, clang_errors, crashed_source, time):
 
     crash_set, missing_set = Filter(crashed_source.split('\n'), missing)
 
-    path_1 = path.join(getcwd(), "..", "results", "differential_testing")
-    os.makedirs(path_1, exist_ok=True)
+    path_1 = path.join(params['FILE_PATH'], "code_results", "differential_testing")
 
     if crash_set and str(crash_set) != "{\'\'}":
         file_path = path.join(path_1, time + '_crash.txt')
@@ -79,7 +78,7 @@ def differential_testing(gcc_errors, clang_errors, crashed_source, time):
     if missing_set:
         file_path = path.join(path_1, time + '_missing.txt')
         with open(file_path, 'w') as f:
-            f.write(str(missing_set))
+            f.write(str(missing_set)+"\ncompiling_result:"+str(compiling_result))
         return 1
     else:
         return 0

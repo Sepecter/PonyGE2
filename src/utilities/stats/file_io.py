@@ -146,6 +146,13 @@ def generate_folders_and_files():
     params['FILE_PATH'] = path.join(params['FILE_PATH'],
                                     str(params['TIME_STAMP']))
 
+    makedirs(path.join(params['FILE_PATH'], "code_results"))
+
+    makedirs(path.join(params['FILE_PATH'], "code_results", "bug"))
+    makedirs(path.join(params['FILE_PATH'], "code_results", "bin"))
+    makedirs(path.join(params['FILE_PATH'], "code_results", "code"))
+    makedirs(path.join(params['FILE_PATH'], "code_results", "differential_testing"))
+
     save_params_to_file()
 
 
