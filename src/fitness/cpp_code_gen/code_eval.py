@@ -22,6 +22,18 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
     return fitness
 
 
+# 使用here document编译代码
+def cmd_compile(compiler_command, code):
+    try:
+        process = subprocess.Popen(compiler_command, stdin=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        _, stderr = process.communicate(code)
+        if process.returncode == 0:
+            return True, ""
+        else:
+            return False, stderr
+    except Exception as e:
+        return False, str(e)
+
 def compile_code(code):
     result = 0
     # 指定文件路径
@@ -35,18 +47,21 @@ def compile_code(code):
     bug_path = path.join(bug_path, now + '.cpp')
 
     # 打开文件并将内容写入
-    with open(file_path, 'w') as f:
-        f.write(code)
+    # with open(file_path, 'w') as f:
+    #     f.write(code)
     # 定义要编译的C++文件列表
     cpp_file = file_path
 
     # 定义编译器命令
     compiler1 = 'g++'
-    compiler2 = 'clang++'
-    # compiler2 = 'g++'
+    # compiler2 = 'clang++'
+    compiler2 = 'g++'
 
-    compile_command1 = [compiler1, '-o', '', '-c']  # 可以添加其他编译选项，比如 -O3（优化等级）
-    compile_command2 = [compiler2, '-o', '', '-c']
+    # compile_command1 = [compiler1, '-o', '', '-c']
+    # compile_command2 = [compiler2, '-o', '', '-c']
+
+    compile_command1 = [compiler1, '-x', 'c++', '-o', '', '-']  # 使用heredoc
+    compile_command2 = [compiler2, '-x', 'c++', '-o', '', '-']  # 使用heredoc
 
 
     # 循环编译每个C++文件
@@ -57,36 +72,32 @@ def compile_code(code):
     compile_command1.append(cpp_file)  # 添加要编译的C++文件路径
     compile_command2[2] = output_file
     compile_command2.append(cpp_file)
-    gcc_error_file = ''
-    clang_error_file = ''
     gcc_errors = ''
     clang_errors = ''
+    # # 执行编译器1命令
+    # try:
+    #     output = subprocess.check_output(compile_command1, stderr=subprocess.STDOUT, universal_newlines=True)
+    #     result |= 1
+    # except subprocess.CalledProcessError as e:
+    #     gcc_errors = e.output
+    #
+    # # 执行编译器2命令
+    # try:
+    #     output = subprocess.check_output(compile_command2, stderr=subprocess.STDOUT, universal_newlines=True)
+    #     result |= 2
+    # except subprocess.CalledProcessError as e:
+    #     clang_errors = e.output
+
     # 执行编译器1命令
-    try:
-        output = subprocess.check_output(compile_command1, stderr=subprocess.STDOUT, universal_newlines=True)
+    compiled, gcc_errors = cmd_compile(compile_command1, code)
+    if compiled:
         result |= 1
-        # print(f'Compiled {cpp_file} successfully!')
-    except subprocess.CalledProcessError as e:
-        gcc_errors = e.output
 
-        # print(f'Failed to compile {cpp_file}.')
-        # gcc_error_file = f'{output_file}_gcc_error.txt'
-        # gcc_error_file = error_file_path
-        # with open(error_file_path, 'w') as error_file:
-        #     error_file.write(gcc_errors)
     # 执行编译器2命令
-    try:
-        output = subprocess.check_output(compile_command2, stderr=subprocess.STDOUT, universal_newlines=True)
+    compiled, clang_errors = cmd_compile(compile_command2, code)
+    if compiled:
         result |= 2
-        # print(f'Compiled {cpp_file} successfully!')
-    except subprocess.CalledProcessError as e:
-        clang_errors = e.output
 
-        # print(f'Failed to compile {cpp_file}.')
-        # clang_error_file = f'{output_file}_clang_error.txt'
-        # clang_error_file = error_file_path
-        # with open(error_file_path, 'w') as error_file:
-        #     error_file.write(clang_errors)
 
     # 输出触发缺陷程序与编译结果
 
