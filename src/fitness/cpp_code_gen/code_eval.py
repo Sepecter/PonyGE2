@@ -2,22 +2,39 @@ from fitness.base_ff_classes.base_ff import base_ff
 from os import getcwd, path
 from fitness.cpp_code_gen.differential_testing import differential_testing
 from algorithm.parameters import params
+from stats.stats import stats
 import os
 import subprocess
 import random
 from datetime import datetime
 import math
 
+global last_sum_number, sum_number, round
+
 
 def calculate_fitness(length, number, compiling_result, differential_testing_result):
+    global round, last_sum_number, sum_number
+    size = params['POPULATION_SIZE']
+    if stats['gen'] == 1:
+        round = 1
+        last_sum_number = 0
+        sum_number = 0
+    if round != stats['gen']:
+        round = stats['gen']
+        last_sum_number = sum_number
+        sum_number = 0
+    avg_number = last_sum_number/size
+    sum_number += number
     expected_length = 10
     expected_number = 8
+
     if differential_testing_result == 1:
         return 0
     if compiling_result == 1 or compiling_result == 2:
-        fitness = 0
+        fitness = -20
     else:
-        fitness = 3 - (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2))
+        fitness = 3 - (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2)) \
+                  - (number-avg_number)
         # 越接近fitness越小
     return fitness
 
@@ -25,7 +42,8 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
 # 使用here document编译代码
 def cmd_compile(compiler_command, code):
     try:
-        process = subprocess.Popen(compiler_command, stdin=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        process = subprocess.Popen(compiler_command, stdin=subprocess.PIPE, stderr=subprocess.PIPE,
+                                   universal_newlines=True)
         _, stderr = process.communicate(code)
         if process.returncode == 0:
             return True, ""
@@ -33,6 +51,7 @@ def cmd_compile(compiler_command, code):
             return False, stderr
     except Exception as e:
         return False, str(e)
+
 
 def compile_code(code):
     result = 0
@@ -62,7 +81,6 @@ def compile_code(code):
 
     compile_command1 = [compiler1, '-x', 'c++', '-o', '', '-']  # 使用heredoc
     compile_command2 = [compiler2, '-x', 'c++', '-o', '', '-']  # 使用heredoc
-
 
     # 循环编译每个C++文件
 
@@ -97,7 +115,6 @@ def compile_code(code):
     compiled, clang_errors = cmd_compile(compile_command2, code)
     if compiled:
         result |= 2
-
 
     # 输出触发缺陷程序与编译结果
 
