@@ -17,4 +17,4 @@ REPLACEMENT:            generational
 SELECTION:              tournament
 TOURNAMENT_SIZE:        2
 VERBOSE:                False
-MULTICORE:              True
+MULTICORE:              False

@@ -9,32 +9,30 @@ import random
 from datetime import datetime
 import math
 
-global last_sum_number, sum_number, round
-
 
 def calculate_fitness(length, number, compiling_result, differential_testing_result):
-    global round, last_sum_number, sum_number
+    # print(stats)
     size = params['POPULATION_SIZE']
-    if stats['gen'] == 1:
-        round = 1
-        last_sum_number = 0
-        sum_number = 0
-    if round != stats['gen']:
-        round = stats['gen']
-        last_sum_number = sum_number
-        sum_number = 0
-    avg_number = last_sum_number/size
-    sum_number += number
-    expected_length = 10
-    expected_number = 8
+    if stats['last_gen'] != stats['gen']:
+        stats['last_gen'] = stats['gen']
+        stats['last_sum_number'] = stats['sum_number']
+        stats['sum_number'] = 0
+    avg_number = stats['last_sum_number'] / size
+    stats['sum_number'] += number
+    expected_length = 30
+    expected_number = 23
+
+    # print(stats['gen'])
+    # print(avg_number)
 
     if differential_testing_result == 1:
         return 0
     if compiling_result == 1 or compiling_result == 2:
+
         fitness = -20
     else:
         fitness = 3 - (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2)) \
-                  - (number-avg_number)
+                  - (number - avg_number)
         # 越接近fitness越小
     return fitness
 

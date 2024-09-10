@@ -37,7 +37,10 @@ stats = {
     "best_fitness": 0,
     "time_taken": 0,
     "total_time": 0,
-    "time_adjust": 0
+    "time_adjust": 0,
+    "last_sum_number": 0,
+    "sum_number": 0,
+    "last_gen": 0
 }
 
 
