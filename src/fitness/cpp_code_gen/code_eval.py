@@ -20,7 +20,7 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
     avg_number = stats['last_sum_number'] / size
     stats['sum_number'] += number
     expected_length = 30
-    expected_number = 23
+    # expected_number = 23
 
     # print(stats['gen'])
     # print(avg_number)
@@ -31,8 +31,9 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
 
         fitness = -20
     else:
-        fitness = 30 - 10 * (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2)) \
-                  - (number - avg_number)
+        fitness = (30 - 10 * math.exp(-(length - expected_length) ** 2)
+                   # - math.exp(-(number - expected_number) ** 2) \
+                   - (number - avg_number))
         # 越接近fitness越小
     return fitness
 
@@ -58,6 +59,7 @@ def compile_code(code):
     output_dir = path.join(path_1, "bin")  # 编译后的可执行文件存放目录
     bug_path = path.join(path_1, "bug")
     path_1 = path.join(path_1, "code")
+    path_2 = path.join(getcwd(), "..", "results", "bugs")
 
     now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
     file_path = path.join(path_1, now + '.cpp')
@@ -70,9 +72,9 @@ def compile_code(code):
     cpp_file = file_path
 
     # 定义编译器命令
-    compiler1 = 'g++'
-    # compiler2 = 'clang++'
-    compiler2 = 'g++'
+    compiler1 = 'g++14'
+    compiler2 = 'clang++18'
+    # compiler2 = 'g++'
 
     # compile_command1 = [compiler1, '-o', '', '-c']
     # compile_command2 = [compiler2, '-o', '', '-c']
@@ -84,10 +86,10 @@ def compile_code(code):
 
     # 构建输出文件的完整路径
     output_file = path.join(output_dir, now)
-    compile_command1[2] = output_file  # 更新编译器命令中的输出文件路径
-    compile_command1.append(cpp_file)  # 添加要编译的C++文件路径
-    compile_command2[2] = output_file
-    compile_command2.append(cpp_file)
+    compile_command1[4] = output_file  # 更新编译器命令中的输出文件路径
+    # compile_command1.append(cpp_file)  # 添加要编译的C++文件路径
+    compile_command2[4] = output_file
+    # compile_command2.append(cpp_file)
     gcc_errors = ''
     clang_errors = ''
     # # 执行编译器1命令
@@ -115,11 +117,13 @@ def compile_code(code):
         result |= 2
 
     # 输出触发缺陷程序与编译结果
-
+    print(f'{output_file}_clang_error.txt')
     if result == 1:
         clang_error_file = f'{output_file}_clang_error.txt'
         with open(clang_error_file, 'w') as error_file:
             error_file.write(clang_errors)
+
+
     elif result == 2:
         gcc_error_file = f'{output_file}_gcc_error.txt'
         with open(gcc_error_file, 'w') as error_file:
