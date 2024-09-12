@@ -31,7 +31,7 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
 
         fitness = -20
     else:
-        fitness = 3 - (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2)) \
+        fitness = 30 - 10 * (math.exp(-(length - expected_length) ** 2) + math.exp(-(number - expected_number) ** 2)) \
                   - (number - avg_number)
         # 越接近fitness越小
     return fitness
