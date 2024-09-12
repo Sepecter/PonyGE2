@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # 每隔固定时间执行的间隔时间（以秒为单位）
-interval=12
+interval=5
 # 要执行的命令
 command="python ponyge.py --parameters code_gen.txt"
 num=5
 count=1
-total=10
+total=100
 
 for ((i=1; i <= num; i++))
 do

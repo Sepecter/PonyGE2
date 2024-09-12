@@ -19,7 +19,7 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
         stats['sum_number'] = 0
     avg_number = stats['last_sum_number'] / size
     stats['sum_number'] += number
-    expected_length = 30
+    expected_length = 20
     # expected_number = 23
 
     # print(stats['gen'])
@@ -55,15 +55,15 @@ def cmd_compile(compiler_command, code):
 def compile_code(code):
     result = 0
     # 指定文件路径
+    now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
     path_1 = path.join(params['FILE_PATH'], "code_results")
     output_dir = path.join(path_1, "bin")  # 编译后的可执行文件存放目录
-    bug_path = path.join(path_1, "bug")
+    # bug_path = path.join(path_1, "bug")
     path_1 = path.join(path_1, "code")
-    path_2 = path.join(getcwd(), "..", "results", "bugs")
+    path_2 = path.join(getcwd(), "..", "results", "bugs", now + '.cpp')
 
-    now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
     file_path = path.join(path_1, now + '.cpp')
-    bug_path = path.join(bug_path, now + '.cpp')
+    # bug_path = path.join(bug_path, now + '.cpp')
 
     # 打开文件并将内容写入
     # with open(file_path, 'w') as f:
@@ -117,18 +117,26 @@ def compile_code(code):
         result |= 2
 
     # 输出触发缺陷程序与编译结果
-    print(f'{output_file}_clang_error.txt')
+    # print(f'{output_file}_clang_error.txt')
     if result == 1:
-        clang_error_file = f'{output_file}_clang_error.txt'
-        with open(clang_error_file, 'w') as error_file:
-            error_file.write(clang_errors)
-
+        clang_errors_file = f'{output_file}_clang_error.txt'
+        with open(clang_errors_file, 'w') as errors_file:
+            errors_file.write(clang_errors)
+        with open(cpp_file, 'w') as error_code:
+            error_code.write(code)
+        #DEBUG
+        with open(path_2, 'w') as debug_file:
+            debug_file.write(code)
 
     elif result == 2:
-        gcc_error_file = f'{output_file}_gcc_error.txt'
-        with open(gcc_error_file, 'w') as error_file:
-            error_file.write(gcc_errors)
-
+        gcc_errors_file = f'{output_file}_gcc_error.txt'
+        with open(gcc_errors_file, 'w') as errors_file:
+            errors_file.write(gcc_errors)
+        with open(cpp_file, 'w') as error_code:
+            error_code.write(code)
+        #DEBUG
+        with open(path_2, 'w') as debug_file:
+            debug_file.write(code)
     return result, gcc_errors, clang_errors, now
 
 
