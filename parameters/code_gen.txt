@@ -3,13 +3,13 @@ CODON_SIZE:             100000
 CROSSOVER:              variable_onepoint
 CROSSOVER_PROBABILITY:  0.75
 DEBUG:                  False
-GENERATIONS:            50
-MAX_GENOME_LENGTH:      500
-GRAMMAR_FILE:           c++/test.bnf
+GENERATIONS:            100
+MAX_GENOME_LENGTH:      1000
+GRAMMAR_FILE:           c++/templates+class.bnf
 INITIALISATION:         PI_grow
 INVALID_SELECTION:      False
-MAX_INIT_TREE_DEPTH:    10
-MAX_TREE_DEPTH:         17
+MAX_INIT_TREE_DEPTH:    20
+MAX_TREE_DEPTH:         34
 MUTATION:               int_flip_per_codon
 POPULATION_SIZE:        50
 FITNESS_FUNCTION:       cpp_code_gen.code_eval
@@ -18,3 +18,4 @@ SELECTION:              tournament
 TOURNAMENT_SIZE:        2
 VERBOSE:                False
 MULTICORE:              False
+SILENT:                 True
