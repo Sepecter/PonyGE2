@@ -20,7 +20,7 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
     avg_number = stats['last_sum_number'] / size
     stats['sum_number'] += number
     expected_length = 20
-    # expected_number = 23
+    expected_number = 12
 
     # print(stats['gen'])
     # print(avg_number)
@@ -32,7 +32,7 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
         fitness = -20
     else:
         fitness = (30 - 10 * math.exp(-(length - expected_length) ** 2)
-                   # - math.exp(-(number - expected_number) ** 2) \
+                   - math.exp(-(number - expected_number) ** 2)
                    - (number - avg_number))
         # 越接近fitness越小
     return fitness
@@ -124,7 +124,7 @@ def compile_code(code):
             errors_file.write(clang_errors)
         with open(cpp_file, 'w') as error_code:
             error_code.write(code)
-        #DEBUG
+        # DEBUG
         with open(path_2, 'w') as debug_file:
             debug_file.write(code)
 
@@ -134,7 +134,7 @@ def compile_code(code):
             errors_file.write(gcc_errors)
         with open(cpp_file, 'w') as error_code:
             error_code.write(code)
-        #DEBUG
+        # DEBUG
         with open(path_2, 'w') as debug_file:
             debug_file.write(code)
     return result, gcc_errors, clang_errors, now
@@ -179,7 +179,7 @@ class code_eval(base_ff):
         raw_code = ind.phenotype
 
         # 变量池
-        identifier_pool = 'int X0,X1,X2,X3,X4,X5; '
+        identifier_pool = 'int X0,X1,X2,X3,X4,X5,x6,x7,x8,x9; '
         # 填充代码标识符
         code = identifier_pool + fill_identifiers(raw_code)
         # 编译
@@ -205,7 +205,7 @@ class code_eval(base_ff):
 
         # differential_testing
         differential_testing_result = 0
-        if crashed_source != '' or diagnostic == 1 or (compiling_result != 0 and compiling_result != 3):
+        if crashed_source != '' or diagnostic == 1 or compiling_result == 1 or compiling_result == 2:
             differential_testing_result = differential_testing(gcc_errors, clang_errors, crashed_source,
                                                                time, compiling_result)
         fitness = calculate_fitness(length, number, compiling_result, differential_testing_result)
