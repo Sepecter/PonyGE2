@@ -16,7 +16,6 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
     if differential_testing_result == 1:
         return 0
 
-
     size = params['POPULATION_SIZE']
     if stats['last_gen'] != stats['gen']:
         stats['last_gen'] = stats['gen']
@@ -32,7 +31,7 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
 
     fitness = 30 - 10 * math.exp(-(length - expected_length) ** 2) \
               - 10 * math.exp(-(number - expected_number) ** 2)
-              # - (number - avg_number)
+    # - (number - avg_number)
     # 越接近fitness越小
     return fitness
 
