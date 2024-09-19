@@ -4,30 +4,36 @@
 interval=5
 # 要执行的命令
 command="python ponyge.py --parameters code_gen.txt"
-num=5
+#数量统计
 count=1
-total=10000
+#同时执行次数
+times=10
+#总执行次数
+total=100
 
-for ((i=1; i <= num; i++))
-do
-  $command &
-  disown
-done
+#获取进程数量
+count_running_processes() {
+  pgrep -fl "$command" | grep -v "$0" | wc -l
+}
 
-
-# 无限循环，直到手动停止脚本
+# 循环到指定次数
 while [ $count -le $total ]
 do
+
+  running=$(count_running_processes)
+
   # 执行命令
   clear
   echo "command start"
-  $command &
-  disown
+    while [ $running -lt $times ]; do
+    $command &
+#    echo "Started new instance of '$command'. Total running: $((running + 1))"
+    running=$((running + 1))
+    count=$((count + 1))
+  done
   # 等待指定的时间间隔
   echo "command wait"
   echo $count
   sleep $interval
-  echo "wait"
-  count=$((count + 1))
 
 done
