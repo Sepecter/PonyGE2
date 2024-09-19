@@ -69,23 +69,24 @@ def differential_testing(gcc_errors, clang_errors, crashed_source, time, compili
     crash_set, missing_set = Filter(crashed_source.split('\n'), missing)
 
     path_1 = path.join(params['FILE_PATH'], "code_results", "differential_testing")
-    path_2 = path.join(getcwd(), "..", "results", "bugs")
+    # DEBUG
+    # path_2 = path.join(getcwd(), "..", "results", "bugs")
 
     if crash_set and str(crash_set) != "{\'\'}":
         file_path = path.join(path_1, time + '_crash.txt')
         with open(file_path, 'w') as f:
             f.write(str(crash_set))
-        file_path = path.join(path_2, time + '_crash.txt')
-        with open(file_path, 'w') as f:
-            f.write(str(crash_set))
+        # file_path = path.join(path_2, time + '_crash.txt')
+        # with open(file_path, 'w') as f:
+        #     f.write(str(crash_set))
 
     if missing_set:
         file_path = path.join(path_1, time + '_missing.txt')
         with open(file_path, 'w') as f:
             f.write(str(missing_set)+"\ncompiling_result:"+str(compiling_result))
-        file_path = path.join(path_2, time + '_missing.txt')
-        with open(file_path, 'w') as f:
-            f.write(str(missing_set) + "\ncompiling_result:" + str(compiling_result))
+        # file_path = path.join(path_2, time + '_missing.txt')
+        # with open(file_path, 'w') as f:
+        #     f.write(str(missing_set) + "\ncompiling_result:" + str(compiling_result))
         return 1
     else:
         return 0

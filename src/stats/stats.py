@@ -40,7 +40,9 @@ stats = {
     "time_adjust": 0,
     "last_sum_number": 0,
     "sum_number": 0,
-    "last_gen": 0
+    "last_gen": 0,
+    "clang_bugs": [],
+    "gcc_bugs": []
 }
 
 

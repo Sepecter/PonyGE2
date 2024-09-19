@@ -12,6 +12,11 @@ import math
 
 def calculate_fitness(length, number, compiling_result, differential_testing_result):
     # print(stats)
+
+    if differential_testing_result == 1:
+        return 0
+
+
     size = params['POPULATION_SIZE']
     if stats['last_gen'] != stats['gen']:
         stats['last_gen'] = stats['gen']
@@ -19,22 +24,16 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
         stats['sum_number'] = 0
     avg_number = stats['last_sum_number'] / size
     stats['sum_number'] += number
-    expected_length = 20
-    expected_number = 12
+    expected_length = 50
+    expected_number = 30
 
     # print(stats['gen'])
     # print(avg_number)
 
-    if differential_testing_result == 1:
-        return 0
-    if compiling_result == 1 or compiling_result == 2:
-
-        fitness = -20
-    else:
-        fitness = (30 - 10 * math.exp(-(length - expected_length) ** 2)
-                   - math.exp(-(number - expected_number) ** 2)
-                   - (number - avg_number))
-        # 越接近fitness越小
+    fitness = 30 - 10 * math.exp(-(length - expected_length) ** 2) \
+              - 10 * math.exp(-(number - expected_number) ** 2)
+              # - (number - avg_number)
+    # 越接近fitness越小
     return fitness
 
 
@@ -72,15 +71,15 @@ def compile_code(code):
     cpp_file = file_path
 
     # 定义编译器命令
-    compiler1 = 'g++14'
-    compiler2 = 'clang++18'
+    compiler1 = 'g++-14'
+    compiler2 = 'clang++-18'
     # compiler2 = 'g++'
 
     # compile_command1 = [compiler1, '-o', '', '-c']
     # compile_command2 = [compiler2, '-o', '', '-c']
 
-    compile_command1 = [compiler1, '-x', 'c++', '-o', '', '-']  # 使用heredoc
-    compile_command2 = [compiler2, '-x', 'c++', '-o', '', '-']  # 使用heredoc
+    compile_command1 = [compiler1, '-x', 'c++', '-o', '', '-c', '-']  # 使用heredoc
+    compile_command2 = [compiler2, '-x', 'c++', '-o', '', '-c', '-']  # 使用heredoc
 
     # 循环编译每个C++文件
 
@@ -115,6 +114,18 @@ def compile_code(code):
     compiled, clang_errors = cmd_compile(compile_command2, code)
     if compiled:
         result |= 2
+
+    # DEBUG
+    # clang_errors_file = f'{output_file}_clang_error.txt'
+    # with open(clang_errors_file, 'w') as errors_file:
+    #     errors_file.write(clang_errors)
+    # with open(cpp_file, 'w') as error_code:
+    #     error_code.write(code)
+    # gcc_errors_file = f'{output_file}_gcc_error.txt'
+    # with open(gcc_errors_file, 'w') as errors_file:
+    #     errors_file.write(gcc_errors)
+    # with open(cpp_file, 'w') as error_code:
+    #     error_code.write(code)
 
     # 输出触发缺陷程序与编译结果
     # print(f'{output_file}_clang_error.txt')

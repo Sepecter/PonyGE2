@@ -6,7 +6,7 @@ interval=5
 command="python ponyge.py --parameters code_gen.txt"
 num=5
 count=1
-total=100
+total=10000
 
 for ((i=1; i <= num; i++))
 do
@@ -25,9 +25,9 @@ do
   disown
   # 等待指定的时间间隔
   echo "command wait"
+  echo $count
   sleep $interval
   echo "wait"
   count=$((count + 1))
-  echo $count
 
 done
