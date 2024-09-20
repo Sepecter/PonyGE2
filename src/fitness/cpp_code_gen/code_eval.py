@@ -23,14 +23,13 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
         stats['sum_number'] = 0
     avg_number = stats['last_sum_number'] / size
     stats['sum_number'] += number
-    expected_length = 50
-    expected_number = 30
+    expected_length = 30
+    expected_number = 15
 
     # print(stats['gen'])
     # print(avg_number)
 
-    fitness = 30 - 10 * math.exp(-(length - expected_length) ** 2) \
-              - 10 * math.exp(-(number - expected_number) ** 2)
+    fitness = 30 - 10 * math.exp(-(length - expected_length) ** 2) - 10 * math.exp(-(number - expected_number) ** 2)
     # - (number - avg_number)
     # 越接近fitness越小
     return fitness
@@ -115,16 +114,16 @@ def compile_code(code):
         result |= 2
 
     # DEBUG
-    # clang_errors_file = f'{output_file}_clang_error.txt'
-    # with open(clang_errors_file, 'w') as errors_file:
-    #     errors_file.write(clang_errors)
-    # with open(cpp_file, 'w') as error_code:
-    #     error_code.write(code)
-    # gcc_errors_file = f'{output_file}_gcc_error.txt'
-    # with open(gcc_errors_file, 'w') as errors_file:
-    #     errors_file.write(gcc_errors)
-    # with open(cpp_file, 'w') as error_code:
-    #     error_code.write(code)
+    clang_errors_file = f'{output_file}_clang_error.txt'
+    with open(clang_errors_file, 'w') as errors_file:
+        errors_file.write(clang_errors)
+    with open(cpp_file, 'w') as error_code:
+        error_code.write(code)
+    gcc_errors_file = f'{output_file}_gcc_error.txt'
+    with open(gcc_errors_file, 'w') as errors_file:
+        errors_file.write(gcc_errors)
+    with open(cpp_file, 'w') as error_code:
+        error_code.write(code)
 
     # 输出触发缺陷程序与编译结果
     # print(f'{output_file}_clang_error.txt')
@@ -189,7 +188,8 @@ class code_eval(base_ff):
         raw_code = ind.phenotype
 
         # 变量池
-        identifier_pool = 'int X0,X1,X2,X3,X4,X5,x6,x7,x8,x9; '
+        # identifier_pool = 'int X0,X1,X2,X3,X4,X5,x6,x7,x8,x9; '
+        identifier_pool = 'class X0{}; class X1{}; class X2{};'
         # 填充代码标识符
         code = identifier_pool + fill_identifiers(raw_code)
         # 编译
@@ -207,15 +207,15 @@ class code_eval(base_ff):
             crashed_source += clang_errors
 
         # diagnostic error
-        diagnostic = 0
-        gcc_count = gcc_errors.count('error')
-        clang_count = clang_errors.count('error')
-        if abs(gcc_count - clang_count) >= 3:
-            diagnostic = 1
+        # diagnostic = 0
+        # gcc_count = gcc_errors.count('error')
+        # clang_count = clang_errors.count('error')
+        # if abs(gcc_count - clang_count) >= 3:
+        #     diagnostic = 1
 
         # differential_testing
         differential_testing_result = 0
-        if crashed_source != '' or diagnostic == 1 or compiling_result == 1 or compiling_result == 2:
+        if crashed_source != '' or compiling_result == 1 or compiling_result == 2:
             differential_testing_result = differential_testing(gcc_errors, clang_errors, crashed_source,
                                                                time, compiling_result)
         fitness = calculate_fitness(length, number, compiling_result, differential_testing_result)

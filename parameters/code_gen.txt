@@ -4,7 +4,7 @@ CROSSOVER:              variable_onepoint
 CROSSOVER_PROBABILITY:  0.75
 DEBUG:                  False
 GENERATIONS:            100
-MAX_GENOME_LENGTH:      1000
+MAX_GENOME_LENGTH:      500
 GRAMMAR_FILE:           c++/templates+class.bnf
 INITIALISATION:         PI_grow
 INVALID_SELECTION:      False

@@ -2,7 +2,7 @@
 <templateDeclaration>::=<Template> <Less> <templateparameterList> <Greater> <simpleDeclaration>
 <simpleDeclaration>::=<declSpecifierSeq> <Semi>
 <declSpecifierSeq>::=<declSpecifier> <declSpecifierSeq>|<declSpecifier>
-<declSpecifier>::=<Typedef>|<typeSpecifier>
+<declSpecifier>::=<typeSpecifier>
 <(_Comma_templateParameter_)>::=<Comma> <typeParameter>
 <(_Comma_templateParameter_)_star>::=" "|<(_Comma_templateParameter_)> <(_Comma_templateParameter_)_star>
 <templateparameterList>::=<typeParameter> <(_Comma_templateParameter_)_star>
@@ -26,13 +26,13 @@
 <trailingTypeSpecifier>::=<typeNameSpecifier>|<simpleTypeSpecifier>
 <nestedNameSpecifier_question>::=" "|<nestedNameSpecifier>
 <simpleTypeSpecifier>::=<Auto>|<Void>|<Int>|<nestedNameSpecifier_question> <theTypeName>
-<(_theTypeName_|_namespaceName_)>::=<namespaceName>|<theTypeName>
+<(_theTypeName_or_namespaceName_)>::=<namespaceName>|<theTypeName>
 <namespaceName>::=<namespaceAlias>|<originalNamespaceName>
 <originalNamespaceName>::=Identifier
 <namespaceAlias>::=Identifier
-<(_theTypeName_|_namespaceName_)_question>::=" "|<(_theTypeName_|_namespaceName_)>
+<(_theTypeName_or_namespaceName_)_question>::=" "|<(_theTypeName_or_namespaceName_)>
 <Template_question>::=" "|<Template>
-<nestedNameSpecifier>::=<nestedNameSpecifier> <Template_question> <simpleTemplateId> <Doublecolon>|<nestedNameSpecifier> Identifier <Doublecolon>|<(_theTypeName_|_namespaceName_)_question> <Doublecolon> <Doublecolon>
+<nestedNameSpecifier>::=<nestedNameSpecifier> <Template_question> <simpleTemplateId> <Doublecolon>|<nestedNameSpecifier> Identifier <Doublecolon>|<(_theTypeName_or_namespaceName_)_question> <Doublecolon> <Doublecolon>
 <theTypeName>::=<simpleTemplateId>|<className>
 <typeNameSpecifier>::=<Typename_> <nestedNameSpecifier> <Template_question> <simpleTemplateId>|<Typename_> <nestedNameSpecifier> Identifier
 <attributeSpecifier_plus>::=<attributeSpecifier>|<attributeSpecifier> <attributeSpecifier_plus>
@@ -75,7 +75,6 @@
 <Operator>::="operator"
 <Struct>::="struct"
 <Template>::="template"
-<Typedef>::="typedef"
 <Typename_>::="typename"
 <Union>::="union"
 <Void>::="void"
