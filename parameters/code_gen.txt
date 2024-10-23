@@ -4,8 +4,8 @@ CROSSOVER:              variable_onepoint
 CROSSOVER_PROBABILITY:  0.75
 DEBUG:                  False
 GENERATIONS:            100
-MAX_GENOME_LENGTH:      1000
-GRAMMAR_FILE:           c++/templates+class.bnf
+MAX_GENOME_LENGTH:      500
+GRAMMAR_FILE:           c++/templates+function.bnf
 INITIALISATION:         PI_grow
 INVALID_SELECTION:      False
 MAX_INIT_TREE_DEPTH:    20
@@ -18,4 +18,4 @@ SELECTION:              tournament
 TOURNAMENT_SIZE:        2
 VERBOSE:                False
 MULTICORE:              False
-SILENT:                 False
+SILENT:                 True
