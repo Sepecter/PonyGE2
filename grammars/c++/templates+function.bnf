@@ -48,7 +48,7 @@
 <attributeArgumentClause>::=<LeftParen> <balancedTokenSeq_question> <RightParen>
 <balancedtoken_plus>::=<balancedtoken>|<balancedtoken> <balancedtoken_plus>
 <balancedTokenSeq>::=<balancedtoken_plus>
-<balancedtoken>::=<LeftBrace> <balancedTokenSeq> <RightBrace>|<LeftBracket> <balancedTokenSeq> <RightBracket>|<LeftParen> <balancedTokenSeq> <RightParen>
+<balancedtoken>::=<LeftBrace> <balancedTokenSeq> <RightBrace>|<LeftBracket> <balancedTokenSeq> <RightBracket>|<LeftParen> <balancedTokenSeq> <RightParen>|" "
 <operatorFunctionId>::=<Operator> <theOperator>
 <(_LeftBracket_RightBracket_)>::=<LeftBracket> <RightBracket>
 <(_LeftBracket_RightBracket_)_question>::=" "|<(_LeftBracket_RightBracket_)>
