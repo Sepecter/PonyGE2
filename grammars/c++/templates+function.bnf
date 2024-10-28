@@ -24,10 +24,10 @@
 <trailingTypeSpecifier>::=<cvQualifier>|<typeNameSpecifier>|<simpleTypeSpecifier>
 <nestedNameSpecifier_question>::=" "|<nestedNameSpecifier>
 <simpleTypeSpecifier>::=<Auto>|<Void>|<Int>|<nestedNameSpecifier> <Template> <simpleTemplateId>|<nestedNameSpecifier_question> <theTypeName>
-<(_theTypeName_|_namespaceName_)>::=Identifier|<theTypeName>
-<(_theTypeName_|_namespaceName_)_question>::=" "|<(_theTypeName_|_namespaceName_)>
+<(_theTypeName_or_namespaceName_)>::=Identifier|<theTypeName>
+<(_theTypeName_or_namespaceName_)_question>::=" "|<(_theTypeName_or_namespaceName_)>
 <Template_question>::=" "|<Template>
-<nestedNameSpecifier>::=<nestedNameSpecifier> <Template_question> <simpleTemplateId> <Doublecolon>|<nestedNameSpecifier> Identifier <Doublecolon>|<(_theTypeName_|_namespaceName_)_question> <Doublecolon> <Doublecolon>
+<nestedNameSpecifier>::=<nestedNameSpecifier> <Template_question> <simpleTemplateId> <Doublecolon>|<nestedNameSpecifier> Identifier <Doublecolon>|<(_theTypeName_or_namespaceName_)_question> <Doublecolon> <Doublecolon>
 <theTypeName>::=<simpleTemplateId>|<typedefName>
 <typedefName>::=Identifier
 <typeNameSpecifier>::=<Typename_> <nestedNameSpecifier> <Template_question> <simpleTemplateId>|<Typename_> <nestedNameSpecifier> Identifier
