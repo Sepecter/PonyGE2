@@ -1,21 +1,20 @@
-<program>::=<templateDeclaration>|<templateDeclaration> <program>
 <templateDeclaration>::=<Template> <Less> <templateparameterList> <Greater> <functionDefinition>
-<(_Comma_templateParameter_)>::=<Comma> <templateParameter>
-<(_Comma_templateParameter_)_star>::=" "|<(_Comma_templateParameter_)> <(_Comma_templateParameter_)_star>
-<templateparameterList>::=<templateParameter> <(_Comma_templateParameter_)_star>
+<Lbr_Comma_templateParameter_Rbr>::=<Comma> <templateParameter>
+<Lbr_Comma_templateParameter_Rbr_star>::=" "|<Lbr_Comma_templateParameter_Rbr> <Lbr_Comma_templateParameter_Rbr_star>
+<templateparameterList>::=<templateParameter> <Lbr_Comma_templateParameter_Rbr_star>
 <templateParameter>::=<typeParameter>
-<(_Template_Less_templateparameterList_Greater_)>::=<Template> <Less> <templateparameterList> <Greater>
-<(_Template_Less_templateparameterList_Greater_)_question>::=" "|<(_Template_Less_templateparameterList_Greater_)>
+<Lbr_Template_Less_templateparameterList_Greater_Rbr>::=<Template> <Less> <templateparameterList> <Greater>
+<Lbr_Template_Less_templateparameterList_Greater_Rbr_question>::=" "|<Lbr_Template_Less_templateparameterList_Greater_Rbr>
 <Ellipsis_question>::=" "|<Ellipsis>
 <Identifier_question>::=" "|Identifier
-<typeParameter>::=<Typename_> <Identifier_question> <Assign> <theTypeId>|<Typename_> <Ellipsis_question> <Identifier_question>|<(_Template_Less_templateparameterList_Greater_)_question> <Class> <Identifier_question> <Assign> <theTypeId>|<(_Template_Less_templateparameterList_Greater_)_question> <Class> <Ellipsis_question> <Identifier_question>
+<typeParameter>::=<Typename_> <Identifier_question> <Assign> <theTypeId>|<Typename_> <Ellipsis_question> <Identifier_question>|<Lbr_Template_Less_templateparameterList_Greater_Rbr_question> <Class> <Identifier_question> <Assign> <theTypeId>|<Lbr_Template_Less_templateparameterList_Greater_Rbr_question> <Class> <Ellipsis_question> <Identifier_question>
 <templateArgumentList_question>::=" "|<templateArgumentList>
 <simpleTemplateId>::=<templateName> <Less> <templateArgumentList_question> <Greater>
 <templateId>::=<operatorFunctionId> <Less> <templateArgumentList_question> <Greater>|<simpleTemplateId>
 <templateName>::=Identifier
-<(_Comma_templateArgument_Ellipsis_question_)>::=<Comma> <templateArgument> <Ellipsis_question>
-<(_Comma_templateArgument_Ellipsis_question_)_star>::=" "|<(_Comma_templateArgument_Ellipsis_question_)> <(_Comma_templateArgument_Ellipsis_question_)_star>
-<templateArgumentList>::=<templateArgument> <Ellipsis_question> <(_Comma_templateArgument_Ellipsis_question_)_star>
+<Lbr_Comma_templateArgument_Ellipsis_question_Rbr>::=<Comma> <templateArgument> <Ellipsis_question>
+<Lbr_Comma_templateArgument_Ellipsis_question_Rbr_star>::=" "|<Lbr_Comma_templateArgument_Ellipsis_question_Rbr> <Lbr_Comma_templateArgument_Ellipsis_question_Rbr_star>
+<templateArgumentList>::=<templateArgument> <Ellipsis_question> <Lbr_Comma_templateArgument_Ellipsis_question_Rbr_star>
 <templateArgument>::=<idExpression>|<theTypeId>
 <typeSpecifier_plus>::=<typeSpecifier>|<typeSpecifier> <typeSpecifier_plus>
 <attributeSpecifierSeq_question>::=" "|<attributeSpecifierSeq>
@@ -23,12 +22,12 @@
 <typeSpecifier>::=<trailingTypeSpecifier>
 <trailingTypeSpecifier>::=<cvQualifier>|<typeNameSpecifier>|<simpleTypeSpecifier>
 <nestedNameSpecifier_question>::=" "|<nestedNameSpecifier>
-<simpleTypeSpecifier>::=<Auto>|<Void>|<Int>|<nestedNameSpecifier> <Template> <simpleTemplateId>|<nestedNameSpecifier_question> <theTypeName>
-<(_theTypeName_or_namespaceName_)>::=Identifier|<theTypeName>
-<(_theTypeName_or_namespaceName_)_question>::=" "|<(_theTypeName_or_namespaceName_)>
+<simpleTypeSpecifier>::=<Auto>|<Void>|<Double>|<Int>|<nestedNameSpecifier> <Template> <simpleTemplateId>|<nestedNameSpecifier_question> <theTypeName>
+<Lbr_theTypeName_OR_namespaceName_Rbr>::=Identifier|<theTypeName>
+<Lbr_theTypeName_OR_namespaceName_Rbr_question>::=" "|<Lbr_theTypeName_OR_namespaceName_Rbr>
 <Template_question>::=" "|<Template>
-<nestedNameSpecifier>::=<nestedNameSpecifier> <Template_question> <simpleTemplateId> <Doublecolon>|<nestedNameSpecifier> Identifier <Doublecolon>|<(_theTypeName_or_namespaceName_)_question> <Doublecolon> <Doublecolon>
-<theTypeName>::=<simpleTemplateId>|<typedefName>
+<nestedNameSpecifier>::=<nestedNameSpecifier> <Template_question> <simpleTemplateId> <Doublecolon>|<nestedNameSpecifier> Identifier <Doublecolon>|<Lbr_theTypeName_OR_namespaceName_Rbr_question> <Doublecolon> <Doublecolon>
+<theTypeName>::=<simpleTemplateId>|<typedefName>|Identifier
 <typedefName>::=Identifier
 <typeNameSpecifier>::=<Typename_> <nestedNameSpecifier> <Template_question> <simpleTemplateId>|<Typename_> <nestedNameSpecifier> Identifier
 <attributeSpecifier_plus>::=<attributeSpecifier>|<attributeSpecifier> <attributeSpecifier_plus>
@@ -36,35 +35,35 @@
 <attributeList_question>::=" "|<attributeList>
 <attributeSpecifier>::=<alignmentspecifier>|<LeftBracket> <LeftBracket> <attributeList_question> <RightBracket> <RightBracket>
 <alignmentspecifier>::=<Alignas> <LeftParen> <theTypeId> <Ellipsis_question> <RightParen>
-<(_Comma_attribute_)>::=<Comma> <attribute>
-<(_Comma_attribute_)_star>::=" "|<(_Comma_attribute_)> <(_Comma_attribute_)_star>
-<attributeList>::=<attribute> <(_Comma_attribute_)_star> <Ellipsis_question>
-<(_attributeNamespace_Doublecolon_)>::=<attributeNamespace> <Doublecolon>
-<(_attributeNamespace_Doublecolon_)_question>::=" "|<(_attributeNamespace_Doublecolon_)>
+<Lbr_Comma_attribute_Rbr>::=<Comma> <attribute>
+<Lbr_Comma_attribute_Rbr_star>::=" "|<Lbr_Comma_attribute_Rbr> <Lbr_Comma_attribute_Rbr_star>
+<attributeList>::=<attribute> <Lbr_Comma_attribute_Rbr_star> <Ellipsis_question>
+<Lbr_attributeNamespace_Doublecolon_Rbr>::=<attributeNamespace> <Doublecolon>
+<Lbr_attributeNamespace_Doublecolon_Rbr_question>::=" "|<Lbr_attributeNamespace_Doublecolon_Rbr>
 <attributeArgumentClause_question>::=" "|<attributeArgumentClause>
-<attribute>::=<(_attributeNamespace_Doublecolon_)_question> Identifier <attributeArgumentClause_question>
+<attribute>::=<Lbr_attributeNamespace_Doublecolon_Rbr_question> Identifier <attributeArgumentClause_question>
 <attributeNamespace>::=Identifier
 <balancedTokenSeq_question>::=" "|<balancedTokenSeq>
 <attributeArgumentClause>::=<LeftParen> <balancedTokenSeq_question> <RightParen>
-<balancedtoken_plus>::=<balancedtoken>|<balancedtoken> <balancedtoken_plus>
-<balancedTokenSeq>::=<balancedtoken_plus>
-<balancedtoken>::=<LeftBrace> <balancedTokenSeq> <RightBrace>|<LeftBracket> <balancedTokenSeq> <RightBracket>|<LeftParen> <balancedTokenSeq> <RightParen>|" "
+<balancedtoken_star>::=" "|<balancedtoken> <balancedtoken_star>
+<balancedTokenSeq>::=<balancedtoken_star>
+<balancedtoken>::=<LeftBrace> <balancedTokenSeq> <RightBrace>|<LeftBracket> <balancedTokenSeq> <RightBracket>|<LeftParen> <balancedTokenSeq> <RightParen>
 <operatorFunctionId>::=<Operator> <theOperator>
-<(_LeftBracket_RightBracket_)>::=<LeftBracket> <RightBracket>
-<(_LeftBracket_RightBracket_)_question>::=" "|<(_LeftBracket_RightBracket_)>
-<theOperator>::=<LeftBracket> <RightBracket>|<LeftParen> <RightParen>|<Arrow>|<ArrowStar>|<Comma>|<PlusPlus>|<OrOr>|<AndAnd>|<LessEqual>|<NotEqual>|<Equal>|<LeftShiftAssign>|<RightShiftAssign>|<Greater> <Greater>|<Less> <Less>|<OrAssign>|<AndAssign>|<XorAssign>|<ModAssign>|<StarAssign>|<PlusAssign>|<GreaterEqual>|<Less>|<Greater>|<Assign>|<Not>|<Tilde>|<Or>|<And>|<Caret>|<Div>|<Star>|<Plus>|<Delete> <(_LeftBracket_RightBracket_)_question>|<New> <(_LeftBracket_RightBracket_)_question>
+<Lbr_LeftBracket_RightBracket_Rbr>::=<LeftBracket> <RightBracket>
+<Lbr_LeftBracket_RightBracket_Rbr_question>::=" "|<Lbr_LeftBracket_RightBracket_Rbr>
+<theOperator>::=<LeftBracket> <RightBracket>|<LeftParen> <RightParen>|<Arrow>|<ArrowStar>|<Comma>|<PlusPlus>|<OrOr>|<Equal>|<LeftShiftAssign>|<Greater> <Greater>|<OrAssign>|<PlusAssign>|<Greater>|<Assign>|<Or>|<Star>|<Plus>|<Delete> <Lbr_LeftBracket_RightBracket_Rbr_question>|<New> <Lbr_LeftBracket_RightBracket_Rbr_question>
 <idExpression>::=<qualifiedId>|<unqualifiedId>
 <unqualifiedId>::=<templateId>|<operatorFunctionId>|Identifier
 <qualifiedId>::=<nestedNameSpecifier> <Template_question> <unqualifiedId>
-<functionDefinition>::=<attributeSpecifierSeq_question> <declarator> <functionBody>
-<functionBody>::=<compoundStatement>
-<compoundStatement>::=<LeftBrace> <RightBrace>
-<declarator>::=<noPointerDeclarator> <parametersAndQualifiers> <trailingReturnType>|<pointerDeclarator>
-<Const_question>::=" "|<Const>
-<(_pointerOperator_Const_question_)>::=<pointerOperator> <Const_question>
-<(_pointerOperator_Const_question_)_star>::=" "|<(_pointerOperator_Const_question_)> <(_pointerOperator_Const_question_)_star>
-<pointerDeclarator>::=<(_pointerOperator_Const_question_)_star> <noPointerDeclarator>
-<noPointerDeclarator>::=<LeftParen> <pointerDeclarator> <RightParen>|<noPointerDeclarator> <LeftBracket> <RightBracket> <attributeSpecifierSeq_question>|<noPointerDeclarator> <parametersAndQualifiers>|<declaratorid> <attributeSpecifierSeq_question>
+<declSpecifierSeq_question>::=" "|<declSpecifierSeq>
+<functionDefinition>::=<attributeSpecifierSeq_question> <declSpecifierSeq_question> <declarator> <LeftBrace> <RightBrace>
+<declSpecifier>::=<Constexpr>|<Typedef>|<Friend>|<functionSpecifier>|<typeSpecifier>|<storageClassSpecifier>
+<declSpecifier_plus>::=<declSpecifier>|<declSpecifier> <declSpecifier_plus>
+<declSpecifierSeq>::=<declSpecifier_plus> <attributeSpecifierSeq_question>
+<storageClassSpecifier>::=<Mutable>|<Extern>|<Static>|<Register>
+<functionSpecifier>::=<Explicit>|<Virtual>|<Inline>
+<declarator>::=<noPointerDeclarator> <parametersAndQualifiers> <trailingReturnType>|<noPointerDeclarator>
+<noPointerDeclarator>::=<LeftParen> <noPointerDeclarator> <RightParen>|<noPointerDeclarator> <LeftBracket> <RightBracket> <attributeSpecifierSeq_question>|<noPointerDeclarator> <parametersAndQualifiers>|<declaratorid> <attributeSpecifierSeq_question>
 <parameterDeclarationClause_question>::=" "|<parameterDeclarationClause>
 <cvqualifierseq_question>::=" "|<cvqualifierseq>
 <refqualifier_question>::=" "|<refqualifier>
@@ -89,17 +88,15 @@
 <abstractPackDeclarator>::=<pointerOperator_star> <noPointerAbstractPackDeclarator>
 <noPointerAbstractPackDeclarator>::=<Ellipsis>|<noPointerAbstractPackDeclarator> <LeftBracket> <RightBracket> <attributeSpecifierSeq_question>|<noPointerAbstractPackDeclarator> <parametersAndQualifiers>
 <Comma_question>::=" "|<Comma>
-<(_Comma_question_Ellipsis_)>::=<Comma_question> <Ellipsis>
-<(_Comma_question_Ellipsis_)_question>::=" "|<(_Comma_question_Ellipsis_)>
-<parameterDeclarationClause>::=<parameterDeclarationList> <(_Comma_question_Ellipsis_)_question>
-<(_Comma_parameterDeclaration_)>::=<Comma> <parameterDeclaration>
-<(_Comma_parameterDeclaration_)_star>::=" "|<(_Comma_parameterDeclaration_)> <(_Comma_parameterDeclaration_)_star>
-<parameterDeclarationList>::=<parameterDeclaration> <(_Comma_parameterDeclaration_)_star>
-<(_Assign_initializerClause_)>::=<Assign> <LeftBrace>  <RightBrace>
-<(_Assign_initializerClause_)_question>::=" "|<(_Assign_initializerClause_)>
-<parameterDeclaration>::=<attributeSpecifierSeq_question> <declSpecifierSeq> <abstractDeclarator_question> <(_Assign_initializerClause_)_question>|<attributeSpecifierSeq_question> <declSpecifierSeq> <declarator> <(_Assign_initializerClause_)_question>
-<declSpecifierSeq>::=<declSpecifier> <declSpecifierSeq>|<declSpecifier>
-<declSpecifier>::=<Typedef>|<typeSpecifier>
+<Lbr_Comma_question_Ellipsis_Rbr>::=<Comma_question> <Ellipsis>
+<Lbr_Comma_question_Ellipsis_Rbr_question>::=" "|<Lbr_Comma_question_Ellipsis_Rbr>
+<parameterDeclarationClause>::=<parameterDeclarationList> <Lbr_Comma_question_Ellipsis_Rbr_question>
+<Lbr_Comma_parameterDeclaration_Rbr>::=<Comma> <parameterDeclaration>
+<Lbr_Comma_parameterDeclaration_Rbr_star>::=" "|<Lbr_Comma_parameterDeclaration_Rbr> <Lbr_Comma_parameterDeclaration_Rbr_star>
+<parameterDeclarationList>::=<parameterDeclaration> <Lbr_Comma_parameterDeclaration_Rbr_star>
+<Lbr_Assign_initializerClause_Rbr>::=<Assign> <LeftBrace> <RightBrace>
+<Lbr_Assign_initializerClause_Rbr_question>::=" "|<Lbr_Assign_initializerClause_Rbr>
+<parameterDeclaration>::=<attributeSpecifierSeq_question> <declSpecifierSeq> <abstractDeclarator_question> <Lbr_Assign_initializerClause_Rbr_question>|<attributeSpecifierSeq_question> <declSpecifierSeq> <declarator> <Lbr_Assign_initializerClause_Rbr_question>
 <Alignas>::="alignas"
 <Auto>::="auto"
 <Class>::="class"
@@ -118,27 +115,15 @@
 <RightBrace>::="}"
 <Plus>::="+"
 <Star>::="*"
-<Div>::="/"
-<Caret>::="^"
 <And>::="&"
 <Or>::="|"
-<Tilde>::="~"
-<Not>::="!"
 <Assign>::="="
 <Less>::="<"
 <Greater>::=">"
 <PlusAssign>::="+="
-<StarAssign>::="*="
-<ModAssign>::="%="
-<XorAssign>::="^="
-<AndAssign>::="&="
 <OrAssign>::="|="
 <LeftShiftAssign>::="<<="
-<RightShiftAssign>::=">>="
 <Equal>::="=="
-<NotEqual>::="!="
-<LessEqual>::="<="
-<GreaterEqual>::=">="
 <AndAnd>::="&&"
 <OrOr>::="||"
 <PlusPlus>::="++"
@@ -150,3 +135,13 @@
 <Const>::="const"
 <Volatile>::="volatile"
 <Typedef>::="typedef"
+<Explicit>::="explicit"
+<Extern>::="extern"
+<Static>::="static"
+<Friend>::="friend"
+<Inline>::="inline"
+<Virtual>::="virtual"
+<Double>::="double"
+<Constexpr>::="constexpr"
+<Mutable>::="mutable"
+<Register>::="register"
