@@ -1,12 +1,13 @@
 CACHE:                  True
-CODON_SIZE:             100000
+CODON_SIZE:             100
 CROSSOVER:              variable_onepoint
 CROSSOVER_PROBABILITY:  0.75
 DEBUG:                  False
 GENERATIONS:            100
-MAX_GENOME_LENGTH:      500
+MAX_GENOME_LENGTH:      1000
 GRAMMAR_FILE:           c++/templates+function.bnf
 INITIALISATION:         PI_grow
+INIT_GENOME_LENGTH:     500
 INVALID_SELECTION:      False
 MAX_INIT_TREE_DEPTH:    20
 MAX_TREE_DEPTH:         34

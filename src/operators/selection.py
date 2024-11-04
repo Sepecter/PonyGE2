@@ -35,7 +35,7 @@ def tournament(population):
     else:
         available = [i for i in population if not i.invalid]
 
-    while len(winners) < params['GENERATION_SIZE']:
+    while len(winners) < params['GENERATION_SIZE']*0.9:
         # Randomly choose TOURNAMENT_SIZE competitors from the given
         # population. Allows for re-sampling of individuals.
         competitors = sample(available, params['TOURNAMENT_SIZE'])

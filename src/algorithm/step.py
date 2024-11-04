@@ -1,4 +1,6 @@
+from algorithm.parameters import params
 from fitness.evaluation import evaluate_fitness
+from operators.initialisation import initialisation
 from operators.crossover import crossover
 from operators.mutation import mutation
 from operators.replacement import replacement, steady_state
@@ -27,6 +29,10 @@ def step(individuals):
 
     # Mutate the new population.
     new_pop = mutation(cross_pop)
+
+    # Add new individuals
+    new_individuals = initialisation(params['POPULATION_SIZE']//10)
+    new_pop.extend(new_individuals)
 
     # Evaluate the fitness of the new population.
     new_pop = evaluate_fitness(new_pop)
