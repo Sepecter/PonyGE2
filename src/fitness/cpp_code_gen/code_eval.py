@@ -70,7 +70,7 @@ def compile_code(code):
 
     # 定义编译器命令
     compiler1 = 'g++-14'
-    compiler2 = 'clang++-18'
+    compiler2 = 'clang++-20'
     # compiler2 = 'g++'
 
     # compile_command1 = [compiler1, '-o', '', '-c']
@@ -189,8 +189,9 @@ class code_eval(base_ff):
 
         # 变量池
         # identifier_pool = 'int X0,X1,X2,X3,X4,X5,x6,x7,x8,x9; '
-        identifier_pool = 'class X0{}; class X1{}; class X2{}; class X3{}; class X4{}; class X5{}; class X6{}; ' \
-                          'class X7{}; class X8{};'
+        # identifier_pool = 'class X0{}; class X1{}; class X2{}; class X3{}; class X4{}; class X5{}; class X6{}; ' \
+        #                   'class X7{}; class X8{};'
+        identifier_pool = ''
         # 填充代码标识符
         code = identifier_pool + fill_identifiers(raw_code)
         # 编译

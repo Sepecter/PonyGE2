@@ -5,9 +5,9 @@ interval=5
 # 要执行的命令
 command="python ponyge.py --parameters code_gen.txt"
 #数量统计
-count=1
+count=0
 #同时执行次数
-times=10
+times=8
 #总执行次数
 total=1000
 
