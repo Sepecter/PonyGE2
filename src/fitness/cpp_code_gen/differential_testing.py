@@ -83,8 +83,8 @@ def differential_testing(gcc_errors, clang_errors, crashed_source, time, compili
         flag = 0
         clang_error_messages = extract_errors(clang_errors)
         for i in clang_error_messages:
-            if i not in stats['clang__errors']:
-                stats['clang__errors'].append(i)
+            if i not in stats['clang_errors']:
+                stats['clang_errors'].append(i)
                 flag = 1
         if flag == 0:
             return 0
