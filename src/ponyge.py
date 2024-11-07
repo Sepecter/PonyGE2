@@ -11,7 +11,7 @@ from utilities.algorithm.general import check_python_version
 
 check_python_version()
 
-from stats.stats import get_stats
+from stats.stats import get_stats, import_errors
 from algorithm.parameters import params, set_params
 import sys
 
@@ -19,6 +19,8 @@ import sys
 def mane():
     """ Run program """
     set_params(sys.argv[1:])  # exclude the ponyge.py arg itself
+
+    import_errors()
 
     # Run evolution
     individuals = params['SEARCH_LOOP']()

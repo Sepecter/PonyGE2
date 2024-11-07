@@ -41,10 +41,27 @@ stats = {
     "last_sum_number": 0,
     "sum_number": 0,
     "last_gen": 0,
-    "clang_bugs": [],
-    "gcc_bugs": []
+    "clang_errors": [],
+    "gcc_errors": []
 }
 
+
+def import_errors():
+    gcc_bug_file = 'gcc_errors.txt'
+    with open(gcc_bug_file, 'r', encoding='utf-8') as file:  # 打开文件并指定编码
+        gcc_errors = file.read()  # 读取文件的全部内容
+    gcc_errors = gcc_errors.split('\n')
+    for i in gcc_errors:
+        stats["gcc_errors"].append(i)
+    clang_bug_file = 'clang_errors.txt'
+    with open(clang_bug_file, 'r', encoding='utf-8') as file:  # 打开文件并指定编码
+        clang_errors = file.read()  # 读取文件的全部内容
+    clang_errors = clang_errors.split('\n')
+    for i in clang_errors:
+        stats["clang_errors"].append(i)
+
+    # print(stats["gcc_errors"])
+    # print(stats["clang_errors"])
 
 def get_stats(individuals, end=False):
     """
