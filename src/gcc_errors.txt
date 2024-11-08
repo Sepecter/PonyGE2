@@ -1,2 +1,8 @@
-error: ‘auto’ can only be specified for variables or function declarations
-error: multiple types in one declaration
+‘auto’ can only be specified for variables or function declarations
+multiple types in one declaration
+parameter pack ‘<template-parameter-2-2>’ must be at the end of the template parameter list
+parameter pack ‘<template-parameter-2-1>’ must be at the end of the template parameter list
+parameter pack ‘X3’ must be at the end of the template parameter list
+parameter pack ‘X2’ must be at the end of the template parameter list
+parameter pack ‘X1’ must be at the end of the template parameter list
+parameter pack ‘X0’ must be at the end of the template parameter list
