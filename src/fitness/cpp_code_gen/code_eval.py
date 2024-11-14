@@ -57,7 +57,6 @@ def compile_code(code):
     output_dir = path.join(path_1, "bin")  # 编译后的可执行文件存放目录
     # bug_path = path.join(path_1, "bug")
     path_1 = path.join(path_1, "code")
-    path_2 = path.join(getcwd(), "..", "results", "bugs", now + '.cpp')
 
     file_path = path.join(path_1, now + '.cpp')
     # bug_path = path.join(bug_path, now + '.cpp')
@@ -125,27 +124,6 @@ def compile_code(code):
     with open(cpp_file, 'w') as error_code:
         error_code.write(code)
 
-    # 输出触发缺陷程序与编译结果
-    # print(f'{output_file}_clang_error.txt')
-    if result == 1:
-        clang_errors_file = f'{output_file}_clang_error.txt'
-        with open(clang_errors_file, 'w') as errors_file:
-            errors_file.write(clang_errors)
-        with open(cpp_file, 'w') as error_code:
-            error_code.write(code)
-        # DEBUG
-        with open(path_2, 'w') as debug_file:
-            debug_file.write(code)
-
-    elif result == 2:
-        gcc_errors_file = f'{output_file}_gcc_error.txt'
-        with open(gcc_errors_file, 'w') as errors_file:
-            errors_file.write(gcc_errors)
-        with open(cpp_file, 'w') as error_code:
-            error_code.write(code)
-        # DEBUG
-        with open(path_2, 'w') as debug_file:
-            debug_file.write(code)
     return result, gcc_errors, clang_errors, now
 
 
@@ -220,6 +198,15 @@ class code_eval(base_ff):
         if crashed_source != '' or compiling_result == 1 or compiling_result == 2:
             differential_testing_result = differential_testing(gcc_errors, clang_errors, crashed_source,
                                                                time, compiling_result)
+
+        # 输出触发缺陷程序到bugs目录下
+        bugs_path = path.join(getcwd(), "..", "results", "bugs", time + '.cpp')
+        if gcc_crash != -1 or clang_crash != -1:
+            with open(bugs_path, 'w') as bug_file:
+                bug_file.write(code)
+        if (compiling_result == 1 or compiling_result == 2) and differential_testing_result != 0:
+            with open(bugs_path, 'w') as bug_file:
+                bug_file.write(code)
         fitness = calculate_fitness(length, number, compiling_result, differential_testing_result)
 
         return fitness
