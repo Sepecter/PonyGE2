@@ -1,4 +1,1 @@
-attribute 'X3' cannot be used as an attribute pack
-attribute 'X2' cannot be used as an attribute pack
-attribute 'X1' cannot be used as an attribute pack
-attribute 'X0' cannot be used as an attribute pack
+attribute '.*?' cannot be used as an attribute pack

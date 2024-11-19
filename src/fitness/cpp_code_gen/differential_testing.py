@@ -53,9 +53,12 @@ def differential_testing(gcc_errors, clang_errors, crashed_source, time, compili
         flag = 0
         clang_error_messages = extract_errors(clang_errors)
         for i in clang_error_messages:
+            Included = 0
             for pattern in stats['clang_errors']:
                 match_result = re.findall(pattern, i)
-            if not match_result:
+                if match_result:
+                    Included = 1
+            if not Included:
                 stats['clang_errors'].append(i)
                 flag = 1
         if flag == 0:
@@ -64,9 +67,12 @@ def differential_testing(gcc_errors, clang_errors, crashed_source, time, compili
         flag = 0
         gcc_error_messages = extract_errors(gcc_errors)
         for i in gcc_error_messages:
+            Included = 0
             for pattern in stats['gcc_errors']:
                 match_result = re.findall(pattern, i)
-            if not match_result:
+                if match_result:
+                    Included = 1
+            if not Included:
                 stats['gcc_errors'].append(i)
                 flag = 1
         if flag == 0:
