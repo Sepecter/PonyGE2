@@ -1,1 +1,3 @@
 attribute '.*?' cannot be used as an attribute pack
+parameter packs not expanded with ‘...’
+'.*?' cannot be defined in a type specifier

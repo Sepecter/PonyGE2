@@ -1,3 +1,5 @@
 ‘auto’ can only be specified for variables or function declarations
 multiple types in one declaration
 parameter pack ‘.*?’ must be at the end of the template parameter list
+wrong number of template arguments \(.*\)
+no default argument for ‘.*?’
