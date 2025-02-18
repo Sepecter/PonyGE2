@@ -1,8 +1,10 @@
-<Polynomial> ::= <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial>
+<Polynomial> ::= <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial>
 
 <Monomial> ::= <Coefficient>"*"<VariablePart>"*"<VariablePart>
+             | <Coefficient>"*"<VariablePart>"*"<VariablePart>"*"<VariablePart>
              | <Coefficient>
              | <VariablePart>"*"<VariablePart>
+             | <VariablePart>"*"<VariablePart>"*"<VariablePart>
 
 <VariablePart> ::= <Variable>"**"<Exponent>
                  | <Variable>
@@ -18,6 +20,7 @@
                    | "0"<FractionalPart>
 
 <FractionalPart> ::= "."<NonZeroDigit>
+                   | "."<NonZeroDigit><NonZeroDigit>
 
 <NonZeroInteger> ::= <NonZeroDigit><Digit_star>
 
