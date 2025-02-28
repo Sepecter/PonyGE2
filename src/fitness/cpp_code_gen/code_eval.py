@@ -68,7 +68,7 @@ def compile_code(code):
     cpp_file = file_path
 
     # 定义编译器命令
-    compiler1 = 'g++-14'
+    compiler1 = 'g++-15'
     compiler2 = 'clang++-20'
     # compiler2 = 'g++'
 

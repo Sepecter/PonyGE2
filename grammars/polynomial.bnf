@@ -9,7 +9,7 @@
 <VariablePart> ::= <Variable>"**"<Exponent>
                  | <Variable>
 
-<Variable> ::= "A" | "B" | "C" | "D" | "EE" | "F" | "G" | "H"
+<Variable> ::= "A" | "B" | "C" | "D" | "EE" | "F" | "G"
 
 <Coefficient> ::= <NonZeroDecimal>
 
@@ -20,7 +20,8 @@
                    | "0"<FractionalPart>
 
 <FractionalPart> ::= "."<NonZeroDigit>
-                   | "."<NonZeroDigit><NonZeroDigit>
+                   | "."<Digit><NonZeroDigit>
+                   | "."<Digit><Digit><NonZeroDigit>
 
 <NonZeroInteger> ::= <NonZeroDigit><Digit_star>
 
