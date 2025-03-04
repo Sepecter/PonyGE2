@@ -9,7 +9,7 @@
 <VariablePart> ::= <Variable>"**"<Exponent>
                  | <Variable>
 
-<Variable> ::= "A" | "B" | "C" | "D" | "EE" | "F" | "G"
+<Variable> ::= "A" | "B" | "C" | "(D*F)" | "EE"  | "G"
 
 <Coefficient> ::= <NonZeroDecimal>
 
@@ -33,4 +33,4 @@
 
 <Digit_plus> ::= <Digit><Digit_star>
 
-<Exponent> ::= "2" | "3" | "-1" | "-2"
+<Exponent> ::= "2" | "-1" | "-2"

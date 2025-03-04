@@ -12,8 +12,9 @@ def evaluate_polynomial(poly, values):
         return 500000
 
     # 用给定的变量值代入多项式表达式
+    result = 0
     for i in values:
-        result = abs(expr.subs(i))
+        result += abs(expr.subs(i))
 
     return float(result)
 
