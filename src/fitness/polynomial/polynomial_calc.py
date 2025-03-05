@@ -1,3 +1,5 @@
+import math
+
 import sympy
 from fitness.base_ff_classes.base_ff import base_ff
 from sympy import symbols, expand, simplify
@@ -14,7 +16,11 @@ def evaluate_polynomial(poly, values):
     # 用给定的变量值代入多项式表达式
     result = 0
     for i in values:
-        result += abs(expr.subs(i))
+        tmp = expr.subs(i)
+        result += tmp*tmp
+    result /= 27
+
+    result = math.sqrt(result)
 
     return float(result)
 
