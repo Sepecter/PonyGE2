@@ -2,7 +2,9 @@
 
 <Monomial> ::= <Coefficient>"*"<VariablePart>"*"<VariablePart>
              | <Coefficient>"*"<VariablePart>"*"<VariablePart>"*"<VariablePart>
+             | <Coefficient>"*"<VariablePart>
              | <Coefficient>
+             | <VariablePart>
              | <VariablePart>"*"<VariablePart>
              | <VariablePart>"*"<VariablePart>"*"<VariablePart>
 
