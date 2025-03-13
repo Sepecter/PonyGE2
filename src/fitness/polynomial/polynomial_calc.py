@@ -21,7 +21,7 @@ def evaluate_polynomial(poly, values):
         result += tmp*tmp
         if abs(tmp//i['G'])> 0.1:
             cnt += 1
-    if cnt > 20:
+    if cnt > 7:
         return 5000000
     result /= 27
 
