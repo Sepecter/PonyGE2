@@ -16,7 +16,7 @@ def evaluate_polynomial(poly, values):
     # 用给定的变量值代入多项式表达式
     result = 0
     for i in values:
-        tmp = expr.subs(i)
+        tmp = expr.subs(i) - i['G']
         result += tmp*tmp
     result /= 27
 

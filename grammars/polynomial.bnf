@@ -11,7 +11,7 @@
 <VariablePart> ::= <Variable>"**"<Exponent>
                  | <Variable>
 
-<Variable> ::= "A" | "B" | "C" | "(D*F)" | "EE"  | "G"
+<Variable> ::= "A" | "B" | "C" | "(D*F)" | "EE"
 
 <Coefficient> ::= <NonZeroDecimal>
 
@@ -25,7 +25,8 @@
                    | "."<Digit><NonZeroDigit>
                    | "."<Digit><Digit><NonZeroDigit>
 
-<NonZeroInteger> ::= <NonZeroDigit><Digit_star>
+<NonZeroInteger> ::= <NonZeroDigit><Digit>
+                   | <NonZeroDigit>
 
 <NonZeroDigit> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
@@ -35,4 +36,4 @@
 
 <Digit_plus> ::= <Digit><Digit_star>
 
-<Exponent> ::= "2" | "-1" | "-2"
+<Exponent> ::= "2" | "-1" | "-2" | "0.5" | "-0.5"
