@@ -11,13 +11,18 @@ def evaluate_polynomial(poly, values):
 
     # 检查是否是平凡多项式（值恒等于 0）
     if expr == 0 or type(expr) == sympy.core.numbers.Float:
-        return 500000
+        return 5000000
 
     # 用给定的变量值代入多项式表达式
+    cnt = 0
     result = 0
     for i in values:
         tmp = expr.subs(i) - i['G']
         result += tmp*tmp
+        if abs(tmp//i['G'])> 0.1:
+            cnt += 1
+    if cnt > 20:
+        return 5000000
     result /= 27
 
     result = math.sqrt(result)
