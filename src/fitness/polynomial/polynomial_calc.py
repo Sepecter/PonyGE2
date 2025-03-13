@@ -19,12 +19,12 @@ def evaluate_polynomial(poly, values):
     for i in values:
         tmp = expr.subs(i) - i['G']
         result += tmp*tmp
-        if abs(tmp//i['G'])> 0.1:
+        if abs(tmp/i['G'])> 0.1:
             cnt += 1
-    if cnt > 7:
-        return 5000000
-    result /= 27
 
+    result /= 27
+    if cnt > 7:
+        result += 5000
     result = math.sqrt(result)
 
     return float(result)

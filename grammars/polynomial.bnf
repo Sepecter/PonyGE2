@@ -1,4 +1,4 @@
-<Polynomial> ::= <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial>
+<Polynomial> ::= <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial> <Sign> <Monomial>
 
 <Monomial> ::= <Coefficient>"*"<VariablePart>"*"<VariablePart>
              | <Coefficient>"*"<VariablePart>"*"<VariablePart>"*"<VariablePart>
