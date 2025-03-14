@@ -3,7 +3,7 @@
 # 每隔固定时间执行的间隔时间（以秒为单位）
 interval=5
 # 要执行的命令
-command="python ponyge.py --parameters code_gen.txt"
+command="python ponyge.py --parameters polynomial.txt"
 #数量统计
 count=0
 #同时执行次数

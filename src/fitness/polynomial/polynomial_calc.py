@@ -2,30 +2,66 @@ import math
 
 import sympy
 from fitness.base_ff_classes.base_ff import base_ff
-from sympy import symbols, expand, simplify
+from sympy import symbols, expand, simplify, Eq, solve, I
 
 
 def evaluate_polynomial(poly, values):
-    # 将多项式字符串转化为表达式，并简化
     expr = simplify(expand(poly))
 
     # 检查是否是平凡多项式（值恒等于 0）
     if expr == 0 or type(expr) == sympy.core.numbers.Float:
         return 5000000
 
-    # 用给定的变量值代入多项式表达式
-    cnt = 0
-    result = 0
-    for i in values:
-        tmp = expr.subs(i) - i['G']
-        result += tmp*tmp
-        if abs(tmp/i['G'])> 0.1:
-            cnt += 1
+    # 将多项式字符串转化为表达式，并简化
+    Er = symbols('G')
+    equation = Eq(expr, 0)
+    solution = solve(equation, Er)
 
-    result /= 27
+    cnt1 = 0
+    cnt2 = 0
+    res1 = 0
+    res2 = 0
+    has_I1 = 0
+    has_I2 = 0
+    for i in values:
+
+        tmp1 = solution[0].subs(i) - i['G']
+        tmp2 = solution[1].subs(i) - i['G']
+        if tmp1.has(I):
+            has_I1 = 1
+        if tmp2.has(I):
+            has_I2 = 1
+        res1 += tmp1 * tmp1
+        res2 += tmp2 * tmp2
+        if abs(tmp1 / i['G']) or has_I1 > 0.1:
+            cnt1 += 1
+        if abs(tmp2 / i['G']) or has_I2 > 0.1:
+            cnt2 += 1
+    res1 /= 27
+    res2 /= 27
+    if has_I1:
+        res1 = 5000000
+    if has_I2:
+        res2 = 5000000
+    result = min(res1, res2)
+    cnt = min(cnt1, cnt2)
     if cnt > 7:
         result += 5000
     result = math.sqrt(result)
+
+    # # 用给定的变量值代入多项式表达式
+    # cnt = 0
+    # result = 0
+    # for i in values:
+    #     tmp = expr.subs(i) - i['G']
+    #     result += tmp * tmp
+    #     if abs(tmp / i['G']) > 0.1:
+    #         cnt += 1
+    #
+    # result /= 27
+    # if cnt > 7:
+    #     result += 5000
+    # result = math.sqrt(result)
 
     return float(result)
 
@@ -66,7 +102,7 @@ class polynomial_calc(base_ff):
             {'A': 0.1507, 'B': 0.77733, 'C': 0.93217, 'D': 0.00042408, 'EE': 0.05933, 'F': 173.75, 'G': 31.8, },
             {'A': 0.36843, 'B': 0.71816, 'C': 0.8109, 'D': 0.00089428, 'EE': 0.22907, 'F': 313.36, 'G': 47.2, },
             {'A': 0.3197, 'B': 0.74522, 'C': 0.83878, 'D': 0.00099179, 'EE': 0.20565, 'F': 252.72, 'G': 40.7, }
-            ]
+        ]
 
         fitness = abs(evaluate_polynomial(polynomial, variables))
         return fitness

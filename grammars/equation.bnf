@@ -1,0 +1,61 @@
+<Equation> ::= <Sign> <A> <Sign> <B> <Sign> <C> <Sign> <Constant>
+
+<A> ::= <Monomial>"*D**2*G**2"
+<B> ::= <Monomial>"*D*G"
+<C> ::= <Monomial>
+
+
+<Monomial> ::= <Coefficient>"*"<VariablePart>"*"<VariablePart>
+             | <Coefficient>"*"<VariablePart>"*"<VariablePart>"*"<VariablePart>
+             | <Coefficient>"*"<VariablePart>
+             | <Coefficient>
+             | <VariablePart>
+             | <VariablePart>"*"<VariablePart>
+             | <VariablePart>"*"<VariablePart>"*"<VariablePart>
+
+<VariablePart> ::= <Variable>"**"<Exponent>
+                 | <Variable>
+
+<Variable> ::= "A" | "B" | "C" | "(D*F)" | "EE"
+
+<VariablePartA> ::= <VariableA>"**"<Exponent>
+                  | <VariableA>
+
+<VariablePartB> ::= <VariableB>"**"<Exponent>
+                  | <VariableB>
+
+<VariablePartC> ::= <VariableC>"**"<Exponent>
+                  | <VariableC>
+
+
+<VariableA> ::= "A" | "B" | "C" | "(D*F)" | "EE"
+<VariableB> ::= "A" | "B" | "C" | "(D*F)" | "EE"
+<VariableC> ::= "A" | "B" | "C" | "(D*F)" | "EE"
+
+
+<Coefficient> ::= <NonZeroDecimal>
+
+<Constant> ::= "0" | <NonZeroDecimal>
+
+<Sign> ::= "+" | "-"
+
+<NonZeroDecimal> ::= <NonZeroInteger>
+                   | <NonZeroInteger><FractionalPart>
+                   | "0"<FractionalPart>
+
+<FractionalPart> ::= "."<NonZeroDigit>
+                   | "."<Digit><NonZeroDigit>
+                   | "."<Digit><Digit><NonZeroDigit>
+
+<NonZeroInteger> ::= <NonZeroDigit><Digit>
+                   | <NonZeroDigit>
+
+<NonZeroDigit> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+<Digit> ::= "0" | <NonZeroDigit>
+
+<Digit_star> ::= ""|<Digit><Digit_star>
+
+<Digit_plus> ::= <Digit><Digit_star>
+
+<Exponent> ::= "2" | "-1" | "-2" | "0.5" | "-0.5"
