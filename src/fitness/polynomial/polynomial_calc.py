@@ -195,5 +195,5 @@ class polynomial_calc(base_ff):
             {'A': 87, 'B': 0.369, 'C': 3.6, 'D': 3.8, 'EE': 0.131, 'F': 1.79, 'G': 30.0, 'H': 434}
         ]
 
-        fitness = abs(evaluate_polynomial(polynomial, variables,"A"))
+        fitness = abs(evaluate_polynomial(polynomial, variables,"B"))
         return fitness

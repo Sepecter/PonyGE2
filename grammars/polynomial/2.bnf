@@ -1,0 +1,42 @@
+<Equation> ::= <Sign> <A> <Sign> <B> <Sign> <C> <Sign> <D>
+
+<A> ::= <Monomial> | "0"
+<B> ::= <Monomial> | "0"
+<C> ::= <Monomial> | "0"
+<D> ::= <Monomial> | "0"
+
+<Monomial> ::= <Coefficient>"*"<VariablePart>"*"<VariablePart>
+             | <Coefficient>"*"<VariablePart>
+             | <Coefficient>
+             | <VariablePart>
+             | <VariablePart>"*"<VariablePart>
+
+<VariablePart> ::= <Variable>"**"<Exponent>
+                 | <Variable>
+
+<Variable> ::= "EE" | "(D/F)"
+
+<Coefficient> ::= <NonZeroDecimal>
+
+<Sign> ::= "+" | "-"
+
+<NonZeroDecimal> ::= <NonZeroInteger>
+                   | <NonZeroInteger><FractionalPart>
+                   | "0"<FractionalPart>
+
+<FractionalPart> ::= "."<NonZeroDigit>
+                   | "."<Digit><NonZeroDigit>
+                   | "."<Digit><Digit><NonZeroDigit>
+
+<NonZeroInteger> ::= <NonZeroDigit><Digit>
+                   | <NonZeroDigit>
+
+<NonZeroDigit> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+<Digit> ::= "0" | <NonZeroDigit>
+
+<Digit_star> ::= ""|<Digit><Digit_star>
+
+<Digit_plus> ::= <Digit><Digit_star>
+
+<Exponent> ::= "2" | "-1" | "-2" | "0.5" | "-0.5"
