@@ -1,4 +1,4 @@
-<Equation> ::= <Sign> <A> <Sign> <B> <Sign> <C> <Sign> <D>
+<Equation> ::= <Sign> <A> <Sign> <B>
 
 <A> ::= <Monomial> | "0"
 <B> ::= <Monomial> | "0"

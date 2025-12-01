@@ -14,7 +14,7 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
     # print(stats)
 
     if differential_testing_result == 1:
-        return 0
+        return 0, True
 
     size = params['POPULATION_SIZE']
     if stats['last_gen'] != stats['gen']:
@@ -32,7 +32,7 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
     fitness = 30 - 10 * math.exp(-(length - expected_length) ** 2) - 10 * math.exp(-(number - expected_number) ** 2)
     # - (number - avg_number)
     # 越接近fitness越小
-    return fitness
+    return fitness, False
 
 
 # 使用here document编译代码
@@ -68,7 +68,7 @@ def compile_code(code):
     cpp_file = file_path
 
     # 定义编译器命令
-    compiler1 = 'g++-15'
+    compiler1 = 'g++-15-cov'
     compiler2 = 'clang++-20'
     # compiler2 = 'g++'
 
@@ -207,6 +207,16 @@ class code_eval(base_ff):
         if (compiling_result == 1 or compiling_result == 2) and differential_testing_result != 0:
             with open(bugs_path, 'w') as bug_file:
                 bug_file.write(code)
-        fitness = calculate_fitness(length, number, compiling_result, differential_testing_result)
+        fitness, result = calculate_fitness(length, number, compiling_result, differential_testing_result)
+
+        if result:
+
+            target_path = "/home/syc/GE/PonyGE2/results/diff/diff.txt"
+
+            if result:
+                if not os.path.exists(target_path):
+                    os.makedirs(os.path.dirname(target_path), exist_ok=True)
+                    with open(target_path, "w") as f:
+                        f.write("")
 
         return fitness
