@@ -5,7 +5,7 @@ CROSSOVER_PROBABILITY:  0.75
 DEBUG:                  False
 GENERATIONS:            50
 MAX_GENOME_LENGTH:      1000
-GRAMMAR_FILE:           c++/templates+function.bnf
+GRAMMAR_FILE:           c++/selected_bnf.bnf
 INITIALISATION:         PI_grow
 INIT_GENOME_LENGTH:     500
 INVALID_SELECTION:      False

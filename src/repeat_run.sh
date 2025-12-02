@@ -3,13 +3,13 @@
 # 每隔固定时间执行的间隔时间（以秒为单位）
 interval=5
 # 要执行的命令
-command="python ponyge.py --parameters polynomial.txt"
+command="python ponyge.py --parameters code_gen.txt"
 #数量统计
 count=0
 #同时执行次数
 times=8
 #总执行次数
-total=1000
+total=50
 
 #获取进程数量
 count_running_processes() {
