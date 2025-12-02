@@ -3,13 +3,13 @@
 # 每隔固定时间执行的间隔时间（以秒为单位）
 interval=5
 # 要执行的命令
-command="python /home/syc/GE/PonyGE2/src/ponyge.py --parameters code_gen.txt"
+command="python ponyge.py --parameters code_gen.txt"
 #数量统计
 count=0
 #同时执行次数
 times=8
 #总执行次数
-total=50
+total=8
 
 #获取进程数量
 count_running_processes() {
@@ -37,3 +37,10 @@ do
   sleep $interval
 
 done
+
+echo "=== All tasks started. Waiting for all remaining processes... ==="
+
+# 等待所有后台任务执行完毕
+wait
+
+echo "=== All tasks completed. Script exit. ==="
