@@ -48,59 +48,68 @@ def cmd_compile(compiler_command, code):
     except Exception as e:
         return False, str(e)
 
-
 def compile_code(code):
     result = 0
     # 指定文件路径
     now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
     path_1 = path.join(params['FILE_PATH'], "code_results")
     output_dir = path.join(path_1, "bin")  # 编译后的可执行文件存放目录
-    # bug_path = path.join(path_1, "bug")
     path_1 = path.join(path_1, "code")
 
     file_path = path.join(path_1, now + '.cpp')
-    # bug_path = path.join(bug_path, now + '.cpp')
-
-    # 打开文件并将内容写入
-    # with open(file_path, 'w') as f:
-    #     f.write(code)
-    # 定义要编译的C++文件列表
     cpp_file = file_path
 
     # 定义编译器命令
     compiler1 = 'g++-15-cov'
     compiler2 = 'clang++-20'
-    # compiler2 = 'g++'
-
-    # compile_command1 = [compiler1, '-o', '', '-c']
-    # compile_command2 = [compiler2, '-o', '', '-c']
-
-    compile_command1 = [compiler1, '-x', 'c++', '-o', '', '-c', '-']  # 使用heredoc
-    compile_command2 = [compiler2, '-x', 'c++', '-o', '', '-c', '-']  # 使用heredoc
-
-    # 循环编译每个C++文件
 
     # 构建输出文件的完整路径
     output_file = path.join(output_dir, now)
-    compile_command1[4] = output_file  # 更新编译器命令中的输出文件路径
-    # compile_command1.append(cpp_file)  # 添加要编译的C++文件路径
-    compile_command2[4] = output_file
-    # compile_command2.append(cpp_file)
+
+    # g++ 模板（stdin/heredoc：从 '-' 读入 code）
+    compile_command1 = [
+        compiler1,
+        "-x", "c++",
+        "-std=c++20",
+        "-c", "-",
+        "-o", output_file,
+
+        # g++：宽松/降噪
+        "-fpermissive",
+        "-w",
+        "-Wno-error",
+        "-Wno-attributes",
+        "-Wno-unknown-pragmas",
+        "-Wno-unused-parameter",
+        "-Wno-unused-variable",
+        "-Wno-unused-function",
+        "-Wno-return-type",
+    ]
+
+    # clang++ 模板（stdin/heredoc：从 '-' 读入 code）
+    compile_command2 = [
+        compiler2,
+        "-x", "c++",
+        "-std=c++20",
+        "-c", "-",
+        "-o", output_file,
+
+        # clang++：降噪（无 -fpermissive）
+        "-w",
+        "-Wno-everything",
+        "-Wno-error",
+        "-Wno-unknown-attributes",
+        "-Wno-unknown-pragmas",
+        "-Wno-unused-parameter",
+        "-Wno-unused-variable",
+        "-Wno-unused-function",
+        "-Wno-return-type",
+        "-fno-caret-diagnostics",
+        "-fno-diagnostics-color",
+    ]
+
     gcc_errors = ''
     clang_errors = ''
-    # # 执行编译器1命令
-    # try:
-    #     output = subprocess.check_output(compile_command1, stderr=subprocess.STDOUT, universal_newlines=True)
-    #     result |= 1
-    # except subprocess.CalledProcessError as e:
-    #     gcc_errors = e.output
-    #
-    # # 执行编译器2命令
-    # try:
-    #     output = subprocess.check_output(compile_command2, stderr=subprocess.STDOUT, universal_newlines=True)
-    #     result |= 2
-    # except subprocess.CalledProcessError as e:
-    #     clang_errors = e.output
 
     # 执行编译器1命令
     compiled, gcc_errors = cmd_compile(compile_command1, code)
@@ -116,15 +125,17 @@ def compile_code(code):
     clang_errors_file = f'{output_file}_clang_error.txt'
     with open(clang_errors_file, 'w') as errors_file:
         errors_file.write(clang_errors)
-    with open(cpp_file, 'w') as error_code:
-        error_code.write(code)
+
     gcc_errors_file = f'{output_file}_gcc_error.txt'
     with open(gcc_errors_file, 'w') as errors_file:
         errors_file.write(gcc_errors)
+
+    # 保存触发错误的源码（注意：你原代码写了两次，这里保留一次）
     with open(cpp_file, 'w') as error_code:
         error_code.write(code)
 
     return result, gcc_errors, clang_errors, now
+
 
 
 def fill_identifiers(raw_code):
