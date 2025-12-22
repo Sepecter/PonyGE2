@@ -74,7 +74,6 @@ def compile_code(code):
     compile_command1 = [
         compiler1,
         "-x", "c++",
-        "-std=c++20",
         "-c", "-",
         "-o", output_file,
 
@@ -94,7 +93,6 @@ def compile_code(code):
     compile_command2 = [
         compiler2,
         "-x", "c++",
-        "-std=c++20",
         "-c", "-",
         "-o", output_file,
 
@@ -187,7 +185,7 @@ class code_eval(base_ff):
         differential_testing_result = 0
         if compiling_result != 3:
             differential_testing_result = differential_testing(
-                gcc_errors, clang_errors, "", time, compiling_result
+                gcc_errors, clang_errors, code, time, compiling_result
             )
 
         # 输出触发缺陷程序到 bugs 目录下：差分触发即保存（包含 both-fail 差异）
