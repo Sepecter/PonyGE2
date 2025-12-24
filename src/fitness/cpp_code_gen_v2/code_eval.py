@@ -2,7 +2,7 @@
 
 from fitness.base_ff_classes.base_ff import base_ff
 from os import getcwd, path
-from fitness.cpp_code_gen.differential_testing import differential_testing
+from fitness.cpp_code_gen_v2.differential_testing import differential_testing
 from algorithm.parameters import params
 from stats.stats import stats
 import os
