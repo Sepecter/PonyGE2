@@ -65,7 +65,7 @@ def compile_code(code):
     file_path = path.join(path_1, now + '.cpp')
     cpp_file = file_path
 
-    compiler1 = 'g++-15-cov'
+    compiler1 = 'g++-15'
     compiler2 = 'clang++-20'
 
     output_file = path.join(output_dir, now)

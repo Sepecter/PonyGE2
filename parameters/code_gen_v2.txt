@@ -9,8 +9,8 @@ GRAMMAR_FILE:           c++/selected_bnf.bnf
 INITIALISATION:         PI_grow
 INIT_GENOME_LENGTH:     1000
 INVALID_SELECTION:      False
-MAX_INIT_TREE_DEPTH:    20
-MAX_TREE_DEPTH:         34
+MAX_INIT_TREE_DEPTH:    30
+MAX_TREE_DEPTH:         50
 MUTATION:               int_flip_per_codon
 POPULATION_SIZE:        50
 FITNESS_FUNCTION:       cpp_code_gen_v2.code_eval
