@@ -20,126 +20,70 @@ _GCC_ICE_PATTERNS = (
 )
 
 _CLANG_ICE_PATTERNS = (
-    "clang: error: unable to execute command",
-    "clang: error: clang frontend command failed",
-    "please submit a bug report",
+    "clang: error:",
+    "clang: fatal error:",
     "stack dump",
+    "PLEASE submit a bug report",
+    "llvm error",
+    "Assertion `",
+    "Assertion failed",
     "segmentation fault",
-    "fatal error: error in backend",
+)
+
+_CRASH_PATTERNS = (
+    "segmentation fault",
+    "sigsegv",
+    "stack dump",
+    "aborted",
+    "core dumped",
 )
 
 
-def _looks_like_ice(compiler: str, s: str) -> bool:
-    if not s:
+def _looks_like_ice(compiler: str, stderr_text: str) -> bool:
+    if not stderr_text:
         return False
-    low = s.lower()
-    pats = _GCC_ICE_PATTERNS if compiler == "gcc" else _CLANG_ICE_PATTERNS
-    return any(p in low for p in pats)
+    s = stderr_text.lower()
+    if compiler == "gcc":
+        pats = _GCC_ICE_PATTERNS
+    else:
+        pats = _CLANG_ICE_PATTERNS
+    for p in pats:
+        if p.lower() in s:
+            return True
+    return False
 
 
-# ---------------- diagnostic parsing & normalization ----------------
-# 解析：
-# 1) <file>:line:col: (fatal error|error|warning|note): message [opt]
-# 2) (fatal error|error|warning|note): message [opt]
+def _looks_like_crash(stderr_text: str) -> bool:
+    if not stderr_text:
+        return False
+    s = stderr_text.lower()
+    for p in _CRASH_PATTERNS:
+        if p in s:
+            return True
+    return False
 
-_DIAG_HEAD_RE = re.compile(
-    r"^(?P<file>.*?):(?P<line>\d+):(?P<col>\d+):\s*(?P<sev>fatal error|error|warning|note):\s*(?P<msg>.*)$"
-)
-_DIAG_NOLC_RE = re.compile(
-    r"^(?P<sev>fatal error|error|warning|note):\s*(?P<msg>.*)$"
-)
 
-# 选项 tag（gcc/clang 常见在行末：[-Wxxx] / [-fpermissive] / [-Werror]）
-_OPT_TAG_RE = re.compile(r"(?:\s*\[(?P<opt>-[^\]]+)\]\s*)$")
-
-_PATH_RE = re.compile(r'([A-Za-z]:\\[^:\n]+|/[^:\n]+)')
-_LOC_INLINE_RE = re.compile(r'(<source>|<stdin>|[^:\n]+):\d+:\d+:')
-_HEX_RE = re.compile(r'0x[0-9a-fA-F]+')
-_NUM_RE = re.compile(r'\b\d+\b')
-
+# ---------------- message normalization / fingerprinting ----------------
 
 def normalize_message(msg: str) -> str:
-    """用于比较/指纹的强归一化（降低噪声）"""
-    if not msg:
+    """Normalize compiler output to make fingerprinting more stable."""
+    if msg is None:
         return ""
-    s = msg.replace("\r\n", "\n").replace("\r", "\n")
-    s = _LOC_INLINE_RE.sub("<loc>:", s)
-    s = _PATH_RE.sub("<path>", s)
-    s = _HEX_RE.sub("0x<hex>", s)
-    s = _NUM_RE.sub("<n>", s)
-    s = re.sub(r"[ \t]+", " ", s).strip()
-    return s
-
-
-def strip_opt_tag(msg: str):
-    """拆分末尾的 [ -Wxxx ] / [ -fpermissive ] 等"""
-    if not msg:
-        return "", None
-    m = _OPT_TAG_RE.search(msg)
-    if not m:
-        return msg, None
-    opt = m.group("opt")
-    base = msg[:m.start()].rstrip()
-    return base, opt
-
-
-def _loc_key(file_: str | None, line: str | None, col: str | None):
-    if not (file_ and line and col):
-        return None
-    # stdin/heredoc 场景常见 <stdin> 或 <source>；这里不改写，直接作为 key
-    return f"{file_}:{line}:{col}"
-
-
-def parse_diagnostics(compile_output: str):
-    """
-    输出条目：
-      {
-        "loc": "file:line:col" or None,
-        "sev": "warning"|"error"|"fatal error"|"note",
-        "msg_norm": 归一化后的 message（含 opt tag 已去除）
-        "msg_base": 去 opt tag 的原始 base（未强归一化，仅用于同位匹配）
-        "opt": "-Wxxx" / "-fpermissive" / "-Werror" ... or None
-      }
-    """
-    items = []
-    for line in (compile_output or "").splitlines():
-        m = _DIAG_HEAD_RE.match(line)
-        if m:
-            file_ = m.group("file")
-            ln = m.group("line")
-            col = m.group("col")
-            sev = m.group("sev")
-            msg = m.group("msg")
-
-            base, opt = strip_opt_tag(msg)
-            items.append({
-                "loc": _loc_key(file_, ln, col),
-                "sev": sev,
-                "msg_base": base.strip(),
-                "msg_norm": normalize_message(base),
-                "opt": opt,
-            })
-            continue
-
-        m2 = _DIAG_NOLC_RE.match(line)
-        if m2:
-            sev = m2.group("sev")
-            msg = m2.group("msg")
-            base, opt = strip_opt_tag(msg)
-            items.append({
-                "loc": None,
-                "sev": sev,
-                "msg_base": base.strip(),
-                "msg_norm": normalize_message(base),
-                "opt": opt,
-            })
-    return items
+    # Remove file paths/line numbers and volatile addresses
+    msg = re.sub(r"/[^ \n\t:]+", "<path>", msg)
+    msg = re.sub(r"\b\d+\b", "<num>", msg)
+    msg = re.sub(r"0x[0-9a-fA-F]+", "0x<hex>", msg)
+    # Collapse whitespace
+    msg = re.sub(r"[ \t]+", " ", msg)
+    msg = re.sub(r"\n{3,}", "\n\n", msg)
+    return msg.strip()
 
 
 def fingerprint_norm_messages(norm_msgs) -> str:
-    joined = "\n".join(sorted(set([m for m in norm_msgs if m])))
-    h = hashlib.sha256(joined.encode("utf-8")).hexdigest()
-    return h[:16]
+    """Fingerprint a list of normalized messages."""
+    joined = "\n---\n".join(sorted(set([m for m in norm_msgs if m])))
+    h = hashlib.sha256(joined.encode("utf-8", errors="ignore")).hexdigest()
+    return h
 
 
 def _ensure_set(key: str):
@@ -151,89 +95,155 @@ def _ensure_set(key: str):
         stats[key] = set(list(stats[key]))
 
 
-# ---------------- warning/error convertibility logic ----------------
+# ---------------- known bug (regex) suppression ----------------
 
-def _is_warning_to_error_convertible(opt: str | None) -> bool:
-    # clang/gcc warning 通常带 [-Wxxx]，可被 -Werror 或 -Werror=xxx 升级为 error
-    return bool(opt and opt.startswith("-W") and opt != "-Werror")
+def _match_known_bug_regex(compiler: str, stderr_text: str) -> bool:
+    """Return True if stderr_text matches any regex in stats['gcc_errors'] / stats['clang_errors'].
 
-
-def _is_error_to_warning_convertible(opt: str | None) -> bool:
-    # 两类最常见：
-    # 1) GCC 的 [-fpermissive]（加 -fpermissive 可把部分 error 降为 warning）
-    # 2) 由 -Werror 导致的 error，通常会带 [-Werror] 或 [-Werror=xxx]，去掉 Werror 可降回 warning
-    if not opt:
+    This is used to suppress repeated/known bugs for:
+      - one-pass-one-fail differential cases
+      - crash/ICE cases
+    """
+    if not stderr_text:
         return False
-    if opt == "-fpermissive":
-        return True
-    if opt.startswith("-Werror"):
-        return True
+
+    key = "gcc_errors" if compiler == "gcc" else "clang_errors"
+    patterns = stats.get(key, [])
+
+    if patterns is None:
+        return False
+    if isinstance(patterns, str):
+        patterns = [patterns]
+    elif not isinstance(patterns, (list, tuple)):
+        try:
+            patterns = list(patterns)
+        except Exception:
+            return False
+
+    for pat in patterns:
+        if not pat:
+            continue
+        try:
+            if re.search(pat, stderr_text, flags=re.IGNORECASE | re.DOTALL):
+                return True
+        except re.error:
+            # Invalid regex; ignore rather than breaking the pipeline
+            continue
+
     return False
 
 
+# ---------------- warning/error convertibility logic ----------------
+
 def _sev_class(sev: str) -> str:
-    # note 不参与差分主判定；fatal error 视为 error
-    if sev == "warning":
+    """Map severities to coarse classes."""
+    if not sev:
+        return "unknown"
+    s = sev.lower()
+    if "warning" in s:
         return "warning"
-    if sev in ("error", "fatal error"):
+    if "error" in s or "fatal" in s:
         return "error"
+    if "note" in s:
+        return "note"
     return "other"
 
 
-def _build_loc_map(items):
-    m = {}
-    for it in items:
-        if it["loc"] is None:
+def _is_convertible_pair(g: dict, c: dict) -> bool:
+    """Heuristic: allow warning<->error differences to be considered equivalent if message base matches."""
+    if not g or not c:
+        return False
+
+    g_cls = _sev_class(g.get("sev", ""))
+    c_cls = _sev_class(c.get("sev", ""))
+
+    if g_cls not in ("warning", "error") or c_cls not in ("warning", "error"):
+        return False
+
+    # Same base message text => convertible
+    g_base = (g.get("msg_base") or "").strip()
+    c_base = (c.get("msg_base") or "").strip()
+    if not g_base or not c_base:
+        return False
+
+    return g_base == c_base
+
+
+def parse_diagnostics(stderr_text: str):
+    """Parse gcc/clang stderr into a list of diagnostic dicts.
+    Expected formats (best-effort):
+      file:line:col: <sev>: <msg> [<opt>]
+      <sev>: <msg>
+    """
+    items = []
+    if not stderr_text:
+        return items
+
+    for line in stderr_text.splitlines():
+        line = line.strip()
+        if not line:
             continue
-        m.setdefault(it["loc"], []).append(it)
-    return m
+
+        loc = None
+        sev = None
+        msg = line
+        opt = None
+
+        # Try: file:line:col: sev: msg
+        m = re.match(r"^(.*?):(\d+):(\d+):\s*([^:]+):\s*(.*)$", line)
+        if m:
+            loc = f"{m.group(1)}:{m.group(2)}:{m.group(3)}"
+            sev = m.group(4).strip()
+            msg = m.group(5).strip()
+        else:
+            # Try: file:line: sev: msg
+            m2 = re.match(r"^(.*?):(\d+):\s*([^:]+):\s*(.*)$", line)
+            if m2:
+                loc = f"{m2.group(1)}:{m2.group(2)}"
+                sev = m2.group(3).strip()
+                msg = m2.group(4).strip()
+            else:
+                # Try: sev: msg
+                m3 = re.match(r"^([^:]+):\s*(.*)$", line)
+                if m3:
+                    sev = m3.group(1).strip()
+                    msg = m3.group(2).strip()
+
+        # Extract -Wxxx or [-Wxxx]
+        mopt = re.search(r"(\[-W[^\]]+\]|-W\w[\w-]*)", msg)
+        if mopt:
+            opt = mopt.group(1)
+            # remove bracketed opt from base msg
+            msg_base = re.sub(r"\s*\[-W[^\]]+\]\s*$", "", msg).strip()
+        else:
+            msg_base = msg.strip()
+
+        items.append(
+            {
+                "loc": loc,
+                "sev": sev,
+                "msg": msg,
+                "msg_base": msg_base,
+                "opt": opt,
+            }
+        )
+
+    return items
 
 
 def _eliminate_convertible_mismatches(g_items, c_items):
-    """
-    从两侧 items 里剔除满足：
-    - 同 loc
-    - 一边 warning 一边 error
-    - message(去 opt tag 后归一化)一致
-    - warning 可升 error 或 error 可降 warning（任一成立即可）
-    返回：(g_keep, c_keep)
-    """
-    g_loc = _build_loc_map(g_items)
-    c_loc = _build_loc_map(c_items)
-
+    """Remove diagnostics pairs that differ only by warning<->error for the same base message."""
     g_drop = set()
     c_drop = set()
 
-    for loc, glist in g_loc.items():
-        clist = c_loc.get(loc)
-        if not clist:
-            continue
+    for gi, g in enumerate(g_items):
+        for ci, c in enumerate(c_items):
+            if _is_convertible_pair(g, c):
+                g_drop.add(gi)
+                c_drop.add(ci)
 
-        for gi in glist:
-            for ci in clist:
-                gs = _sev_class(gi["sev"])
-                cs = _sev_class(ci["sev"])
-                if {gs, cs} != {"warning", "error"}:
-                    continue
-                if gi["msg_norm"] != ci["msg_norm"]:
-                    continue
-
-                convertible = False
-                if gs == "warning" and _is_warning_to_error_convertible(gi["opt"]):
-                    convertible = True
-                if cs == "warning" and _is_warning_to_error_convertible(ci["opt"]):
-                    convertible = True
-                if gs == "error" and _is_error_to_warning_convertible(gi["opt"]):
-                    convertible = True
-                if cs == "error" and _is_error_to_warning_convertible(ci["opt"]):
-                    convertible = True
-
-                if convertible:
-                    g_drop.add(id(gi))
-                    c_drop.add(id(ci))
-
-    g_keep = [it for it in g_items if id(it) not in g_drop]
-    c_keep = [it for it in c_items if id(it) not in c_drop]
+    g_keep = [it for i, it in enumerate(g_items) if i not in g_drop]
+    c_keep = [it for i, it in enumerate(c_items) if i not in c_drop]
     return g_keep, c_keep
 
 
@@ -257,6 +267,14 @@ def differential_testing(gcc_errors, clang_errors, code, time, compiling_result)
     # 1) ICE：任意情况下优先捕获
     gcc_ice = _looks_like_ice("gcc", gcc_errors)
     clang_ice = _looks_like_ice("clang", clang_errors)
+
+    # Suppress repeated/known bugs for:
+    # - one-pass-one-fail cases (compiling_result in (1, 2))
+    # - crash/ICE cases (gcc_ice/clang_ice)
+    if gcc_ice or clang_ice or compiling_result in (1, 2):
+        if _match_known_bug_regex("gcc", gcc_errors) or _match_known_bug_regex("clang", clang_errors):
+            return 0
+
     if gcc_ice or clang_ice:
         ice_text = ""
         if gcc_ice:
@@ -297,31 +315,26 @@ def differential_testing(gcc_errors, clang_errors, code, time, compiling_result)
         for it in items:
             cls = _sev_class(it["sev"])
             if cls in ("warning", "error"):
-                # 注意：这里不依赖 loc 做 fingerprint，避免 <stdin>/<source> 等差异误判
-                res.append(f"{cls}:{it['msg_norm']}")
+                res.append(f"{cls}:{it.get('msg_base')}")
         return res
 
-    fg = fingerprint_norm_messages(keep_for_fp(g_items))
-    fc = fingerprint_norm_messages(keep_for_fp(c_items))
+    g_norm = keep_for_fp(g_items)
+    c_norm = keep_for_fp(c_items)
 
-    # 如果两边都没有可比较的主诊断（常见于纯粹由参数导致的等级变化），不算差分
-    if fg == "" and fc == "":
+    if not g_norm and not c_norm:
         return 0
-
-    diff_class = "SUCCESS_MISMATCH"
 
     _ensure_set("diff_fps")
-    pair_fp = hashlib.sha256(f"{diff_class}:{fg}:{fc}".encode("utf-8")).hexdigest()[:16]
-    if pair_fp in stats["diff_fps"]:
+    fp = fingerprint_norm_messages(g_norm + c_norm)
+    if fp in stats["diff_fps"]:
         return 0
-    stats["diff_fps"].add(pair_fp)
+    stats["diff_fps"].add(fp)
 
-    file_path = path.join(out_dir, f"{time}_{diff_class}_{pair_fp}.txt")
+    # 4) 输出差分结果
+    file_path = path.join(out_dir, f"{time}_DIFF_{fp}.txt")
     with open(file_path, "w") as f:
-        f.write(f"diff_class: {diff_class}\n")
-        f.write(f"compiling_result: {compiling_result}\n")
-        f.write(f"gcc_fp: {fg}\n")
-        f.write(f"clang_fp: {fc}\n\n")
+        f.write("=== differential fingerprint ===\n")
+        f.write(fp + "\n\n")
 
         f.write("=== gcc diags kept (after convertible mismatch elimination) ===\n")
         for it in g_items:

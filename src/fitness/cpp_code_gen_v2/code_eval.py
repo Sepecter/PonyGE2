@@ -122,16 +122,16 @@ def compile_code(code):
         result |= 2
 
     # DEBUG 落盘
-    clang_errors_file = f'{output_file}_clang_error.txt'
-    with open(clang_errors_file, 'w') as errors_file:
-        errors_file.write(clang_errors)
-
-    gcc_errors_file = f'{output_file}_gcc_error.txt'
-    with open(gcc_errors_file, 'w') as errors_file:
-        errors_file.write(gcc_errors)
-
-    with open(cpp_file, 'w') as error_code:
-        error_code.write(code)
+    # clang_errors_file = f'{output_file}_clang_error.txt'
+    # with open(clang_errors_file, 'w') as errors_file:
+    #     errors_file.write(clang_errors)
+    #
+    # gcc_errors_file = f'{output_file}_gcc_error.txt'
+    # with open(gcc_errors_file, 'w') as errors_file:
+    #     errors_file.write(gcc_errors)
+    #
+    # with open(cpp_file, 'w') as error_code:
+    #     error_code.write(code)
 
     return result, gcc_errors, clang_errors, now
 
