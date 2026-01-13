@@ -30,13 +30,6 @@ _CLANG_ICE_PATTERNS = (
     "segmentation fault",
 )
 
-_CRASH_PATTERNS = (
-    "segmentation fault",
-    "sigsegv",
-    "stack dump",
-    "aborted",
-    "core dumped",
-)
 
 
 def _looks_like_ice(compiler: str, stderr_text: str) -> bool:
@@ -49,16 +42,6 @@ def _looks_like_ice(compiler: str, stderr_text: str) -> bool:
         pats = _CLANG_ICE_PATTERNS
     for p in pats:
         if p.lower() in s:
-            return True
-    return False
-
-
-def _looks_like_crash(stderr_text: str) -> bool:
-    if not stderr_text:
-        return False
-    s = stderr_text.lower()
-    for p in _CRASH_PATTERNS:
-        if p in s:
             return True
     return False
 
@@ -149,6 +132,22 @@ def _sev_class(sev: str) -> str:
     return "other"
 
 
+def _is_warning_convertible(opt: str | None) -> bool:
+    """Only analyze convertibility (no message comparison).
+
+    Treat a warning as convertible to an error if:
+      - it has a -W... tag (so -Werror / -Werror=<x> can promote it), or
+      - it has -fpermissive (removing -fpermissive typically makes it an error in GCC).
+    """
+    if not opt:
+        return False
+    if opt == "-fpermissive":
+        return True
+    if opt.startswith("-W") and not opt.startswith("-Werror"):
+        return True
+    return False
+
+
 def _is_convertible_pair(g: dict, c: dict) -> bool:
     """Heuristic: allow warning<->error differences to be considered equivalent if message base matches."""
     if not g or not c:
@@ -209,12 +208,11 @@ def parse_diagnostics(stderr_text: str):
                     sev = m3.group(1).strip()
                     msg = m3.group(2).strip()
 
-        # Extract -Wxxx or [-Wxxx]
-        mopt = re.search(r"(\[-W[^\]]+\]|-W\w[\w-]*)", msg)
+        # Extract trailing option tag: [-Wxxx] / [-Werror] / [-Werror=xxx] / [-fpermissive]
+        mopt = re.search(r"(?:\s*\[(?P<opt>-(?:Werror(?:=[\w-]+)?|W[\w-]+|fpermissive))\]\s*)$", msg)
         if mopt:
-            opt = mopt.group(1)
-            # remove bracketed opt from base msg
-            msg_base = re.sub(r"\s*\[-W[^\]]+\]\s*$", "", msg).strip()
+            opt = mopt.group("opt")
+            msg_base = msg[:mopt.start()].rstrip()
         else:
             msg_base = msg.strip()
 
@@ -306,6 +304,25 @@ def differential_testing(gcc_errors, clang_errors, code, time, compiling_result)
     # 3) 一成一败时，如需应用“warning<->error 可互转则不算差分”的规则，在这里处理：
     g_items_all = parse_diagnostics(gcc_errors)
     c_items_all = parse_diagnostics(clang_errors)
+
+    # NEW: do NOT compare message contents; only analyze convertibility.
+    # If one compiler fails with error(s) and the other compiler succeeded but produced
+    # any warning that can be promoted to an error via options (e.g., -Werror or removing -fpermissive),
+    # treat it as non-differential.
+    if compiling_result == 1:
+        succ_items = g_items_all   # gcc succeeded
+        fail_items = c_items_all   # clang failed
+    else:
+        succ_items = c_items_all   # clang succeeded
+        fail_items = g_items_all   # gcc failed
+
+    fail_has_error = any(_sev_class(it.get("sev", "")) == "error" for it in fail_items)
+    succ_has_convertible_warning = any(
+        _sev_class(it.get("sev", "")) == "warning" and _is_warning_convertible(it.get("opt"))
+        for it in succ_items
+    )
+    if fail_has_error and succ_has_convertible_warning:
+        return 0
 
     g_items, c_items = _eliminate_convertible_mismatches(g_items_all, c_items_all)
 
