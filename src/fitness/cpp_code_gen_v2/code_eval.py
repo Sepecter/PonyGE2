@@ -44,7 +44,7 @@ def cmd_compile(compiler_command, code):
         )
         _, stderr = process.communicate(code)
         if process.returncode == 0:
-            return True, ""
+            return True, stderr
         else:
             return False, stderr
     except Exception as e:
@@ -79,8 +79,6 @@ def compile_code(code):
 
         # g++：宽松/降噪
         "-fpermissive",
-        "-w",
-        "-Wno-error",
         "-Wno-attributes",
         "-Wno-unknown-pragmas",
         "-Wno-unused-parameter",
@@ -97,9 +95,6 @@ def compile_code(code):
         "-o", output_file,
 
         # clang++：降噪（无 -fpermissive）
-        "-w",
-        "-Wno-everything",
-        "-Wno-error",
         "-Wno-unknown-attributes",
         "-Wno-unknown-pragmas",
         "-Wno-unused-parameter",
