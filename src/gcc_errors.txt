@@ -4,5 +4,6 @@ parameter pack ‘.*?’ must be at the end of the template parameter list
 wrong number of template arguments \(.*\)
 no default argument for ‘.*?’
 parameter packs not expanded with ‘...’:
-expected ‘]’ before ‘\(’ token
+expected ‘\]’ before ‘\(’ token
+expected '\]' before ';' token
 internal compiler error: in cp_parser_translation_unit, at cp/parser\.cc:\d+
