@@ -3,3 +3,11 @@ parameter packs not expanded with '...'
 '.*?' cannot be defined in a type specifier
 reference to type '[^']*' cannot bind to an initializer list
 an attribute list cannot appear here
+'alignas' attribute only applies to variables, data members and tag types
+redefinition of 'X0'
+enumeration previously declared as scoped
+'\(unnamed enum at <source>:\d+:\d+\)' cannot be defined in the result type of a function
+expected '\]'
+redefinition of '[^']+'
+(?s)Stack dump:.*?clang::Sema::CheckNonTypeTemplateParameterType\b.*?clang::Sema::ActOnNonTypeTemplateParameter\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
+(?s)Stack dump:.*?clang::TemplateName::getKind\(\)\s+const\b.*?clang::ASTContext::getNameForTemplate\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
