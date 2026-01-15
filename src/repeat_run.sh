@@ -9,7 +9,7 @@ count=0
 #同时执行次数
 times=8
 #总执行次数
-total=8
+total=7
 
 #获取进程数量
 count_running_processes() {
