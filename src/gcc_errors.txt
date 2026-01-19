@@ -7,3 +7,5 @@ parameter packs not expanded with ‘...’:
 expected ‘\]’ before ‘[^’]’ token
 internal compiler error: in cp_parser_translation_unit, at cp/parser\.cc:\d+
 attribute with no arguments contains no parameter packs
+‘namespace .*?’ is ambiguous
+<source>:\d+:\d+: error: expected ';' after union definition[\s\S]*?<source>:\d+:\d+: error: expected unqualified-id before ';' token
