@@ -6,10 +6,11 @@ an attribute list cannot appear here
 'alignas' attribute only applies to variables, data members and tag types
 redefinition of 'X0'
 enumeration previously declared as scoped
-'\(unnamed (?:enum|struct|union|class) at <source>:\d+:\d+\)' cannot be defined in the result type of a function
+'\(unnamed (?:enum|struct|union|class) at <[^>]+>:\d+:\d+\)' cannot be defined in the result type of a function
 expected '\]'
 redefinition of '[^']+'
 (?s)Stack dump:.*?clang::Sema::CheckNonTypeTemplateParameterType\b.*?clang::Sema::ActOnNonTypeTemplateParameter\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
 (?s)Stack dump:.*?clang::TemplateName::getKind\(\)\s+const\b.*?clang::ASTContext::getNameForTemplate\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
 expected ','
 'alignas' attribute cannot be applied to an enumeration
+union cannot be marked constexpr

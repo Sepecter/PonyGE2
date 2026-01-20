@@ -8,4 +8,7 @@ expected ‘\]’ before ‘[^’]’ token
 internal compiler error: in cp_parser_translation_unit, at cp/parser\.cc:\d+
 attribute with no arguments contains no parameter packs
 ‘namespace .*?’ is ambiguous
-<source>:\d+:\d+: error: expected ';' after union definition[\s\S]*?<source>:\d+:\d+: error: expected unqualified-id before ';' token
+<[^>]+>:\d+:\d+: error: expected ‘;’ after union definition[\s\S]*?<[^>]+>:\d+:\d+: error: expected unqualified-id before ‘;’ token
+internal compiler error: in start_enum, at cp/decl\.cc:\d+
+<[^>]+>:\d+:\d+: error: expected ‘;’ after struct definition[\s\S]*?<[^>]+>:\d+:\d+: error: expected unqualified-id before ‘\[’ token
+<[^>]+>:\d+:\d+: error: conflicting declaration ‘using [^=]+=\s*[^’]+’[\s\S]*?<[^>]+>:\d+:\d+: note: previous declaration as ‘class [^’]+’
