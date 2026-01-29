@@ -6,11 +6,13 @@ an attribute list cannot appear here
 'alignas' attribute only applies to variables, data members and tag types
 redefinition of 'X0'
 enumeration previously declared as scoped
-'\(unnamed (?:enum|struct|union|class) at <[^>]+>:\d+:\d+\)' cannot be defined in the result type of a function
+'(?:\(unnamed (?:enum|struct|union|class) at <[^>]+>:\d+:\d+\)|[A-Za-z_]\w*)' cannot be defined in the result type of a function
 <[^>]+>:\d+:\d+: error: expected '\]'[\s\S]*?<[^>]+>:\d+:\d+: error: expected external declaration
 redefinition of '[^']+'
 (?s)Stack dump:.*?clang::Sema::CheckNonTypeTemplateParameterType\b.*?clang::Sema::ActOnNonTypeTemplateParameter\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
 (?s)Stack dump:.*?clang::TemplateName::getKind\(\)\s+const\b.*?clang::ASTContext::getNameForTemplate\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
 expected ','
 'alignas' attribute cannot be applied to an enumeration
-union cannot be marked constexpr
+(?:union|struct|class) cannot be marked constexpr
+(?s)Stack dump:.*?clang::ASTContext::getIntWidth\(clang::QualType\)\s+const\b.*?clang::StandardConversionSequence::getNarrowingKind\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
+<[^>]+>:\d+:\d+: error: enumeration cannot be a template[\s\S]*?<[^>]+>:\d+:\d+: error: declaration does not declare anything

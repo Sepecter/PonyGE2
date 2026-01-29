@@ -25,7 +25,7 @@ def calculate_fitness(length, number, compiling_result, differential_testing_res
     avg_number = stats['last_sum_number'] / size
     stats['sum_number'] += number
 
-    expected_length = 50
+    expected_length = 30
     # expected_number = 15
     # fitness = 30 - 10 * math.exp(-(length - expected_length) ** 2) - 10 * math.exp(-(number - expected_number) ** 2)
     fitness = 20 - 10 * math.exp(-(length - expected_length) ** 2)
