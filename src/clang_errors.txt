@@ -13,6 +13,7 @@ redefinition of '[^']+'
 (?s)Stack dump:.*?clang::TemplateName::getKind\(\)\s+const\b.*?clang::ASTContext::getNameForTemplate\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
 expected ','
 'alignas' attribute cannot be applied to an enumeration
-(?:union|struct|class) cannot be marked constexpr
+(?:enum|struct|union|class) cannot be marked constexpr
 (?s)Stack dump:.*?clang::ASTContext::getIntWidth\(clang::QualType\)\s+const\b.*?clang::StandardConversionSequence::getNarrowingKind\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
 <[^>]+>:\d+:\d+: error: enumeration cannot be a template[\s\S]*?<[^>]+>:\d+:\d+: error: declaration does not declare anything
+'alignas' attribute cannot be applied to types
