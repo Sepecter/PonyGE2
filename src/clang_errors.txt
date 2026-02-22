@@ -6,7 +6,8 @@ an attribute list cannot appear here
 'alignas' attribute only applies to variables, data members and tag types
 redefinition of 'X0'
 enumeration previously declared as scoped
-'(?:\([^)]*unnamed (?:enum|struct|union|class) at <[^>]+>:\d+:\d+\)|[A-Za-z_]\w*)' cannot be defined in the result type of a function<[^>]+>:\d+:\d+: error: expected '\]'[\s\S]*?<[^>]+>:\d+:\d+: error: expected external declaration
+'(?:\([^)]*unnamed (?:enum|struct|union|class) at <[^>]+>:\d+:\d+\)|[A-Za-z_]\w*)' cannot be defined in the result type of a function
+<[^>]+>:\d+:\d+: error: expected '\]'[\s\S]*?<[^>]+>:\d+:\d+: error: expected external declaration
 redefinition of '[^']+'
 (?s)Stack dump:.*?clang::Sema::CheckNonTypeTemplateParameterType\b.*?clang::Sema::ActOnNonTypeTemplateParameter\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
 (?s)Stack dump:.*?clang::TemplateName::getKind\(\)\s+const\b.*?clang::ASTContext::getNameForTemplate\b.*?clang\+\+[^:\n]*: error: clang frontend command failed with exit code 139\b
