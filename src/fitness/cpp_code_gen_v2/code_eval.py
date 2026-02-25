@@ -192,8 +192,18 @@ class code_eval(base_ff):
 
         fitness, result = calculate_fitness(length, number, compiling_result, differential_testing_result)
 
+        triggered_bug = (compiling_result != 3)  # 至少一个编译器失败
+        found_new_bug = (differential_testing_result != 0)
+
+        if triggered_bug == True and found_new_bug == False:
+            target_path = "/home/syc/GE/PonyGE2/results/diff/diff_dup.txt"
+            if not os.path.exists(target_path):
+                os.makedirs(os.path.dirname(target_path), exist_ok=True)
+                with open(target_path, "w") as f:
+                    f.write("")
+
         if result:
-            target_path = "/home/syc/GE/PonyGE2/results/diff/diff.txt"
+            target_path = "/home/syc/GE/PonyGE2/results/diff/diff_new.txt"
             if not os.path.exists(target_path):
                 os.makedirs(os.path.dirname(target_path), exist_ok=True)
                 with open(target_path, "w") as f:
