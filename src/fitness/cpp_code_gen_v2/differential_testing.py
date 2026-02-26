@@ -271,7 +271,9 @@ def differential_testing(gcc_errors, clang_errors, code, time, compiling_result)
     # - crash/ICE cases (gcc_ice/clang_ice)
     if gcc_ice or clang_ice or compiling_result in (1, 2):
         if _match_known_bug_regex("gcc", gcc_errors) or _match_known_bug_regex("clang", clang_errors):
-            known_dir = path.join(os.getcwd(), "..", "results", "known_bugs")
+            # ICE 的 known_bug 单独归档到 known_ice；其他 known_bug 归档到 known_bugs
+            subdir = "known_ice" if (gcc_ice or clang_ice) else "known_bugs"
+            known_dir = path.join(os.getcwd(), "..", "results", subdir)
             os.makedirs(known_dir, exist_ok=True)
 
             fname = f"{time}_known.cpp"
