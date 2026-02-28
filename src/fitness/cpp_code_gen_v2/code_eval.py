@@ -66,7 +66,7 @@ def compile_code(code):
     cpp_file = file_path
 
     compiler1 = 'g++-16'
-    compiler2 = 'clang++-20'
+    compiler2 = 'clang++-trunk'
 
     output_file = path.join(output_dir, now)
 
