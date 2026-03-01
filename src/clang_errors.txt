@@ -19,3 +19,4 @@ expected ','
 'alignas' attribute cannot be applied to types
 <[^>]+>:\d+:\d+: error: non-member function cannot have '[^']*&[^']*' qualifier[\s\S]*?<[^>]+>:\d+:\d+: error: invalid application of 'alignas' to a function type
 invalid application of 'alignas' to a function type
+(?s)Stack dump:.*?clang::ASTContext::getQualifiedTemplateName\(clang::NestedNameSpecifier,\s*bool,\s*clang::TemplateName\)\s+const\b.*?clang::Sema::isTemplateName\b

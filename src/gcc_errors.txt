@@ -18,3 +18,4 @@ internal compiler error: in set_identifier_type_value_with_scope, at cp/name-loo
 <[^>]+>:\d+:\d+: error: expected ‘;’ before ‘(?:const|volatile)’
 expected ‘;’ before ‘(’ token
 cannot declare reference to ‘[^’]*’, which is not a typedef or a template type argument
+internal compiler error: tree check: expected tree_list, have error_mark in get_attribute_name, at attribs.cc:1062
