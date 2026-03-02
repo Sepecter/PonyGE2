@@ -80,7 +80,7 @@ def _ensure_set(key: str):
 
 # ---------------- known bug (regex) suppression ----------------
 
-def _match_known_bug_regex(compiler: str, stderr_text: str) -> bool:
+def _match_known_bug_regex(key: str, stderr_text: str) -> bool:
     """Return True if stderr_text matches any regex in stats['gcc_errors'] / stats['clang_errors'].
 
     This is used to suppress repeated/known bugs for:
@@ -90,7 +90,6 @@ def _match_known_bug_regex(compiler: str, stderr_text: str) -> bool:
     if not stderr_text:
         return False
 
-    key = "gcc_errors" if compiler == "gcc" else "clang_errors"
     patterns = stats.get(key, [])
 
     if patterns is None:
@@ -269,10 +268,11 @@ def differential_testing(gcc_errors, clang_errors, code, time, compiling_result)
     # Suppress repeated/known bugs for:
     # - one-pass-one-fail cases (compiling_result in (1, 2))
     # - crash/ICE cases (gcc_ice/clang_ice)
-    if gcc_ice or clang_ice or compiling_result in (1, 2):
-        if _match_known_bug_regex("gcc", gcc_errors) or _match_known_bug_regex("clang", clang_errors):
-            # ICE 的 known_bug 单独归档到 known_ice；其他 known_bug 归档到 known_bugs
-            subdir = "known_ice" if (gcc_ice or clang_ice) else "known_bugs"
+    # ICE 的 known_bug 单独归档到 known_ice；其他 known_bug 归档到 known_bugs
+    if gcc_ice or clang_ice:
+        if _match_known_bug_regex("gcc_crash", gcc_errors) or _match_known_bug_regex("clang_crash", clang_errors):
+
+            subdir = "known_ice"
             known_dir = path.join(os.getcwd(), "..", "results", subdir)
             os.makedirs(known_dir, exist_ok=True)
 
@@ -280,7 +280,18 @@ def differential_testing(gcc_errors, clang_errors, code, time, compiling_result)
             file_path = path.join(known_dir, fname)
             with open(file_path, "w") as f:
                 f.write(code)
+            return 0
+    elif compiling_result in (1, 2):
+        if _match_known_bug_regex("gcc_errors", gcc_errors) or _match_known_bug_regex("clang_errors", clang_errors):
 
+            subdir = "known_bugs"
+            known_dir = path.join(os.getcwd(), "..", "results", subdir)
+            os.makedirs(known_dir, exist_ok=True)
+
+            fname = f"{time}_known.cpp"
+            file_path = path.join(known_dir, fname)
+            with open(file_path, "w") as f:
+                f.write(code)
             return 0
 
     if gcc_ice or clang_ice:

@@ -1,0 +1,5 @@
+internal compiler error: in cp_parser_translation_unit, at cp/parser\.cc:5631
+internal compiler error: in start_enum, at cp/decl\.cc:18794
+internal compiler error: in xref_basetypes, at cp/decl\.cc:18541
+internal compiler error: in set_identifier_type_value_with_scope, at cp/name-lookup\.cc:\d+
+internal compiler error: tree check: expected tree_list, have error_mark in get_attribute_name, at attribs\.cc:1062

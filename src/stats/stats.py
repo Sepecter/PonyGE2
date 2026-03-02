@@ -42,7 +42,9 @@ stats = {
     "sum_number": 0,
     "last_gen": 0,
     "clang_errors": [],
-    "gcc_errors": []
+    "gcc_errors": [],
+    "clang_crash": [],
+    "gcc_crash": [],
 }
 
 
@@ -59,6 +61,19 @@ def import_errors():
     clang_errors = clang_errors.split('\n')
     for i in clang_errors:
         stats["clang_errors"].append(i)
+
+    gcc_bug_file = 'gcc_crash.txt'
+    with open(gcc_bug_file, 'r', encoding='utf-8') as file:  # 打开文件并指定编码
+        gcc_errors = file.read()  # 读取文件的全部内容
+    gcc_errors = gcc_errors.split('\n')
+    for i in gcc_errors:
+        stats["gcc_crash"].append(i)
+    clang_bug_file = 'clang_crash.txt'
+    with open(clang_bug_file, 'r', encoding='utf-8') as file:  # 打开文件并指定编码
+        clang_errors = file.read()  # 读取文件的全部内容
+    clang_errors = clang_errors.split('\n')
+    for i in clang_errors:
+        stats["clang_crash"].append(i)
 
     # print(stats["gcc_errors"])
     # print(stats["clang_errors"])

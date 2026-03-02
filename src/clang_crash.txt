@@ -1,0 +1,5 @@
+(?s)Stack dump:.*?clang::Sema::CheckNonTypeTemplateParameterType\b.*?clang::Sema::ActOnNonTypeTemplateParameter\b
+(?s)Stack dump:.*?clang::TemplateName::getKind\(\)\s+const\b.*?clang::ASTContext::getNameForTemplate\b
+(?s)Stack dump:.*?clang::ASTContext::getIntWidth\(clang::QualType\)\s+const\b.*?clang::StandardConversionSequence::getNarrowingKind\b
+(?s)Stack dump:.*?clang::ASTContext::getQualifiedTemplateName\(clang::NestedNameSpecifier,\s*bool,\s*clang::TemplateName\)\s+const\b.*?clang::Sema::isTemplateName\b
+(?s)Stack dump:.*?clang::LookupResult::getFoundDecl\(\)\s+const\b.*?clang::LookupResult::getRepresentativeDecl\b.*?clang::Sema::ActOnTag\b
