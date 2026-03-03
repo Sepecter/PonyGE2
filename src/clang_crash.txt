@@ -3,3 +3,8 @@
 (?s)Stack dump:.*?clang::ASTContext::getIntWidth\(clang::QualType\)\s+const\b.*?clang::StandardConversionSequence::getNarrowingKind\b
 (?s)Stack dump:.*?clang::ASTContext::getQualifiedTemplateName\(clang::NestedNameSpecifier,\s*bool,\s*clang::TemplateName\)\s+const\b.*?clang::Sema::isTemplateName\b
 (?s)Stack dump:.*?clang::LookupResult::getFoundDecl\(\)\s+const\b.*?clang::LookupResult::getRepresentativeDecl\b.*?clang::Sema::ActOnTag\b
+(?s)Stack dump:.*?GetTypeSourceInfoForDeclarator\(\(anonymous namespace\)::TypeProcessingState&,\s*clang::QualType,\s*clang::TypeSourceInfo\*\)[\s\S]*?GetFullTypeForDeclarator\(\(anonymous namespace\)::TypeProcessingState&,\s*clang::QualType,\s*clang::TypeSourceInfo\*\)
+(?s)Stack dump:.*?clang::Preprocessor::AnnotatePreviousCachedTokens\(clang::Token const&\).*?clang::Parser::ParseOptionalCXXScopeSpecifier\b
+(?s)Stack dump:.*?parsing struct/union/class body\b.*?clang::Decl::setAccess\b.*?clang::Sema::ActOnFriendTypeDecl\b
+(?s)Stack dump:.*?clang::Sema::ActOnExceptionDeclarator\(clang::Scope\*,\s*clang::Declarator&\).*?clang::Parser::ParseCXXCatchBlock\(bool\)
+(?s)Stack dump:.*?\bSmallVector\.h:315\b[\s\S]*?\bwarnAboutRedundantParens\b[\s\S]*?\bGetFullTypeForDeclarator\b
