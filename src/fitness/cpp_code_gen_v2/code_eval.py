@@ -57,16 +57,15 @@ def compile_code(code):
 
     path_1 = path.join(params['FILE_PATH'], "code_results")
     output_dir = path.join(path_1, "bin")
-    path_1 = path.join(path_1, "code")
+    cpp_file = path.join(os.getcwd(), "..", "results", "code")
 
     os.makedirs(output_dir, exist_ok=True)
-    os.makedirs(path_1, exist_ok=True)
+    os.makedirs(cpp_file, exist_ok=True)
 
-    file_path = path.join(path_1, now + '.cpp')
-    cpp_file = file_path
+    cpp_file = path.join(cpp_file, now + '.cpp')
 
-    compiler1 = 'g++16-cov'
-    compiler2 = 'clang++-23-cov'
+    compiler1 = 'g++-16'
+    compiler2 = 'clang++-trunk'
 
     output_file = path.join(output_dir, now)
 
@@ -125,8 +124,8 @@ def compile_code(code):
     # with open(gcc_errors_file, 'w') as errors_file:
     #     errors_file.write(gcc_errors)
     #
-    # with open(cpp_file, 'w') as error_code:
-    #     error_code.write(code)
+    with open(cpp_file, 'w') as error_code:
+        error_code.write(code)
 
     return result, gcc_errors, clang_errors, now
 
