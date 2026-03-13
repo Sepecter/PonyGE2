@@ -19,3 +19,18 @@ internal compiler error: in set_identifier_type_value_with_scope, at cp/name-loo
 expected ‘;’ before ‘\(’ token
 cannot declare reference to ‘[^’]*’, which is not a typedef or a template type argument
 internal compiler error: tree check: expected tree_list, have error_mark in get_attribute_name, at attribs.cc:1062
+internal compiler error: Segmentation fault[\s\S]*?\babort_fully_implicit_template\b[\s\S]*?\bcp_parser_skip_to_end_of_block_or_statement\b[\s\S]*?\bcp_parser_template_declaration_after_parameters\b
+internal compiler error: tree check: expected record_type or union_type or qual_union_type, have template_type_parm in lookup_using_decl, at cp/name-lookup.cc:6269
+internal compiler error: Segmentation fault[\s\S]*?tree_check2\(tree_node\*, char const\*, int, char const\*, tree_code, tree_code\)[\s\S]*?cp_parser_sizeof_pack[\s\S]*?cp_parser_sizeof_operand
+internal compiler error: in write_compact_number, at cp/mangle\.cc:1779
+internal compiler error: Segmentation fault[\s\S]*?contains_struct_check\(tree_node\*, tree_node_structure_enum, char const\*, int, char const\*\)[\s\S]*?\bpush_namespace\(tree_node\*, bool\)[\s\S]*?cp_parser_namespace_definition
+tree check: expected tree that contains ‘decl minimal’ structure, have ‘template_id_expr’ in dump_decl, at cp/error.cc:1636
+internal compiler error: in update_binding, at cp/name-lookup.cc:3082
+internal compiler error: in type_dependent_expression_p, at cp/pt.cc:29995
+internal compiler error: in finish_class_member_access_expr, at cp/typeck.cc:3651
+internal compiler error: tree check: expected var_decl or function_decl, have const_decl in non_const_var_error, at cp/constexpr.cc:7601
+internal compiler error: Segmentation fault[\s\S]*?\blookup_and_check_tag\b[\s\S]*?\bstart_enum\b[\s\S]*?\bcp_parser_enum_specifier\b
+internal compiler error: Segmentation fault[\s\S]*?\btree_class_check\b[\s\S]*?\btype_promotes_to\b[\s\S]*?\badd_builtin_candidates\b[\s\S]*?\badd_operator_candidates\b[\s\S]*?\bbuild_new_op\b[\s\S]*?\bbuild_x_unary_op\b
+internal compiler error: Segmentation fault[\s\S]*?\btree_class_check\b[\s\S]*?\bfinish_member_declaration\b[\s\S]*?\bcp_parser_member_declaration\b[\s\S]*?\bcp_parser_class_specifier\b
+internal compiler error: Segmentation fault[\s\S]*?\bresume_scope\b[\s\S]*?\bpush_nested_namespace\b[\s\S]*?\bcp_parser_enum_specifier\b[\s\S]*?\bcp_parser_std_attribute_spec\b[\s\S]*?\bcp_parser_class_head\b
+internal compiler error: tree check: expected record_type or union_type or qual_union_type, have enumeral_type in check_special_function_return_type[\s\S]*?\bcheck_special_function_return_type\b[\s\S]*?\bgrokdeclarator\b[\s\S]*?\bstart_decl\b
