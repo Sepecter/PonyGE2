@@ -198,7 +198,7 @@
 <attributeArgumentClause>::=<LeftParen> <balancedTokenSeq_question> <RightParen>
 <balancedtoken_plus>::=<balancedtoken>|<balancedtoken> <balancedtoken_plus>
 <balancedTokenSeq>::=<balancedtoken_plus>
-<balancedtoken>::=<LeftBrace> <balancedTokenSeq> <RightBrace>|<LeftBracket> <balancedTokenSeq> <RightBracket>|<LeftParen> <balancedTokenSeq> <RightParen>
+<balancedtoken>::=<LeftBrace> <balancedTokenSeq> <RightBrace>|<LeftBracket> <balancedTokenSeq> <RightBracket>|<LeftParen> <balancedTokenSeq> <RightParen> |<LeftBrace> <RightBrace>|<LeftBracket> <RightBracket>|<LeftParen> <RightParen>
 <Lbr_Comma_initDeclarator_Rbr>::=<Comma> <initDeclarator>
 <Lbr_Comma_initDeclarator_Rbr_star>::=" "|<Lbr_Comma_initDeclarator_Rbr> <Lbr_Comma_initDeclarator_Rbr_star>
 <initDeclaratorList>::=<initDeclarator> <Lbr_Comma_initDeclarator_Rbr_star>
