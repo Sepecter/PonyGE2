@@ -3,7 +3,7 @@ CODON_SIZE:             100
 CROSSOVER:              variable_onepoint
 CROSSOVER_PROBABILITY:  0.75
 DEBUG:                  False
-GENERATIONS:            100
+GENERATIONS:            30
 MAX_GENOME_LENGTH:      50000
 GRAMMAR_FILE:           c++/selected_bnf.bnf
 INITIALISATION:         PI_grow
