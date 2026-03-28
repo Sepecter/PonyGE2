@@ -124,8 +124,8 @@ def compile_code(code):
     # with open(gcc_errors_file, 'w') as errors_file:
     #     errors_file.write(gcc_errors)
     #
-    with open(cpp_file, 'w') as error_code:
-        error_code.write(code)
+    # with open(cpp_file, 'w') as error_code:
+    #     error_code.write(code)
 
     return result, gcc_errors, clang_errors, now
 
