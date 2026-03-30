@@ -162,24 +162,13 @@ def save_triggered_case(code, gcc_errors, clang_errors, time, compiling_result):
 
     category = "ice" if is_ice else "diff"
     base_dir = path.join(getcwd(), "..", "results")
-    code_dir = path.join(base_dir, "code", "exclude_errors", category)
-    text_dir = path.join(base_dir, "bugs_exclude_errors", "text", category)
+    code_dir = path.join(base_dir, "code", "exclude_errors")
     os.makedirs(code_dir, exist_ok=True)
-    os.makedirs(text_dir, exist_ok=True)
 
     cpp_path = path.join(code_dir, time + '.cpp')
-    meta_path = path.join(text_dir, time + '.txt')
 
     with open(cpp_path, 'w') as bug_file:
         bug_file.write(code)
-
-    with open(meta_path, 'w') as meta_file:
-        meta_file.write(f"compiling_result={compiling_result}\n")
-        meta_file.write(f"category={category}\n\n")
-        meta_file.write("=== gcc stderr ===\n")
-        meta_file.write(gcc_errors or "")
-        meta_file.write("\n=== clang stderr ===\n")
-        meta_file.write(clang_errors or "")
 
 
 class code_eval(base_ff):
