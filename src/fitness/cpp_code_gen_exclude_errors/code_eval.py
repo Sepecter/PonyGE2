@@ -161,9 +161,9 @@ def save_triggered_case(code, gcc_errors, clang_errors, time, compiling_result):
     )
 
     category = "ice" if is_ice else "diff"
-    base_dir = path.join(getcwd(), "..", "results", "bugs_exclude_errors")
-    code_dir = path.join(base_dir, "code", category)
-    text_dir = path.join(base_dir, "text", category)
+    base_dir = path.join(getcwd(), "..", "results")
+    code_dir = path.join(base_dir, "code", "exclude_errors", category)
+    text_dir = path.join(base_dir, "bugs_exclude_errors", "text", category)
     os.makedirs(code_dir, exist_ok=True)
     os.makedirs(text_dir, exist_ok=True)
 

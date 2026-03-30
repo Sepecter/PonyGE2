@@ -1,7 +1,7 @@
 # code_eval.py
 
 from fitness.base_ff_classes.base_ff import base_ff
-from os import path
+from os import getcwd, path
 from algorithm.parameters import params
 from stats.stats import stats
 import os
@@ -60,7 +60,7 @@ def save_generated_code(code):
     """
     now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
     gen = stats.get('gen', 0)
-    output_dir = path.join(params['FILE_PATH'], "code_results", "exclude_diff_generated")
+    output_dir = path.join(getcwd(), "..", "results", "code", "exclude_diff")
     os.makedirs(output_dir, exist_ok=True)
 
     file_name = f"gen_{gen:04d}_{now}.cpp"
