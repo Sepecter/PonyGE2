@@ -2,9 +2,11 @@
 
 from fitness.base_ff_classes.base_ff import base_ff
 from os import getcwd, path
+from fitness.cpp_code_gen_exclude_diff.differential_testing import differential_testing
 from algorithm.parameters import params
 from stats.stats import stats
 import os
+import subprocess
 import random
 from datetime import datetime
 import math
@@ -23,6 +25,79 @@ def calculate_fitness(length, number):
     fitness = 20 - 10 * math.exp(-(length - expected_length) ** 2)
 
     return fitness
+
+
+def cmd_compile(compiler_command, code):
+    try:
+        process = subprocess.Popen(
+            compiler_command,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
+        _, stderr = process.communicate(code)
+        if process.returncode == 0:
+            return True, stderr
+        else:
+            return False, stderr
+    except Exception as e:
+        return False, str(e)
+
+
+def compile_code(code):
+    result = 0
+    now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
+
+    path_1 = path.join(params['FILE_PATH'], "code_results")
+    output_dir = path.join(path_1, "bin")
+    os.makedirs(output_dir, exist_ok=True)
+
+    compiler1 = 'g++-16'
+    compiler2 = 'clang++-trunk'
+
+    output_file = path.join(output_dir, now)
+
+    compile_command1 = [
+        compiler1,
+        "-x", "c++",
+        "-c", "-",
+        "-o", output_file,
+        "-fpermissive",
+        "-Wno-attributes",
+        "-Wno-unknown-pragmas",
+        "-Wno-unused-parameter",
+        "-Wno-unused-variable",
+        "-Wno-unused-function",
+        "-Wno-return-type",
+    ]
+
+    compile_command2 = [
+        compiler2,
+        "-x", "c++",
+        "-c", "-",
+        "-o", output_file,
+        "-Wno-unknown-attributes",
+        "-Wno-unknown-pragmas",
+        "-Wno-unused-parameter",
+        "-Wno-unused-variable",
+        "-Wno-unused-function",
+        "-Wno-return-type",
+        "-fno-caret-diagnostics",
+        "-fno-diagnostics-color",
+    ]
+
+    gcc_errors = ''
+    clang_errors = ''
+
+    compiled, gcc_errors = cmd_compile(compile_command1, code)
+    if compiled:
+        result |= 1
+
+    compiled, clang_errors = cmd_compile(compile_command2, code)
+    if compiled:
+        result |= 2
+
+    return result, gcc_errors, clang_errors, now
 
 
 def fill_identifiers(raw_code):
@@ -54,16 +129,13 @@ def calculate_number(raw_code):
     return number
 
 
-def save_generated_code(code):
+def save_triggered_code(code, time):
     """
-    Save generated programs for offline differential testing after evolution.
+    Save triggered defect cases for later analysis.
     """
-    now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
-    gen = stats.get('gen', 0)
     output_dir = path.join(getcwd(), "..", "results", "code", "exclude_diff")
     os.makedirs(output_dir, exist_ok=True)
-
-    file_name = f"gen_{gen:04d}_{now}.cpp"
+    file_name = f"{time}.cpp"
     file_path = path.join(output_dir, file_name)
     with open(file_path, 'w') as f:
         f.write(code)
@@ -84,9 +156,19 @@ class code_eval(base_ff):
 
         length = calculate_length(raw_code)
         number = calculate_number(raw_code)
-        save_generated_code(code)
+
+        # Compile for fairness, but do not use defect signals in fitness.
+        compiling_result, gcc_errors, clang_errors, time = compile_code(code)
+        differential_testing_result = 0
+        if compiling_result != 3:
+            differential_testing_result = differential_testing(
+                gcc_errors, clang_errors, code, time, compiling_result
+            )
+            if differential_testing_result != 0:
+                save_triggered_code(code, time)
 
         # No online differential-testing guidance in this baseline.
-        # GE evolves only according to structural fitness, and all saved
-        # programs are evaluated offline after the run.
+        # GE evolves only according to structural fitness. Compilation and
+        # defect detection are performed only for fair cost accounting and
+        # triggered-case collection, not for fitness shaping.
         return calculate_fitness(length, number)

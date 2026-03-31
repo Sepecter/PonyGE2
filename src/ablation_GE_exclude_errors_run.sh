@@ -10,7 +10,7 @@ command="python ponyge.py --parameters abla_GE_exclude_errors.txt"
 times=2
 
 # 运行总时长（24小时 = 86400秒）
-max_duration=$((60 * 60))
+max_duration=$((24 * 60 * 60))
 
 # 记录开始时间（秒级时间戳）
 start_time=$(date +%s)
