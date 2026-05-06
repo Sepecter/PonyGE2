@@ -1,0 +1,3212 @@
+<start> ::= <translationUnit>
+
+<translationUnit_star_1> ::= " "
+                             | <NL> <translationUnit_star_1>
+
+<translationUnit_star_2> ::= " "
+                             | <end> <translationUnit_star_2>
+
+<translationUnit_star_3> ::= " "
+                             | <topLevelObject> <translationUnit_star_3>
+
+<translationUnit_plus_5> ::= <end>
+                             | <end> <translationUnit_plus_5>
+
+<translationUnit_opt_4> ::= " "
+                            | <translationUnit_plus_5> <mainDefinition>
+
+<translationUnit_star_6> ::= " "
+                             | <NL> <translationUnit_star_6>
+
+<translationUnit_plus_9> ::= <end>
+                             | <end> <translationUnit_plus_9>
+
+<translationUnit_opt_10> ::= " "
+                             | <topLevelObject>
+
+<translationUnit_star_8> ::= " "
+                             | <translationUnit_plus_9> <translationUnit_opt_10> <translationUnit_star_8>
+
+<translationUnit_opt_7> ::= " "
+                            | <topLevelObject> <translationUnit_star_8>
+
+<translationUnit> ::= <translationUnit_star_1> <preamble> <translationUnit_star_2> <translationUnit_star_3> <translationUnit_opt_4> <translationUnit_star_6> <translationUnit_opt_7> <EOF>
+
+<end> ::= <NL>
+          | <SEMI>
+
+<preamble_opt_11> ::= " "
+                      | <packageHeader>
+
+<preamble_star_12> ::= " "
+                       | <importList> <preamble_star_12>
+
+<preamble> ::= <preamble_opt_11> <preamble_star_12>
+
+<packageHeader_star_13> ::= " "
+                            | <NL> <packageHeader_star_13>
+
+<packageHeader_plus_14> ::= <end>
+                            | <end> <packageHeader_plus_14>
+
+<packageHeader> ::= <PACKAGE> <packageHeader_star_13> <packageNameIdentifier> <packageHeader_plus_14>
+
+<packageNameIdentifier_star_16> ::= " "
+                                    | <NL> <packageNameIdentifier_star_16>
+
+<packageNameIdentifier_star_17> ::= " "
+                                    | <NL> <packageNameIdentifier_star_17>
+
+<packageNameIdentifier_star_15> ::= " "
+                                    | <packageNameIdentifier_star_16> <DOT> <packageNameIdentifier_star_17> <identifier> <packageNameIdentifier_star_15>
+
+<packageNameIdentifier> ::= <identifier> <packageNameIdentifier_star_15>
+
+<importList_star_19> ::= " "
+                         | <NL> <importList_star_19>
+
+<importList_opt_18> ::= " "
+                        | <FROM> <importList_star_19> <identifier>
+
+<importList_star_20> ::= " "
+                         | <NL> <importList_star_20>
+
+<importList_star_21> ::= " "
+                         | <NL> <importList_star_21>
+
+<importList_star_23> ::= " "
+                         | <NL> <importList_star_23>
+
+<importList_star_24> ::= " "
+                         | <NL> <importList_star_24>
+
+<importList_star_22> ::= " "
+                         | <importList_star_23> <COMMA> <importList_star_24> <importAllOrSpecified> <importList_star_22>
+
+<importList_plus_25> ::= <end>
+                         | <end> <importList_plus_25>
+
+<importList> ::= <importList_opt_18> <importList_star_20> <IMPORT> <importList_star_21> <importAllOrSpecified> <importList_star_22> <importList_plus_25>
+
+<importAllOrSpecified_star_27> ::= " "
+                                   | <NL> <importAllOrSpecified_star_27>
+
+<importAllOrSpecified_opt_26> ::= " "
+                                  | <importAllOrSpecified_star_27> <importAlias>
+
+<importAllOrSpecified> ::= <importAll>
+                           | <importSpecified> <importAllOrSpecified_opt_26>
+
+<importSpecified_star_29> ::= " "
+                              | <NL> <importSpecified_star_29>
+
+<importSpecified_star_30> ::= " "
+                              | <NL> <importSpecified_star_30>
+
+<importSpecified_plus_28> ::= <identifier> <importSpecified_star_29> <DOT> <importSpecified_star_30>
+                              | <identifier> <importSpecified_star_29> <DOT> <importSpecified_star_30> <importSpecified_plus_28>
+
+<importSpecified> ::= <importSpecified_plus_28> <identifier>
+
+<importAll_star_32> ::= " "
+                        | <NL> <importAll_star_32>
+
+<importAll_star_33> ::= " "
+                        | <NL> <importAll_star_33>
+
+<importAll_plus_31> ::= <identifier> <importAll_star_32> <DOT> <importAll_star_33>
+                        | <identifier> <importAll_star_32> <DOT> <importAll_star_33> <importAll_plus_31>
+
+<importAll> ::= <importAll_plus_31> <MUL>
+
+<importAlias_star_34> ::= " "
+                          | <NL> <importAlias_star_34>
+
+<importAlias> ::= <AS> <importAlias_star_34> <identifier>
+
+<topLevelObject> ::= <classDefinition>
+                     | <interfaceDefinition>
+                     | <functionDefinition>
+                     | <variableDeclaration>
+                     | <enumDefinition>
+                     | <structDefinition>
+                     | <typeAlias>
+                     | <extendDefinition>
+                     | <foreignDeclaration>
+                     | <macroDefinition>
+                     | <macroExpression>
+
+<classDefinition_star_36> ::= " "
+                              | <NL> <classDefinition_star_36>
+
+<classDefinition_opt_35> ::= " "
+                             | <classModifierList> <classDefinition_star_36>
+
+<classDefinition_star_37> ::= " "
+                              | <NL> <classDefinition_star_37>
+
+<classDefinition_star_39> ::= " "
+                              | <NL> <classDefinition_star_39>
+
+<classDefinition_star_40> ::= " "
+                              | <NL> <classDefinition_star_40>
+
+<classDefinition_opt_38> ::= " "
+                             | <classDefinition_star_39> <typeParameters> <classDefinition_star_40>
+
+<classDefinition_star_42> ::= " "
+                              | <NL> <classDefinition_star_42>
+
+<classDefinition_star_43> ::= " "
+                              | <NL> <classDefinition_star_43>
+
+<classDefinition_opt_41> ::= " "
+                             | <classDefinition_star_42> <UPPERBOUND> <classDefinition_star_43> <superClassOrInterfaces>
+
+<classDefinition_star_45> ::= " "
+                              | <NL> <classDefinition_star_45>
+
+<classDefinition_opt_44> ::= " "
+                             | <classDefinition_star_45> <genericConstraints>
+
+<classDefinition_star_46> ::= " "
+                              | <NL> <classDefinition_star_46>
+
+<classDefinition> ::= <classDefinition_opt_35> <CLASS> <classDefinition_star_37> <identifier> <classDefinition_opt_38> <classDefinition_opt_41> <classDefinition_opt_44> <classDefinition_star_46> <classBody>
+
+<superClassOrInterfaces_star_48> ::= " "
+                                     | <NL> <superClassOrInterfaces_star_48>
+
+<superClassOrInterfaces_star_49> ::= " "
+                                     | <NL> <superClassOrInterfaces_star_49>
+
+<superClassOrInterfaces_opt_47> ::= " "
+                                    | <superClassOrInterfaces_star_48> <BITAND> <superClassOrInterfaces_star_49> <superInterfaces>
+
+<superClassOrInterfaces> ::= <superClass> <superClassOrInterfaces_opt_47>
+                             | <superInterfaces>
+
+<classModifierList_plus_50> ::= <classModifier>
+                                | <classModifier> <classModifierList_plus_50>
+
+<classModifierList> ::= <classModifierList_plus_50>
+
+<classModifier> ::= <PUBLIC>
+                    | <PROTECTED>
+                    | <INTERNAL>
+                    | <PRIVATE>
+                    | <ABSTRACT>
+                    | <OPEN>
+
+<typeParameters_star_51> ::= " "
+                             | <NL> <typeParameters_star_51>
+
+<typeParameters_star_53> ::= " "
+                             | <NL> <typeParameters_star_53>
+
+<typeParameters_star_54> ::= " "
+                             | <NL> <typeParameters_star_54>
+
+<typeParameters_star_52> ::= " "
+                             | <typeParameters_star_53> <COMMA> <typeParameters_star_54> <identifier> <typeParameters_star_52>
+
+<typeParameters_star_55> ::= " "
+                             | <NL> <typeParameters_star_55>
+
+<typeParameters> ::= <LT> <typeParameters_star_51> <identifier> <typeParameters_star_52> <typeParameters_star_55> <GT>
+
+<superClass> ::= <classType>
+
+<classType_star_57> ::= " "
+                        | <NL> <classType_star_57>
+
+<classType_star_58> ::= " "
+                        | <NL> <classType_star_58>
+
+<classType_star_56> ::= " "
+                        | <identifier> <classType_star_57> <DOT> <classType_star_58> <classType_star_56>
+
+<classType_star_60> ::= " "
+                        | <NL> <classType_star_60>
+
+<classType_opt_59> ::= " "
+                       | <classType_star_60> <typeParameters>
+
+<classType> ::= <classType_star_56> <identifier> <classType_opt_59>
+
+<typeArguments_star_61> ::= " "
+                            | <NL> <typeArguments_star_61>
+
+<typeArguments_star_63> ::= " "
+                            | <NL> <typeArguments_star_63>
+
+<typeArguments_star_64> ::= " "
+                            | <NL> <typeArguments_star_64>
+
+<typeArguments_star_62> ::= " "
+                            | <typeArguments_star_63> <COMMA> <typeArguments_star_64> <type> <typeArguments_star_62>
+
+<typeArguments_star_65> ::= " "
+                            | <NL> <typeArguments_star_65>
+
+<typeArguments> ::= <LT> <typeArguments_star_61> <type> <typeArguments_star_62> <typeArguments_star_65> <GT>
+
+<superInterfaces_star_67> ::= " "
+                              | <NL> <superInterfaces_star_67>
+
+<superInterfaces_star_68> ::= " "
+                              | <NL> <superInterfaces_star_68>
+
+<superInterfaces_star_66> ::= " "
+                              | <superInterfaces_star_67> <COMMA> <superInterfaces_star_68> <interfaceType> <superInterfaces_star_66>
+
+<superInterfaces> ::= <interfaceType> <superInterfaces_star_66>
+
+<interfaceType> ::= <classType>
+
+<genericConstraints_star_69> ::= " "
+                                 | <NL> <genericConstraints_star_69>
+
+<genericConstraints_group_70> ::= <identifier>
+                                  | <THISTYPE>
+
+<genericConstraints_star_71> ::= " "
+                                 | <NL> <genericConstraints_star_71>
+
+<genericConstraints_star_72> ::= " "
+                                 | <NL> <genericConstraints_star_72>
+
+<genericConstraints_star_74> ::= " "
+                                 | <NL> <genericConstraints_star_74>
+
+<genericConstraints_star_75> ::= " "
+                                 | <NL> <genericConstraints_star_75>
+
+<genericConstraints_group_76> ::= <identifier>
+                                  | <THISTYPE>
+
+<genericConstraints_star_77> ::= " "
+                                 | <NL> <genericConstraints_star_77>
+
+<genericConstraints_star_78> ::= " "
+                                 | <NL> <genericConstraints_star_78>
+
+<genericConstraints_star_73> ::= " "
+                                 | <genericConstraints_star_74> <COMMA> <genericConstraints_star_75> <genericConstraints_group_76> <genericConstraints_star_77> <UPPERBOUND> <genericConstraints_star_78> <upperBounds> <genericConstraints_star_73>
+
+<genericConstraints> ::= <WHERE> <genericConstraints_star_69> <genericConstraints_group_70> <genericConstraints_star_71> <UPPERBOUND> <genericConstraints_star_72> <upperBounds> <genericConstraints_star_73>
+
+<upperBounds_star_80> ::= " "
+                          | <NL> <upperBounds_star_80>
+
+<upperBounds_star_81> ::= " "
+                          | <NL> <upperBounds_star_81>
+
+<upperBounds_star_79> ::= " "
+                          | <upperBounds_star_80> <BITAND> <upperBounds_star_81> <type> <upperBounds_star_79>
+
+<upperBounds> ::= <type> <upperBounds_star_79>
+
+<classBody_star_82> ::= " "
+                        | <end> <classBody_star_82>
+
+<classBody_star_83> ::= " "
+                        | <classMemberDeclaration> <classBody_star_83>
+
+<classBody_star_84> ::= " "
+                        | <NL> <classBody_star_84>
+
+<classBody_opt_85> ::= " "
+                       | <classPrimaryInit>
+
+<classBody_star_86> ::= " "
+                        | <NL> <classBody_star_86>
+
+<classBody_star_87> ::= " "
+                        | <classMemberDeclaration> <classBody_star_87>
+
+<classBody_star_88> ::= " "
+                        | <end> <classBody_star_88>
+
+<classBody> ::= <LCURL> <classBody_star_82> <classBody_star_83> <classBody_star_84> <classBody_opt_85> <classBody_star_86> <classBody_star_87> <classBody_star_88> <RCURL>
+
+<classMemberDeclaration_group_89> ::= <classInit>
+                                      | <staticInit>
+                                      | <variableDeclaration>
+                                      | <functionDefinition>
+                                      | <operatorFunctionDefinition>
+                                      | <macroExpression>
+                                      | <propertyDefinition>
+
+<classMemberDeclaration_star_90> ::= " "
+                                     | <end> <classMemberDeclaration_star_90>
+
+<classMemberDeclaration> ::= <classMemberDeclaration_group_89> <classMemberDeclaration_star_90>
+
+<classInit_star_93> ::= " "
+                        | <NL> <classInit_star_93>
+
+<classInit_group_92> ::= <classNonStaticMemberModifier>
+                         | <CONST> <classInit_star_93>
+
+<classInit_opt_91> ::= " "
+                       | <classInit_group_92>
+
+<classInit_star_94> ::= " "
+                        | <NL> <classInit_star_94>
+
+<classInit_star_95> ::= " "
+                        | <NL> <classInit_star_95>
+
+<classInit> ::= <classInit_opt_91> <INIT> <classInit_star_94> <functionParameters> <classInit_star_95> <block>
+
+<staticInit_opt_96> ::= " "
+                        | <expressionOrDeclarations>
+
+<staticInit_opt_97> ::= " "
+                        | <expressionOrDeclarations>
+
+<staticInit> ::= <STATIC> <INIT> <LPAREN> <RPAREN> <LCURL> <staticInit_opt_96> <RCURL>
+                 | <STATIC> <INIT> <LPAREN> <RPAREN> <LCURL> <staticInit_opt_97> <RCURL>
+
+<classPrimaryInit_star_100> ::= " "
+                                | <NL> <classPrimaryInit_star_100>
+
+<classPrimaryInit_group_99> ::= <classNonStaticMemberModifier>
+                                | <CONST> <classPrimaryInit_star_100>
+
+<classPrimaryInit_opt_98> ::= " "
+                              | <classPrimaryInit_group_99>
+
+<classPrimaryInit_star_101> ::= " "
+                                | <NL> <classPrimaryInit_star_101>
+
+<classPrimaryInit_star_102> ::= " "
+                                | <NL> <classPrimaryInit_star_102>
+
+<classPrimaryInit_star_103> ::= " "
+                                | <NL> <classPrimaryInit_star_103>
+
+<classPrimaryInit_star_104> ::= " "
+                                | <NL> <classPrimaryInit_star_104>
+
+<classPrimaryInit_star_105> ::= " "
+                                | <NL> <classPrimaryInit_star_105>
+
+<classPrimaryInit_opt_106> ::= " "
+                               | <SUPER> <callSuffix>
+
+<classPrimaryInit_opt_107> ::= " "
+                               | <expressionOrDeclarations>
+
+<classPrimaryInit_star_108> ::= " "
+                                | <NL> <classPrimaryInit_star_108>
+
+<classPrimaryInit> ::= <classPrimaryInit_opt_98> <className> <classPrimaryInit_star_101> <LPAREN> <classPrimaryInit_star_102> <classPrimaryInitParamLists> <classPrimaryInit_star_103> <RPAREN> <classPrimaryInit_star_104> <LCURL> <classPrimaryInit_star_105> <classPrimaryInit_opt_106> <end> <classPrimaryInit_opt_107> <classPrimaryInit_star_108> <RCURL>
+
+<className> ::= <identifier>
+
+<classPrimaryInitParamLists_star_110> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_110>
+
+<classPrimaryInitParamLists_star_111> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_111>
+
+<classPrimaryInitParamLists_opt_109> ::= " "
+                                         | <classPrimaryInitParamLists_star_110> <COMMA> <classPrimaryInitParamLists_star_111> <namedParameterList>
+
+<classPrimaryInitParamLists_star_113> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_113>
+
+<classPrimaryInitParamLists_star_114> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_114>
+
+<classPrimaryInitParamLists_opt_112> ::= " "
+                                         | <classPrimaryInitParamLists_star_113> <COMMA> <classPrimaryInitParamLists_star_114> <classNamedInitParamList>
+
+<classPrimaryInitParamLists_star_116> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_116>
+
+<classPrimaryInitParamLists_star_117> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_117>
+
+<classPrimaryInitParamLists_opt_115> ::= " "
+                                         | <classPrimaryInitParamLists_star_116> <COMMA> <classPrimaryInitParamLists_star_117> <classUnnamedInitParamList>
+
+<classPrimaryInitParamLists_star_119> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_119>
+
+<classPrimaryInitParamLists_star_120> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_120>
+
+<classPrimaryInitParamLists_opt_118> ::= " "
+                                         | <classPrimaryInitParamLists_star_119> <COMMA> <classPrimaryInitParamLists_star_120> <classNamedInitParamList>
+
+<classPrimaryInitParamLists_star_122> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_122>
+
+<classPrimaryInitParamLists_star_123> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_123>
+
+<classPrimaryInitParamLists_opt_121> ::= " "
+                                         | <classPrimaryInitParamLists_star_122> <COMMA> <classPrimaryInitParamLists_star_123> <classNamedInitParamList>
+
+<classPrimaryInitParamLists_star_125> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_125>
+
+<classPrimaryInitParamLists_star_126> ::= " "
+                                          | <NL> <classPrimaryInitParamLists_star_126>
+
+<classPrimaryInitParamLists_opt_124> ::= " "
+                                         | <classPrimaryInitParamLists_star_125> <COMMA> <classPrimaryInitParamLists_star_126> <classNamedInitParamList>
+
+<classPrimaryInitParamLists> ::= <unnamedParameterList> <classPrimaryInitParamLists_opt_109> <classPrimaryInitParamLists_opt_112>
+                                 | <unnamedParameterList> <classPrimaryInitParamLists_opt_115> <classPrimaryInitParamLists_opt_118>
+                                 | <classUnnamedInitParamList> <classPrimaryInitParamLists_opt_121>
+                                 | <namedParameterList> <classPrimaryInitParamLists_opt_124>
+                                 | <classNamedInitParamList>
+
+<classUnnamedInitParamList_star_128> ::= " "
+                                         | <NL> <classUnnamedInitParamList_star_128>
+
+<classUnnamedInitParamList_star_129> ::= " "
+                                         | <NL> <classUnnamedInitParamList_star_129>
+
+<classUnnamedInitParamList_star_127> ::= " "
+                                         | <classUnnamedInitParamList_star_128> <COMMA> <classUnnamedInitParamList_star_129> <classUnnamedInitParam> <classUnnamedInitParamList_star_127>
+
+<classUnnamedInitParamList> ::= <classUnnamedInitParam> <classUnnamedInitParamList_star_127>
+
+<classNamedInitParamList_star_131> ::= " "
+                                       | <NL> <classNamedInitParamList_star_131>
+
+<classNamedInitParamList_star_132> ::= " "
+                                       | <NL> <classNamedInitParamList_star_132>
+
+<classNamedInitParamList_star_130> ::= " "
+                                       | <classNamedInitParamList_star_131> <COMMA> <classNamedInitParamList_star_132> <classNamedInitParam> <classNamedInitParamList_star_130>
+
+<classNamedInitParamList> ::= <classNamedInitParam> <classNamedInitParamList_star_130>
+
+<classUnnamedInitParam_star_134> ::= " "
+                                     | <NL> <classUnnamedInitParam_star_134>
+
+<classUnnamedInitParam_opt_133> ::= " "
+                                    | <classNonSMemberModifier> <classUnnamedInitParam_star_134>
+
+<classUnnamedInitParam_group_135> ::= <LET>
+                                      | <VAR>
+
+<classUnnamedInitParam_star_136> ::= " "
+                                     | <NL> <classUnnamedInitParam_star_136>
+
+<classUnnamedInitParam_star_137> ::= " "
+                                     | <NL> <classUnnamedInitParam_star_137>
+
+<classUnnamedInitParam_star_138> ::= " "
+                                     | <NL> <classUnnamedInitParam_star_138>
+
+<classUnnamedInitParam> ::= <classUnnamedInitParam_opt_133> <classUnnamedInitParam_group_135> <classUnnamedInitParam_star_136> <identifier> <classUnnamedInitParam_star_137> <COLON> <classUnnamedInitParam_star_138> <type>
+
+<classNamedInitParam_star_140> ::= " "
+                                   | <NL> <classNamedInitParam_star_140>
+
+<classNamedInitParam_opt_139> ::= " "
+                                  | <classNonSMemberModifier> <classNamedInitParam_star_140>
+
+<classNamedInitParam_group_141> ::= <LET>
+                                    | <VAR>
+
+<classNamedInitParam_star_142> ::= " "
+                                   | <NL> <classNamedInitParam_star_142>
+
+<classNamedInitParam_star_143> ::= " "
+                                   | <NL> <classNamedInitParam_star_143>
+
+<classNamedInitParam_star_144> ::= " "
+                                   | <NL> <classNamedInitParam_star_144>
+
+<classNamedInitParam_star_145> ::= " "
+                                   | <NL> <classNamedInitParam_star_145>
+
+<classNamedInitParam_star_147> ::= " "
+                                   | <NL> <classNamedInitParam_star_147>
+
+<classNamedInitParam_star_148> ::= " "
+                                   | <NL> <classNamedInitParam_star_148>
+
+<classNamedInitParam_opt_146> ::= " "
+                                  | <classNamedInitParam_star_147> <ASSIGN> <classNamedInitParam_star_148> <expression>
+
+<classNamedInitParam> ::= <classNamedInitParam_opt_139> <classNamedInitParam_group_141> <classNamedInitParam_star_142> <identifier> <classNamedInitParam_star_143> <NOT> <classNamedInitParam_star_144> <COLON> <classNamedInitParam_star_145> <type> <classNamedInitParam_opt_146>
+
+<classNonStaticMemberModifier> ::= <PUBLIC>
+                                   | <PRIVATE>
+                                   | <PROTECTED>
+                                   | <INTERNAL>
+
+<interfaceDefinition_star_150> ::= " "
+                                   | <NL> <interfaceDefinition_star_150>
+
+<interfaceDefinition_opt_149> ::= " "
+                                  | <interfaceModifierList> <interfaceDefinition_star_150>
+
+<interfaceDefinition_star_151> ::= " "
+                                   | <NL> <interfaceDefinition_star_151>
+
+<interfaceDefinition_star_153> ::= " "
+                                   | <NL> <interfaceDefinition_star_153>
+
+<interfaceDefinition_star_154> ::= " "
+                                   | <NL> <interfaceDefinition_star_154>
+
+<interfaceDefinition_opt_152> ::= " "
+                                  | <interfaceDefinition_star_153> <typeParameters> <interfaceDefinition_star_154>
+
+<interfaceDefinition_star_156> ::= " "
+                                   | <NL> <interfaceDefinition_star_156>
+
+<interfaceDefinition_star_157> ::= " "
+                                   | <NL> <interfaceDefinition_star_157>
+
+<interfaceDefinition_opt_155> ::= " "
+                                  | <interfaceDefinition_star_156> <UPPERBOUND> <interfaceDefinition_star_157> <superInterfaces>
+
+<interfaceDefinition_star_159> ::= " "
+                                   | <NL> <interfaceDefinition_star_159>
+
+<interfaceDefinition_opt_158> ::= " "
+                                  | <interfaceDefinition_star_159> <genericConstraints>
+
+<interfaceDefinition_star_161> ::= " "
+                                   | <NL> <interfaceDefinition_star_161>
+
+<interfaceDefinition_group_160> ::= <interfaceDefinition_star_161> <interfaceBody>
+
+<interfaceDefinition> ::= <interfaceDefinition_opt_149> <INTERFACE> <interfaceDefinition_star_151> <identifier> <interfaceDefinition_opt_152> <interfaceDefinition_opt_155> <interfaceDefinition_opt_158> <interfaceDefinition_group_160>
+
+<interfaceBody_star_162> ::= " "
+                             | <end> <interfaceBody_star_162>
+
+<interfaceBody_star_163> ::= " "
+                             | <interfaceMemberDeclaration> <interfaceBody_star_163>
+
+<interfaceBody_star_164> ::= " "
+                             | <end> <interfaceBody_star_164>
+
+<interfaceBody> ::= <LCURL> <interfaceBody_star_162> <interfaceBody_star_163> <interfaceBody_star_164> <RCURL>
+
+<interfaceMemberDeclaration_group_165> ::= <functionDefinition>
+                                           | <operatorFunctionDefinition>
+                                           | <macroExpression>
+                                           | <propertyDefinition>
+
+<interfaceMemberDeclaration_star_166> ::= " "
+                                          | <end> <interfaceMemberDeclaration_star_166>
+
+<interfaceMemberDeclaration> ::= <interfaceMemberDeclaration_group_165> <interfaceMemberDeclaration_star_166>
+
+<interfaceModifierList_star_168> ::= " "
+                                     | <NL> <interfaceModifierList_star_168>
+
+<interfaceModifierList_plus_167> ::= <interfaceModifier> <interfaceModifierList_star_168>
+                                     | <interfaceModifier> <interfaceModifierList_star_168> <interfaceModifierList_plus_167>
+
+<interfaceModifierList> ::= <interfaceModifierList_plus_167>
+
+<interfaceModifier> ::= <PUBLIC>
+                        | <PROTECTED>
+                        | <INTERNAL>
+                        | <PRIVATE>
+                        | <OPEN>
+
+<functionDefinition_star_170> ::= " "
+                                  | <NL> <functionDefinition_star_170>
+
+<functionDefinition_opt_169> ::= " "
+                                 | <functionModifierList> <functionDefinition_star_170>
+
+<functionDefinition_star_171> ::= " "
+                                  | <NL> <functionDefinition_star_171>
+
+<functionDefinition_star_173> ::= " "
+                                  | <NL> <functionDefinition_star_173>
+
+<functionDefinition_star_174> ::= " "
+                                  | <NL> <functionDefinition_star_174>
+
+<functionDefinition_opt_172> ::= " "
+                                 | <functionDefinition_star_173> <typeParameters> <functionDefinition_star_174>
+
+<functionDefinition_star_175> ::= " "
+                                  | <NL> <functionDefinition_star_175>
+
+<functionDefinition_star_177> ::= " "
+                                  | <NL> <functionDefinition_star_177>
+
+<functionDefinition_star_178> ::= " "
+                                  | <NL> <functionDefinition_star_178>
+
+<functionDefinition_opt_176> ::= " "
+                                 | <functionDefinition_star_177> <COLON> <functionDefinition_star_178> <type>
+
+<functionDefinition_star_180> ::= " "
+                                  | <NL> <functionDefinition_star_180>
+
+<functionDefinition_opt_179> ::= " "
+                                 | <functionDefinition_star_180> <genericConstraints>
+
+<functionDefinition_star_182> ::= " "
+                                  | <NL> <functionDefinition_star_182>
+
+<functionDefinition_opt_181> ::= " "
+                                 | <functionDefinition_star_182> <block>
+
+<functionDefinition> ::= <functionDefinition_opt_169> <FUNC> <functionDefinition_star_171> <identifier> <functionDefinition_opt_172> <functionDefinition_star_175> <functionParameters> <functionDefinition_opt_176> <functionDefinition_opt_179> <functionDefinition_opt_181>
+
+<operatorFunctionDefinition_star_184> ::= " "
+                                          | <NL> <operatorFunctionDefinition_star_184>
+
+<operatorFunctionDefinition_opt_183> ::= " "
+                                         | <functionModifierList> <operatorFunctionDefinition_star_184>
+
+<operatorFunctionDefinition_star_185> ::= " "
+                                          | <NL> <operatorFunctionDefinition_star_185>
+
+<operatorFunctionDefinition_star_186> ::= " "
+                                          | <NL> <operatorFunctionDefinition_star_186>
+
+<operatorFunctionDefinition_star_188> ::= " "
+                                          | <NL> <operatorFunctionDefinition_star_188>
+
+<operatorFunctionDefinition_star_189> ::= " "
+                                          | <NL> <operatorFunctionDefinition_star_189>
+
+<operatorFunctionDefinition_opt_187> ::= " "
+                                         | <operatorFunctionDefinition_star_188> <typeParameters> <operatorFunctionDefinition_star_189>
+
+<operatorFunctionDefinition_star_190> ::= " "
+                                          | <NL> <operatorFunctionDefinition_star_190>
+
+<operatorFunctionDefinition_star_192> ::= " "
+                                          | <NL> <operatorFunctionDefinition_star_192>
+
+<operatorFunctionDefinition_star_193> ::= " "
+                                          | <NL> <operatorFunctionDefinition_star_193>
+
+<operatorFunctionDefinition_opt_191> ::= " "
+                                         | <operatorFunctionDefinition_star_192> <COLON> <operatorFunctionDefinition_star_193> <type>
+
+<operatorFunctionDefinition_star_195> ::= " "
+                                          | <NL> <operatorFunctionDefinition_star_195>
+
+<operatorFunctionDefinition_opt_194> ::= " "
+                                         | <operatorFunctionDefinition_star_195> <genericConstraints>
+
+<operatorFunctionDefinition_star_197> ::= " "
+                                          | <NL> <operatorFunctionDefinition_star_197>
+
+<operatorFunctionDefinition_opt_196> ::= " "
+                                         | <operatorFunctionDefinition_star_197> <block>
+
+<operatorFunctionDefinition> ::= <operatorFunctionDefinition_opt_183> <OPERATOR> <operatorFunctionDefinition_star_185> <FUNC> <operatorFunctionDefinition_star_186> <overloadedOperators> <operatorFunctionDefinition_opt_187> <operatorFunctionDefinition_star_190> <functionParameters> <operatorFunctionDefinition_opt_191> <operatorFunctionDefinition_opt_194> <operatorFunctionDefinition_opt_196>
+
+<functionParameters_star_199> ::= " "
+                                  | <NL> <functionParameters_star_199>
+
+<functionParameters_star_201> ::= " "
+                                  | <NL> <functionParameters_star_201>
+
+<functionParameters_star_202> ::= " "
+                                  | <NL> <functionParameters_star_202>
+
+<functionParameters_opt_200> ::= " "
+                                 | <functionParameters_star_201> <COMMA> <functionParameters_star_202> <namedParameterList>
+
+<functionParameters_opt_198> ::= " "
+                                 | <functionParameters_star_199> <unnamedParameterList> <functionParameters_opt_200>
+
+<functionParameters_star_203> ::= " "
+                                  | <NL> <functionParameters_star_203>
+
+<functionParameters_star_204> ::= " "
+                                  | <NL> <functionParameters_star_204>
+
+<functionParameters_star_205> ::= " "
+                                  | <NL> <functionParameters_star_205>
+
+<functionParameters_star_207> ::= " "
+                                  | <NL> <functionParameters_star_207>
+
+<functionParameters_opt_206> ::= " "
+                                 | <namedParameterList> <functionParameters_star_207>
+
+<functionParameters_star_208> ::= " "
+                                  | <NL> <functionParameters_star_208>
+
+<functionParameters> ::= <LPAREN> <functionParameters_opt_198> <functionParameters_star_203> <RPAREN> <functionParameters_star_204>
+                         | <LPAREN> <functionParameters_star_205> <functionParameters_opt_206> <RPAREN> <functionParameters_star_208>
+
+<nondefaultParameterList_star_210> ::= " "
+                                       | <NL> <nondefaultParameterList_star_210>
+
+<nondefaultParameterList_star_211> ::= " "
+                                       | <NL> <nondefaultParameterList_star_211>
+
+<nondefaultParameterList_star_209> ::= " "
+                                       | <nondefaultParameterList_star_210> <COMMA> <nondefaultParameterList_star_211> <unnamedParameter> <nondefaultParameterList_star_209>
+
+<nondefaultParameterList_star_213> ::= " "
+                                       | <NL> <nondefaultParameterList_star_213>
+
+<nondefaultParameterList_star_214> ::= " "
+                                       | <NL> <nondefaultParameterList_star_214>
+
+<nondefaultParameterList_star_212> ::= " "
+                                       | <nondefaultParameterList_star_213> <COMMA> <nondefaultParameterList_star_214> <namedParameter> <nondefaultParameterList_star_212>
+
+<nondefaultParameterList_star_216> ::= " "
+                                       | <NL> <nondefaultParameterList_star_216>
+
+<nondefaultParameterList_star_217> ::= " "
+                                       | <NL> <nondefaultParameterList_star_217>
+
+<nondefaultParameterList_star_215> ::= " "
+                                       | <nondefaultParameterList_star_216> <COMMA> <nondefaultParameterList_star_217> <namedParameter> <nondefaultParameterList_star_215>
+
+<nondefaultParameterList> ::= <unnamedParameter> <nondefaultParameterList_star_209> <nondefaultParameterList_star_212>
+                              | <namedParameter> <nondefaultParameterList_star_215>
+
+<unnamedParameterList_star_219> ::= " "
+                                    | <NL> <unnamedParameterList_star_219>
+
+<unnamedParameterList_star_220> ::= " "
+                                    | <NL> <unnamedParameterList_star_220>
+
+<unnamedParameterList_star_218> ::= " "
+                                    | <unnamedParameterList_star_219> <COMMA> <unnamedParameterList_star_220> <unnamedParameter> <unnamedParameterList_star_218>
+
+<unnamedParameterList> ::= <unnamedParameter> <unnamedParameterList_star_218>
+
+<unnamedParameter_group_221> ::= <identifier>
+                                 | <WILDCARD>
+
+<unnamedParameter_star_222> ::= " "
+                                | <NL> <unnamedParameter_star_222>
+
+<unnamedParameter_star_223> ::= " "
+                                | <NL> <unnamedParameter_star_223>
+
+<unnamedParameter> ::= <unnamedParameter_group_221> <unnamedParameter_star_222> <COLON> <unnamedParameter_star_223> <type>
+
+<namedParameterList_group_224> ::= <namedParameter>
+                                   | <defaultParameter>
+
+<namedParameterList_star_226> ::= " "
+                                  | <NL> <namedParameterList_star_226>
+
+<namedParameterList_star_227> ::= " "
+                                  | <NL> <namedParameterList_star_227>
+
+<namedParameterList_group_228> ::= <namedParameter>
+                                   | <defaultParameter>
+
+<namedParameterList_star_225> ::= " "
+                                  | <namedParameterList_star_226> <COMMA> <namedParameterList_star_227> <namedParameterList_group_228> <namedParameterList_star_225>
+
+<namedParameterList> ::= <namedParameterList_group_224> <namedParameterList_star_225>
+
+<namedParameter_star_229> ::= " "
+                              | <NL> <namedParameter_star_229>
+
+<namedParameter_star_230> ::= " "
+                              | <NL> <namedParameter_star_230>
+
+<namedParameter_star_231> ::= " "
+                              | <NL> <namedParameter_star_231>
+
+<namedParameter> ::= <identifier> <namedParameter_star_229> <NOT> <namedParameter_star_230> <COLON> <namedParameter_star_231> <type>
+
+<defaultParameter_star_232> ::= " "
+                                | <NL> <defaultParameter_star_232>
+
+<defaultParameter_star_233> ::= " "
+                                | <NL> <defaultParameter_star_233>
+
+<defaultParameter_star_234> ::= " "
+                                | <NL> <defaultParameter_star_234>
+
+<defaultParameter_star_235> ::= " "
+                                | <NL> <defaultParameter_star_235>
+
+<defaultParameter_star_236> ::= " "
+                                | <NL> <defaultParameter_star_236>
+
+<defaultParameter> ::= <identifier> <defaultParameter_star_232> <NOT> <defaultParameter_star_233> <COLON> <defaultParameter_star_234> <type> <defaultParameter_star_235> <ASSIGN> <defaultParameter_star_236> <expression>
+
+<functionModifierList_star_238> ::= " "
+                                    | <NL> <functionModifierList_star_238>
+
+<functionModifierList_plus_237> ::= <functionModifier> <functionModifierList_star_238>
+                                    | <functionModifier> <functionModifierList_star_238> <functionModifierList_plus_237>
+
+<functionModifierList> ::= <functionModifierList_plus_237>
+
+<functionModifier> ::= <PUBLIC>
+                       | <PRIVATE>
+                       | <PROTECTED>
+                       | <INTERNAL>
+                       | <STATIC>
+                       | <OPEN>
+                       | <OVERRIDE>
+                       | <OPERATOR>
+                       | <REDEF>
+                       | <MUT>
+                       | <UNSAFE>
+                       | <CONST>
+
+<variableDeclaration_star_239> ::= " "
+                                   | <variableModifier> <variableDeclaration_star_239>
+
+<variableDeclaration_star_240> ::= " "
+                                   | <NL> <variableDeclaration_star_240>
+
+<variableDeclaration_group_241> ::= <LET>
+                                    | <VAR>
+                                    | <CONST>
+
+<variableDeclaration_star_242> ::= " "
+                                   | <NL> <variableDeclaration_star_242>
+
+<variableDeclaration_star_245> ::= " "
+                                   | <NL> <variableDeclaration_star_245>
+
+<variableDeclaration_star_246> ::= " "
+                                   | <NL> <variableDeclaration_star_246>
+
+<variableDeclaration_opt_244> ::= " "
+                                  | <variableDeclaration_star_245> <COLON> <variableDeclaration_star_246> <type>
+
+<variableDeclaration_star_248> ::= " "
+                                   | <NL> <variableDeclaration_star_248>
+
+<variableDeclaration_star_249> ::= " "
+                                   | <NL> <variableDeclaration_star_249>
+
+<variableDeclaration_group_247> ::= <variableDeclaration_star_248> <ASSIGN> <variableDeclaration_star_249> <expression>
+
+<variableDeclaration_star_250> ::= " "
+                                   | <NL> <variableDeclaration_star_250>
+
+<variableDeclaration_star_251> ::= " "
+                                   | <NL> <variableDeclaration_star_251>
+
+<variableDeclaration_group_243> ::= <variableDeclaration_opt_244> <variableDeclaration_group_247>
+                                    | <variableDeclaration_star_250> <COLON> <variableDeclaration_star_251> <type>
+
+<variableDeclaration> ::= <variableDeclaration_star_239> <variableDeclaration_star_240> <variableDeclaration_group_241> <variableDeclaration_star_242> <patternsMaybeIrrefutable> <variableDeclaration_group_243>
+
+<variableModifier> ::= <PUBLIC>
+                       | <PRIVATE>
+                       | <PROTECTED>
+                       | <INTERNAL>
+                       | <STATIC>
+
+<enumDefinition_star_253> ::= " "
+                              | <NL> <enumDefinition_star_253>
+
+<enumDefinition_opt_252> ::= " "
+                             | <enumModifier> <enumDefinition_star_253>
+
+<enumDefinition_star_254> ::= " "
+                              | <NL> <enumDefinition_star_254>
+
+<enumDefinition_star_256> ::= " "
+                              | <NL> <enumDefinition_star_256>
+
+<enumDefinition_star_257> ::= " "
+                              | <NL> <enumDefinition_star_257>
+
+<enumDefinition_opt_255> ::= " "
+                             | <enumDefinition_star_256> <typeParameters> <enumDefinition_star_257>
+
+<enumDefinition_star_259> ::= " "
+                              | <NL> <enumDefinition_star_259>
+
+<enumDefinition_star_260> ::= " "
+                              | <NL> <enumDefinition_star_260>
+
+<enumDefinition_opt_258> ::= " "
+                             | <enumDefinition_star_259> <UPPERBOUND> <enumDefinition_star_260> <superInterfaces>
+
+<enumDefinition_star_262> ::= " "
+                              | <NL> <enumDefinition_star_262>
+
+<enumDefinition_opt_261> ::= " "
+                             | <enumDefinition_star_262> <genericConstraints>
+
+<enumDefinition_star_263> ::= " "
+                              | <NL> <enumDefinition_star_263>
+
+<enumDefinition_star_264> ::= " "
+                              | <end> <enumDefinition_star_264>
+
+<enumDefinition_star_265> ::= " "
+                              | <end> <enumDefinition_star_265>
+
+<enumDefinition> ::= <enumDefinition_opt_252> <ENUM> <enumDefinition_star_254> <identifier> <enumDefinition_opt_255> <enumDefinition_opt_258> <enumDefinition_opt_261> <enumDefinition_star_263> <LCURL> <enumDefinition_star_264> <enumBody> <enumDefinition_star_265> <RCURL>
+
+<enumBody_star_267> ::= " "
+                        | <NL> <enumBody_star_267>
+
+<enumBody_opt_266> ::= " "
+                       | <BITOR> <enumBody_star_267>
+
+<enumBody_star_269> ::= " "
+                        | <NL> <enumBody_star_269>
+
+<enumBody_star_270> ::= " "
+                        | <NL> <enumBody_star_270>
+
+<enumBody_star_268> ::= " "
+                        | <enumBody_star_269> <BITOR> <enumBody_star_270> <caseBody> <enumBody_star_268>
+
+<enumBody_star_272> ::= " "
+                        | <NL> <enumBody_star_272>
+
+<enumBody_group_273> ::= <functionDefinition>
+                         | <operatorFunctionDefinition>
+                         | <propertyDefinition>
+                         | <macroExpression>
+
+<enumBody_star_271> ::= " "
+                        | <enumBody_star_272> <enumBody_group_273> <enumBody_star_271>
+
+<enumBody> ::= <enumBody_opt_266> <caseBody> <enumBody_star_268> <enumBody_star_271>
+
+<caseBody_star_275> ::= " "
+                        | <NL> <caseBody_star_275>
+
+<caseBody_star_276> ::= " "
+                        | <NL> <caseBody_star_276>
+
+<caseBody_star_278> ::= " "
+                        | <NL> <caseBody_star_278>
+
+<caseBody_star_279> ::= " "
+                        | <NL> <caseBody_star_279>
+
+<caseBody_star_277> ::= " "
+                        | <caseBody_star_278> <COMMA> <caseBody_star_279> <type> <caseBody_star_277>
+
+<caseBody_star_280> ::= " "
+                        | <NL> <caseBody_star_280>
+
+<caseBody_opt_274> ::= " "
+                       | <caseBody_star_275> <LPAREN> <caseBody_star_276> <type> <caseBody_star_277> <caseBody_star_280> <RPAREN>
+
+<caseBody> ::= <identifier> <caseBody_opt_274>
+
+<enumModifier> ::= <PUBLIC>
+                   | <PROTECTED>
+                   | <INTERNAL>
+                   | <PRIVATE>
+
+<structDefinition_star_282> ::= " "
+                                | <NL> <structDefinition_star_282>
+
+<structDefinition_opt_281> ::= " "
+                               | <structModifier> <structDefinition_star_282>
+
+<structDefinition_star_283> ::= " "
+                                | <NL> <structDefinition_star_283>
+
+<structDefinition_star_285> ::= " "
+                                | <NL> <structDefinition_star_285>
+
+<structDefinition_star_286> ::= " "
+                                | <NL> <structDefinition_star_286>
+
+<structDefinition_opt_284> ::= " "
+                               | <structDefinition_star_285> <typeParameters> <structDefinition_star_286>
+
+<structDefinition_star_288> ::= " "
+                                | <NL> <structDefinition_star_288>
+
+<structDefinition_star_289> ::= " "
+                                | <NL> <structDefinition_star_289>
+
+<structDefinition_opt_287> ::= " "
+                               | <structDefinition_star_288> <UPPERBOUND> <structDefinition_star_289> <superInterfaces>
+
+<structDefinition_star_291> ::= " "
+                                | <NL> <structDefinition_star_291>
+
+<structDefinition_opt_290> ::= " "
+                               | <structDefinition_star_291> <genericConstraints>
+
+<structDefinition_star_292> ::= " "
+                                | <NL> <structDefinition_star_292>
+
+<structDefinition> ::= <structDefinition_opt_281> <STRUCT> <structDefinition_star_283> <identifier> <structDefinition_opt_284> <structDefinition_opt_287> <structDefinition_opt_290> <structDefinition_star_292> <structBody>
+
+<structBody_star_293> ::= " "
+                          | <end> <structBody_star_293>
+
+<structBody_star_294> ::= " "
+                          | <structMemberDeclaration> <structBody_star_294>
+
+<structBody_star_295> ::= " "
+                          | <NL> <structBody_star_295>
+
+<structBody_opt_296> ::= " "
+                         | <structPrimaryInit>
+
+<structBody_star_297> ::= " "
+                          | <NL> <structBody_star_297>
+
+<structBody_star_298> ::= " "
+                          | <structMemberDeclaration> <structBody_star_298>
+
+<structBody_star_299> ::= " "
+                          | <end> <structBody_star_299>
+
+<structBody> ::= <LCURL> <structBody_star_293> <structBody_star_294> <structBody_star_295> <structBody_opt_296> <structBody_star_297> <structBody_star_298> <structBody_star_299> <RCURL>
+
+<structMemberDeclaration_group_300> ::= <structInit>
+                                        | <staticInit>
+                                        | <variableDeclaration>
+                                        | <functionDefinition>
+                                        | <operatorFunctionDefinition>
+                                        | <macroExpression>
+                                        | <propertyDefinition>
+
+<structMemberDeclaration_star_301> ::= " "
+                                       | <end> <structMemberDeclaration_star_301>
+
+<structMemberDeclaration> ::= <structMemberDeclaration_group_300> <structMemberDeclaration_star_301>
+
+<structInit_star_304> ::= " "
+                          | <NL> <structInit_star_304>
+
+<structInit_group_303> ::= <structNonStaticMemberModifier>
+                           | <CONST> <structInit_star_304>
+
+<structInit_opt_302> ::= " "
+                         | <structInit_group_303>
+
+<structInit_star_305> ::= " "
+                          | <NL> <structInit_star_305>
+
+<structInit_star_306> ::= " "
+                          | <NL> <structInit_star_306>
+
+<structInit> ::= <structInit_opt_302> <INIT> <structInit_star_305> <functionParameters> <structInit_star_306> <block>
+
+<structPrimaryInit_star_309> ::= " "
+                                 | <NL> <structPrimaryInit_star_309>
+
+<structPrimaryInit_group_308> ::= <structNonStaticMemberModifier>
+                                  | <CONST> <structPrimaryInit_star_309>
+
+<structPrimaryInit_opt_307> ::= " "
+                                | <structPrimaryInit_group_308>
+
+<structPrimaryInit_star_310> ::= " "
+                                 | <NL> <structPrimaryInit_star_310>
+
+<structPrimaryInit_star_311> ::= " "
+                                 | <NL> <structPrimaryInit_star_311>
+
+<structPrimaryInit_opt_312> ::= " "
+                                | <structPrimaryInitParamLists>
+
+<structPrimaryInit_star_313> ::= " "
+                                 | <NL> <structPrimaryInit_star_313>
+
+<structPrimaryInit_star_314> ::= " "
+                                 | <NL> <structPrimaryInit_star_314>
+
+<structPrimaryInit_star_315> ::= " "
+                                 | <NL> <structPrimaryInit_star_315>
+
+<structPrimaryInit_opt_316> ::= " "
+                                | <expressionOrDeclarations>
+
+<structPrimaryInit_star_317> ::= " "
+                                 | <NL> <structPrimaryInit_star_317>
+
+<structPrimaryInit> ::= <structPrimaryInit_opt_307> <structName> <structPrimaryInit_star_310> <LPAREN> <structPrimaryInit_star_311> <structPrimaryInit_opt_312> <structPrimaryInit_star_313> <RPAREN> <structPrimaryInit_star_314> <LCURL> <structPrimaryInit_star_315> <structPrimaryInit_opt_316> <structPrimaryInit_star_317> <RCURL>
+
+<structName> ::= <identifier>
+
+<structPrimaryInitParamLists_star_319> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_319>
+
+<structPrimaryInitParamLists_star_320> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_320>
+
+<structPrimaryInitParamLists_opt_318> ::= " "
+                                          | <structPrimaryInitParamLists_star_319> <COMMA> <structPrimaryInitParamLists_star_320> <namedParameterList>
+
+<structPrimaryInitParamLists_star_322> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_322>
+
+<structPrimaryInitParamLists_star_323> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_323>
+
+<structPrimaryInitParamLists_opt_321> ::= " "
+                                          | <structPrimaryInitParamLists_star_322> <COMMA> <structPrimaryInitParamLists_star_323> <structNamedInitParamList>
+
+<structPrimaryInitParamLists_star_325> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_325>
+
+<structPrimaryInitParamLists_star_326> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_326>
+
+<structPrimaryInitParamLists_opt_324> ::= " "
+                                          | <structPrimaryInitParamLists_star_325> <COMMA> <structPrimaryInitParamLists_star_326> <structUnnamedInitParamList>
+
+<structPrimaryInitParamLists_star_328> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_328>
+
+<structPrimaryInitParamLists_star_329> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_329>
+
+<structPrimaryInitParamLists_opt_327> ::= " "
+                                          | <structPrimaryInitParamLists_star_328> <COMMA> <structPrimaryInitParamLists_star_329> <structNamedInitParamList>
+
+<structPrimaryInitParamLists_star_331> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_331>
+
+<structPrimaryInitParamLists_star_332> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_332>
+
+<structPrimaryInitParamLists_opt_330> ::= " "
+                                          | <structPrimaryInitParamLists_star_331> <COMMA> <structPrimaryInitParamLists_star_332> <structNamedInitParamList>
+
+<structPrimaryInitParamLists_star_334> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_334>
+
+<structPrimaryInitParamLists_star_335> ::= " "
+                                           | <NL> <structPrimaryInitParamLists_star_335>
+
+<structPrimaryInitParamLists_opt_333> ::= " "
+                                          | <structPrimaryInitParamLists_star_334> <COMMA> <structPrimaryInitParamLists_star_335> <structNamedInitParamList>
+
+<structPrimaryInitParamLists> ::= <unnamedParameterList> <structPrimaryInitParamLists_opt_318> <structPrimaryInitParamLists_opt_321>
+                                  | <unnamedParameterList> <structPrimaryInitParamLists_opt_324> <structPrimaryInitParamLists_opt_327>
+                                  | <structUnnamedInitParamList> <structPrimaryInitParamLists_opt_330>
+                                  | <namedParameterList> <structPrimaryInitParamLists_opt_333>
+                                  | <structNamedInitParamList>
+
+<structUnnamedInitParamList_star_337> ::= " "
+                                          | <NL> <structUnnamedInitParamList_star_337>
+
+<structUnnamedInitParamList_star_338> ::= " "
+                                          | <NL> <structUnnamedInitParamList_star_338>
+
+<structUnnamedInitParamList_star_336> ::= " "
+                                          | <structUnnamedInitParamList_star_337> <COMMA> <structUnnamedInitParamList_star_338> <structUnnamedInitParam> <structUnnamedInitParamList_star_336>
+
+<structUnnamedInitParamList> ::= <structUnnamedInitParam> <structUnnamedInitParamList_star_336>
+
+<structNamedInitParamList_star_340> ::= " "
+                                        | <NL> <structNamedInitParamList_star_340>
+
+<structNamedInitParamList_star_341> ::= " "
+                                        | <NL> <structNamedInitParamList_star_341>
+
+<structNamedInitParamList_star_339> ::= " "
+                                        | <structNamedInitParamList_star_340> <COMMA> <structNamedInitParamList_star_341> <structNamedInitParam> <structNamedInitParamList_star_339>
+
+<structNamedInitParamList> ::= <structNamedInitParam> <structNamedInitParamList_star_339>
+
+<structUnnamedInitParam_star_343> ::= " "
+                                      | <NL> <structUnnamedInitParam_star_343>
+
+<structUnnamedInitParam_opt_342> ::= " "
+                                     | <structNonStaticMemberModifier> <structUnnamedInitParam_star_343>
+
+<structUnnamedInitParam_group_344> ::= <LET>
+                                       | <VAR>
+
+<structUnnamedInitParam_star_345> ::= " "
+                                      | <NL> <structUnnamedInitParam_star_345>
+
+<structUnnamedInitParam_star_346> ::= " "
+                                      | <NL> <structUnnamedInitParam_star_346>
+
+<structUnnamedInitParam_star_347> ::= " "
+                                      | <NL> <structUnnamedInitParam_star_347>
+
+<structUnnamedInitParam> ::= <structUnnamedInitParam_opt_342> <structUnnamedInitParam_group_344> <structUnnamedInitParam_star_345> <identifier> <structUnnamedInitParam_star_346> <COLON> <structUnnamedInitParam_star_347> <type>
+
+<structNamedInitParam_star_349> ::= " "
+                                    | <NL> <structNamedInitParam_star_349>
+
+<structNamedInitParam_opt_348> ::= " "
+                                   | <structNonStaticMemberModifier> <structNamedInitParam_star_349>
+
+<structNamedInitParam_group_350> ::= <LET>
+                                     | <VAR>
+
+<structNamedInitParam_star_351> ::= " "
+                                    | <NL> <structNamedInitParam_star_351>
+
+<structNamedInitParam_star_352> ::= " "
+                                    | <NL> <structNamedInitParam_star_352>
+
+<structNamedInitParam_star_353> ::= " "
+                                    | <NL> <structNamedInitParam_star_353>
+
+<structNamedInitParam_star_354> ::= " "
+                                    | <NL> <structNamedInitParam_star_354>
+
+<structNamedInitParam_star_356> ::= " "
+                                    | <NL> <structNamedInitParam_star_356>
+
+<structNamedInitParam_star_357> ::= " "
+                                    | <NL> <structNamedInitParam_star_357>
+
+<structNamedInitParam_opt_355> ::= " "
+                                   | <structNamedInitParam_star_356> <ASSIGN> <structNamedInitParam_star_357> <expression>
+
+<structNamedInitParam> ::= <structNamedInitParam_opt_348> <structNamedInitParam_group_350> <structNamedInitParam_star_351> <identifier> <structNamedInitParam_star_352> <NOT> <structNamedInitParam_star_353> <COLON> <structNamedInitParam_star_354> <type> <structNamedInitParam_opt_355>
+
+<structModifier> ::= <PUBLIC>
+                     | <PROTECTED>
+                     | <INTERNAL>
+                     | <PRIVATE>
+
+<structNonStaticMemberModifier> ::= <PUBLIC>
+                                    | <PROTECTED>
+                                    | <INTERNAL>
+                                    | <PRIVATE>
+
+<typeAlias_star_359> ::= " "
+                         | <NL> <typeAlias_star_359>
+
+<typeAlias_opt_358> ::= " "
+                        | <typeModifier> <typeAlias_star_359>
+
+<typeAlias_star_360> ::= " "
+                         | <NL> <typeAlias_star_360>
+
+<typeAlias_star_362> ::= " "
+                         | <NL> <typeAlias_star_362>
+
+<typeAlias_opt_361> ::= " "
+                        | <typeAlias_star_362> <typeParameters>
+
+<typeAlias_star_363> ::= " "
+                         | <NL> <typeAlias_star_363>
+
+<typeAlias_star_364> ::= " "
+                         | <NL> <typeAlias_star_364>
+
+<typeAlias_star_365> ::= " "
+                         | <end> <typeAlias_star_365>
+
+<typeAlias> ::= <typeAlias_opt_358> <TYPE_ALIAS> <typeAlias_star_360> <identifier> <typeAlias_opt_361> <typeAlias_star_363> <ASSIGN> <typeAlias_star_364> <type> <typeAlias_star_365>
+
+<typeModifier> ::= <PUBLIC>
+                   | <PROTECTED>
+                   | <INTERNAL>
+                   | <PRIVATE>
+
+<extendDefinition_star_366> ::= " "
+                                | <NL> <extendDefinition_star_366>
+
+<extendDefinition_star_368> ::= " "
+                                | <NL> <extendDefinition_star_368>
+
+<extendDefinition_star_369> ::= " "
+                                | <NL> <extendDefinition_star_369>
+
+<extendDefinition_opt_367> ::= " "
+                               | <extendDefinition_star_368> <UPPERBOUND> <extendDefinition_star_369> <superInterfaces>
+
+<extendDefinition_star_371> ::= " "
+                                | <NL> <extendDefinition_star_371>
+
+<extendDefinition_opt_370> ::= " "
+                               | <extendDefinition_star_371> <genericConstraints>
+
+<extendDefinition_star_372> ::= " "
+                                | <NL> <extendDefinition_star_372>
+
+<extendDefinition> ::= <EXTEND> <extendDefinition_star_366> <extendType> <extendDefinition_opt_367> <extendDefinition_opt_370> <extendDefinition_star_372> <extendBody>
+
+<extendType_opt_373> ::= " "
+                         | <typeParameters>
+
+<extendType_star_375> ::= " "
+                          | <NL> <extendType_star_375>
+
+<extendType_star_376> ::= " "
+                          | <NL> <extendType_star_376>
+
+<extendType_star_374> ::= " "
+                          | <identifier> <extendType_star_375> <DOT> <extendType_star_376> <extendType_star_374>
+
+<extendType_star_378> ::= " "
+                          | <NL> <extendType_star_378>
+
+<extendType_opt_377> ::= " "
+                         | <extendType_star_378> <typeArguments>
+
+<extendType> ::= <extendType_opt_373> <extendType_star_374> <identifier> <extendType_opt_377>
+                 | <INT8>
+                 | <INT16>
+                 | <INT32>
+                 | <INT64>
+                 | <INTNATIVE>
+                 | <UINT8>
+                 | <UINT16>
+                 | <UINT32>
+                 | <UINT64>
+                 | <UINTNATIVE>
+                 | <FLOAT16>
+                 | <FLOAT32>
+                 | <FLOAT64>
+                 | <RUNE>
+                 | <BOOLEAN>
+                 | <NOTHING>
+                 | <UNIT>
+
+<extendBody_star_379> ::= " "
+                          | <end> <extendBody_star_379>
+
+<extendBody_star_380> ::= " "
+                          | <extendMemberDeclaration> <extendBody_star_380>
+
+<extendBody_star_381> ::= " "
+                          | <end> <extendBody_star_381>
+
+<extendBody> ::= <LCURL> <extendBody_star_379> <extendBody_star_380> <extendBody_star_381> <RCURL>
+
+<extendMemberDeclaration_group_382> ::= <functionDefinition>
+                                        | <operatorFunctionDefinition>
+                                        | <macroExpression>
+                                        | <propertyDefinition>
+
+<extendMemberDeclaration_star_383> ::= " "
+                                       | <end> <extendMemberDeclaration_star_383>
+
+<extendMemberDeclaration> ::= <extendMemberDeclaration_group_382> <extendMemberDeclaration_star_383>
+
+<foreignDeclaration_star_384> ::= " "
+                                  | <NL> <foreignDeclaration_star_384>
+
+<foreignDeclaration_group_385> ::= <foreignBody>
+                                   | <foreignMemberDeclaration>
+
+<foreignDeclaration> ::= <FOREIGN> <foreignDeclaration_star_384> <foreignDeclaration_group_385>
+
+<foreignBody_star_386> ::= " "
+                           | <end> <foreignBody_star_386>
+
+<foreignBody_star_387> ::= " "
+                           | <foreignMemberDeclaration> <foreignBody_star_387>
+
+<foreignBody_star_388> ::= " "
+                           | <end> <foreignBody_star_388>
+
+<foreignBody> ::= <LCURL> <foreignBody_star_386> <foreignBody_star_387> <foreignBody_star_388> <RCURL>
+
+<foreignMemberDeclaration_group_389> ::= <classDefinition>
+                                         | <interfaceDefinition>
+                                         | <functionDefinition>
+                                         | <macroExpression>
+                                         | <variableDeclaration>
+
+<foreignMemberDeclaration_star_390> ::= " "
+                                        | <end> <foreignMemberDeclaration_star_390>
+
+<foreignMemberDeclaration> ::= <foreignMemberDeclaration_group_389> <foreignMemberDeclaration_star_390>
+
+<annotationList_plus_391> ::= <annotation>
+                              | <annotation> <annotationList_plus_391>
+
+<annotationList> ::= <annotationList_plus_391>
+
+<annotation_star_393> ::= " "
+                          | <NL> <annotation_star_393>
+
+<annotation_star_392> ::= " "
+                          | <identifier> <annotation_star_393> <DOT> <annotation_star_392>
+
+<annotation_star_395> ::= " "
+                          | <NL> <annotation_star_395>
+
+<annotation_star_396> ::= " "
+                          | <NL> <annotation_star_396>
+
+<annotation_opt_394> ::= " "
+                         | <LSQUARE> <annotation_star_395> <annotationArgumentList> <annotation_star_396> <RSQUARE>
+
+<annotation> ::= <AT> <annotation_star_392> <identifier> <annotation_opt_394>
+
+<annotationArgumentList_star_398> ::= " "
+                                      | <NL> <annotationArgumentList_star_398>
+
+<annotationArgumentList_star_399> ::= " "
+                                      | <NL> <annotationArgumentList_star_399>
+
+<annotationArgumentList_star_397> ::= " "
+                                      | <annotationArgumentList_star_398> <COMMA> <annotationArgumentList_star_399> <annotationArgument> <annotationArgumentList_star_397>
+
+<annotationArgumentList_star_400> ::= " "
+                                      | <NL> <annotationArgumentList_star_400>
+
+<annotationArgumentList_opt_401> ::= " "
+                                     | <COMMA>
+
+<annotationArgumentList> ::= <annotationArgument> <annotationArgumentList_star_397> <annotationArgumentList_star_400> <annotationArgumentList_opt_401>
+
+<annotationArgument_star_402> ::= " "
+                                  | <NL> <annotationArgument_star_402>
+
+<annotationArgument_star_403> ::= " "
+                                  | <NL> <annotationArgument_star_403>
+
+<annotationArgument> ::= <identifier> <annotationArgument_star_402> <COLON> <annotationArgument_star_403> <expression>
+                         | <expression>
+
+<macroDefinition_star_404> ::= " "
+                               | <NL> <macroDefinition_star_404>
+
+<macroDefinition_star_405> ::= " "
+                               | <NL> <macroDefinition_star_405>
+
+<macroDefinition_star_406> ::= " "
+                               | <NL> <macroDefinition_star_406>
+
+<macroDefinition_group_407> ::= <macroWithoutAttrParam>
+                                | <macroWithAttrParam>
+
+<macroDefinition_star_408> ::= " "
+                               | <NL> <macroDefinition_star_408>
+
+<macroDefinition_star_410> ::= " "
+                               | <NL> <macroDefinition_star_410>
+
+<macroDefinition_star_411> ::= " "
+                               | <NL> <macroDefinition_star_411>
+
+<macroDefinition_opt_409> ::= " "
+                              | <COLON> <macroDefinition_star_410> <identifier> <macroDefinition_star_411>
+
+<macroDefinition_star_413> ::= " "
+                               | <NL> <macroDefinition_star_413>
+
+<macroDefinition_group_412> ::= <ASSIGN> <macroDefinition_star_413> <expression>
+                                | <block>
+
+<macroDefinition> ::= <PUBLIC> <macroDefinition_star_404> <MACRO> <macroDefinition_star_405> <identifier> <macroDefinition_star_406> <macroDefinition_group_407> <macroDefinition_star_408> <macroDefinition_opt_409> <macroDefinition_group_412>
+
+<macroWithoutAttrParam_star_414> ::= " "
+                                     | <NL> <macroWithoutAttrParam_star_414>
+
+<macroWithoutAttrParam_star_415> ::= " "
+                                     | <NL> <macroWithoutAttrParam_star_415>
+
+<macroWithoutAttrParam> ::= <LPAREN> <macroWithoutAttrParam_star_414> <macroInputDecl> <macroWithoutAttrParam_star_415> <RPAREN>
+
+<macroWithAttrParam_star_416> ::= " "
+                                  | <NL> <macroWithAttrParam_star_416>
+
+<macroWithAttrParam_star_417> ::= " "
+                                  | <NL> <macroWithAttrParam_star_417>
+
+<macroWithAttrParam_star_418> ::= " "
+                                  | <NL> <macroWithAttrParam_star_418>
+
+<macroWithAttrParam_star_419> ::= " "
+                                  | <NL> <macroWithAttrParam_star_419>
+
+<macroWithAttrParam> ::= <LPAREN> <macroWithAttrParam_star_416> <macroAttrDecl> <macroWithAttrParam_star_417> <COMMA> <macroWithAttrParam_star_418> <macroInputDecl> <macroWithAttrParam_star_419> <RPAREN>
+
+<macroInputDecl_star_420> ::= " "
+                              | <NL> <macroInputDecl_star_420>
+
+<macroInputDecl_star_421> ::= " "
+                              | <NL> <macroInputDecl_star_421>
+
+<macroInputDecl> ::= <identifier> <macroInputDecl_star_420> <COLON> <macroInputDecl_star_421> <identifier>
+
+<macroAttrDecl_star_422> ::= " "
+                             | <NL> <macroAttrDecl_star_422>
+
+<macroAttrDecl_star_423> ::= " "
+                             | <NL> <macroAttrDecl_star_423>
+
+<macroAttrDecl> ::= <identifier> <macroAttrDecl_star_422> <COLON> <macroAttrDecl_star_423> <identifier>
+
+<propertyDefinition_star_424> ::= " "
+                                  | <propertyModifier> <propertyDefinition_star_424>
+
+<propertyDefinition_star_425> ::= " "
+                                  | <NL> <propertyDefinition_star_425>
+
+<propertyDefinition_star_426> ::= " "
+                                  | <NL> <propertyDefinition_star_426>
+
+<propertyDefinition_star_427> ::= " "
+                                  | <NL> <propertyDefinition_star_427>
+
+<propertyDefinition_star_428> ::= " "
+                                  | <NL> <propertyDefinition_star_428>
+
+<propertyDefinition_star_429> ::= " "
+                                  | <NL> <propertyDefinition_star_429>
+
+<propertyDefinition_opt_430> ::= " "
+                                 | <propertyBody>
+
+<propertyDefinition> ::= <propertyDefinition_star_424> <propertyDefinition_star_425> <PROP> <propertyDefinition_star_426> <identifier> <propertyDefinition_star_427> <COLON> <propertyDefinition_star_428> <type> <propertyDefinition_star_429> <propertyDefinition_opt_430>
+
+<propertyBody_star_431> ::= " "
+                            | <end> <propertyBody_star_431>
+
+<propertyBody_plus_432> ::= <propertyMemberDeclaration>
+                            | <propertyMemberDeclaration> <propertyBody_plus_432>
+
+<propertyBody_star_433> ::= " "
+                            | <end> <propertyBody_star_433>
+
+<propertyBody> ::= <LCURL> <propertyBody_star_431> <propertyBody_plus_432> <propertyBody_star_433> <RCURL>
+
+<propertyMemberDeclaration_star_434> ::= " "
+                                         | <NL> <propertyMemberDeclaration_star_434>
+
+<propertyMemberDeclaration_star_435> ::= " "
+                                         | <NL> <propertyMemberDeclaration_star_435>
+
+<propertyMemberDeclaration_star_436> ::= " "
+                                         | <end> <propertyMemberDeclaration_star_436>
+
+<propertyMemberDeclaration_star_437> ::= " "
+                                         | <NL> <propertyMemberDeclaration_star_437>
+
+<propertyMemberDeclaration_star_438> ::= " "
+                                         | <NL> <propertyMemberDeclaration_star_438>
+
+<propertyMemberDeclaration_star_439> ::= " "
+                                         | <end> <propertyMemberDeclaration_star_439>
+
+<propertyMemberDeclaration> ::= <GET> <propertyMemberDeclaration_star_434> <LPAREN> <RPAREN> <propertyMemberDeclaration_star_435> <block> <propertyMemberDeclaration_star_436>
+                                | <SET> <propertyMemberDeclaration_star_437> <LPAREN> <identifier> <RPAREN> <propertyMemberDeclaration_star_438> <block> <propertyMemberDeclaration_star_439>
+
+<propertyModifier> ::= <PUBLIC>
+                       | <PRIVATE>
+                       | <PROTECTED>
+                       | <INTERNAL>
+                       | <STATIC>
+                       | <OPEN>
+                       | <OVERRIDE>
+                       | <REDEF>
+                       | <MUT>
+
+<mainDefinition_star_440> ::= " "
+                              | <NL> <mainDefinition_star_440>
+
+<mainDefinition_star_442> ::= " "
+                              | <NL> <mainDefinition_star_442>
+
+<mainDefinition_star_443> ::= " "
+                              | <NL> <mainDefinition_star_443>
+
+<mainDefinition_opt_441> ::= " "
+                             | <mainDefinition_star_442> <COLON> <mainDefinition_star_443> <type>
+
+<mainDefinition_star_444> ::= " "
+                              | <NL> <mainDefinition_star_444>
+
+<mainDefinition> ::= <MAIN> <mainDefinition_star_440> <functionParameters> <mainDefinition_opt_441> <mainDefinition_star_444> <block>
+
+<type> ::= <arrowType>
+           | <tupleType>
+           | <prefixType>
+           | <atomicType>
+
+<arrowType_star_445> ::= " "
+                         | <NL> <arrowType_star_445>
+
+<arrowType_star_446> ::= " "
+                         | <NL> <arrowType_star_446>
+
+<arrowType> ::= <arrowParameters> <arrowType_star_445> <ARROW> <arrowType_star_446> <type>
+
+<arrowParameters_star_447> ::= " "
+                               | <NL> <arrowParameters_star_447>
+
+<arrowParameters_star_450> ::= " "
+                               | <NL> <arrowParameters_star_450>
+
+<arrowParameters_star_451> ::= " "
+                               | <NL> <arrowParameters_star_451>
+
+<arrowParameters_star_449> ::= " "
+                               | <arrowParameters_star_450> <COMMA> <arrowParameters_star_451> <type> <arrowParameters_star_449>
+
+<arrowParameters_star_452> ::= " "
+                               | <NL> <arrowParameters_star_452>
+
+<arrowParameters_opt_448> ::= " "
+                              | <type> <arrowParameters_star_449> <arrowParameters_star_452>
+
+<arrowParameters> ::= <LPAREN> <arrowParameters_star_447> <arrowParameters_opt_448> <RPAREN>
+
+<tupleType_star_453> ::= " "
+                         | <NL> <tupleType_star_453>
+
+<tupleType_star_455> ::= " "
+                         | <NL> <tupleType_star_455>
+
+<tupleType_star_456> ::= " "
+                         | <NL> <tupleType_star_456>
+
+<tupleType_plus_454> ::= <tupleType_star_455> <COMMA> <tupleType_star_456> <type>
+                         | <tupleType_star_455> <COMMA> <tupleType_star_456> <type> <tupleType_plus_454>
+
+<tupleType_star_457> ::= " "
+                         | <NL> <tupleType_star_457>
+
+<tupleType> ::= <LPAREN> <tupleType_star_453> <type> <tupleType_plus_454> <tupleType_star_457> <RPAREN>
+
+<prefixType> ::= <prefixTypeOperator> <type>
+
+<prefixTypeOperator> ::= <QUEST>
+
+<atomicType> ::= <charLangTypes>
+                 | <userType>
+                 | <parenthesizedType>
+
+<charLangTypes> ::= <numericTypes>
+                    | <RUNE>
+                    | <BOOLEAN>
+                    | <Nothing>
+                    | <UNIT>
+                    | <THISTYPE>
+
+<numericTypes> ::= <INT8>
+                   | <INT16>
+                   | <INT32>
+                   | <INT64>
+                   | <INTNATIVE>
+                   | <UINT8>
+                   | <UINT16>
+                   | <UINT32>
+                   | <UINT64>
+                   | <UINTNATIVE>
+                   | <FLOAT16>
+                   | <FLOAT32>
+                   | <FLOAT64>
+
+<userType_star_459> ::= " "
+                        | <NL> <userType_star_459>
+
+<userType_star_460> ::= " "
+                        | <NL> <userType_star_460>
+
+<userType_star_458> ::= " "
+                        | <identifier> <userType_star_459> <DOT> <userType_star_460> <userType_star_458>
+
+<userType_star_462> ::= " "
+                        | <NL> <userType_star_462>
+
+<userType_opt_461> ::= " "
+                       | <userType_star_462> <typeArguments>
+
+<userType> ::= <userType_star_458> <identifier> <userType_opt_461>
+
+<parenthesizedType_star_463> ::= " "
+                                 | <NL> <parenthesizedType_star_463>
+
+<parenthesizedType_star_464> ::= " "
+                                 | <NL> <parenthesizedType_star_464>
+
+<parenthesizedType> ::= <LPAREN> <parenthesizedType_star_463> <type> <parenthesizedType_star_464> <RPAREN>
+
+<expression> ::= <assignmentExpression>
+
+<assignmentExpression_star_465> ::= " "
+                                    | <NL> <assignmentExpression_star_465>
+
+<assignmentExpression_star_466> ::= " "
+                                    | <NL> <assignmentExpression_star_466>
+
+<assignmentExpression_star_467> ::= " "
+                                    | <NL> <assignmentExpression_star_467>
+
+<assignmentExpression_star_468> ::= " "
+                                    | <NL> <assignmentExpression_star_468>
+
+<assignmentExpression_star_469> ::= " "
+                                    | <NL> <assignmentExpression_star_469>
+
+<assignmentExpression_star_470> ::= " "
+                                    | <NL> <assignmentExpression_star_470>
+
+<assignmentExpression> ::= <leftValueExpressionWithoutWildCard> <assignmentExpression_star_465> <assignmentOperator> <assignmentExpression_star_466> <flowExpression>
+                           | <leftValueExpression> <assignmentExpression_star_467> <ASSIGN> <assignmentExpression_star_468> <flowExpression>
+                           | <tupleLeftValueExpression> <assignmentExpression_star_469> <ASSIGN> <assignmentExpression_star_470> <flowExpression>
+                           | <flowExpression>
+
+<tupleLeftValueExpression_star_471> ::= " "
+                                        | <NL> <tupleLeftValueExpression_star_471>
+
+<tupleLeftValueExpression_group_472> ::= <leftValueExpression>
+                                         | <tupleLeftValueExpression>
+
+<tupleLeftValueExpression_star_474> ::= " "
+                                        | <NL> <tupleLeftValueExpression_star_474>
+
+<tupleLeftValueExpression_star_475> ::= " "
+                                        | <NL> <tupleLeftValueExpression_star_475>
+
+<tupleLeftValueExpression_group_476> ::= <leftValueExpression>
+                                         | <tupleLeftValueExpression>
+
+<tupleLeftValueExpression_plus_473> ::= <tupleLeftValueExpression_star_474> <COMMA> <tupleLeftValueExpression_star_475> <tupleLeftValueExpression_group_476>
+                                        | <tupleLeftValueExpression_star_474> <COMMA> <tupleLeftValueExpression_star_475> <tupleLeftValueExpression_group_476> <tupleLeftValueExpression_plus_473>
+
+<tupleLeftValueExpression_star_477> ::= " "
+                                        | <NL> <tupleLeftValueExpression_star_477>
+
+<tupleLeftValueExpression_opt_478> ::= " "
+                                       | <COMMA>
+
+<tupleLeftValueExpression_star_479> ::= " "
+                                        | <NL> <tupleLeftValueExpression_star_479>
+
+<tupleLeftValueExpression> ::= <LPAREN> <tupleLeftValueExpression_star_471> <tupleLeftValueExpression_group_472> <tupleLeftValueExpression_plus_473> <tupleLeftValueExpression_star_477> <tupleLeftValueExpression_opt_478> <tupleLeftValueExpression_star_479> <RPAREN>
+
+<leftValueExpression> ::= <leftValueExpressionWithoutWildCard>
+                          | <WILDCARD>
+
+<leftValueExpressionWithoutWildCard_opt_480> ::= " "
+                                                 | <QUEST>
+
+<leftValueExpressionWithoutWildCard_star_481> ::= " "
+                                                  | <NL> <leftValueExpressionWithoutWildCard_star_481>
+
+<leftValueExpressionWithoutWildCard> ::= <identifier>
+                                         | <leftAuxExpression> <leftValueExpressionWithoutWildCard_opt_480> <leftValueExpressionWithoutWildCard_star_481> <assignableSuffix>
+
+<leftAuxExpression_star_483> ::= " "
+                                 | <NL> <leftAuxExpression_star_483>
+
+<leftAuxExpression_opt_482> ::= " "
+                                | <leftAuxExpression_star_483> <typeArguments>
+
+<leftAuxExpression_opt_484> ::= " "
+                                | <QUEST>
+
+<leftAuxExpression_star_485> ::= " "
+                                 | <NL> <leftAuxExpression_star_485>
+
+<leftAuxExpression_star_486> ::= " "
+                                 | <NL> <leftAuxExpression_star_486>
+
+<leftAuxExpression_star_488> ::= " "
+                                 | <NL> <leftAuxExpression_star_488>
+
+<leftAuxExpression_opt_487> ::= " "
+                                | <leftAuxExpression_star_488> <typeArguments>
+
+<leftAuxExpression_opt_489> ::= " "
+                                | <QUEST>
+
+<leftAuxExpression_opt_490> ::= " "
+                                | <QUEST>
+
+<leftAuxExpression> ::= <identifier> <leftAuxExpression_opt_482>
+                        | <type>
+                        | <thisSuperExpression>
+                        | <leftAuxExpression> <leftAuxExpression_opt_484> <leftAuxExpression_star_485> <DOT> <leftAuxExpression_star_486> <identifier> <leftAuxExpression_opt_487>
+                        | <leftAuxExpression> <leftAuxExpression_opt_489> <callSuffix>
+                        | <leftAuxExpression> <leftAuxExpression_opt_490> <indexAccess>
+
+<assignableSuffix> ::= <fieldAccess>
+                       | <indexAccess>
+
+<fieldAccess_star_491> ::= " "
+                           | <NL> <fieldAccess_star_491>
+
+<fieldAccess_star_492> ::= " "
+                           | <NL> <fieldAccess_star_492>
+
+<fieldAccess> ::= <fieldAccess_star_491> <DOT> <fieldAccess_star_492> <identifier>
+
+<flowExpression_star_494> ::= " "
+                              | <NL> <flowExpression_star_494>
+
+<flowExpression_star_495> ::= " "
+                              | <NL> <flowExpression_star_495>
+
+<flowExpression_star_493> ::= " "
+                              | <flowExpression_star_494> <flowOperator> <flowExpression_star_495> <coalescingExpression> <flowExpression_star_493>
+
+<flowExpression> ::= <coalescingExpression> <flowExpression_star_493>
+
+<coalescingExpression_star_497> ::= " "
+                                    | <NL> <coalescingExpression_star_497>
+
+<coalescingExpression_star_498> ::= " "
+                                    | <NL> <coalescingExpression_star_498>
+
+<coalescingExpression_star_496> ::= " "
+                                    | <coalescingExpression_star_497> <QUEST> <QUEST> <coalescingExpression_star_498> <logicDisjunctionExpression> <coalescingExpression_star_496>
+
+<coalescingExpression> ::= <logicDisjunctionExpression> <coalescingExpression_star_496>
+
+<logicDisjunctionExpression_star_500> ::= " "
+                                          | <NL> <logicDisjunctionExpression_star_500>
+
+<logicDisjunctionExpression_star_501> ::= " "
+                                          | <NL> <logicDisjunctionExpression_star_501>
+
+<logicDisjunctionExpression_star_499> ::= " "
+                                          | <logicDisjunctionExpression_star_500> <OR> <logicDisjunctionExpression_star_501> <logicConjunctionExpression> <logicDisjunctionExpression_star_499>
+
+<logicDisjunctionExpression> ::= <logicConjunctionExpression> <logicDisjunctionExpression_star_499>
+
+<logicConjunctionExpression_star_503> ::= " "
+                                          | <NL> <logicConjunctionExpression_star_503>
+
+<logicConjunctionExpression_star_504> ::= " "
+                                          | <NL> <logicConjunctionExpression_star_504>
+
+<logicConjunctionExpression_star_502> ::= " "
+                                          | <logicConjunctionExpression_star_503> <AND> <logicConjunctionExpression_star_504> <rangeExpression> <logicConjunctionExpression_star_502>
+
+<logicConjunctionExpression> ::= <rangeExpression> <logicConjunctionExpression_star_502>
+
+<rangeExpression_star_505> ::= " "
+                               | <NL> <rangeExpression_star_505>
+
+<rangeExpression_group_506> ::= <CLOSEDRANGEOP>
+                                | <RANGEOP>
+
+<rangeExpression_star_507> ::= " "
+                               | <NL> <rangeExpression_star_507>
+
+<rangeExpression_star_509> ::= " "
+                               | <NL> <rangeExpression_star_509>
+
+<rangeExpression_star_510> ::= " "
+                               | <NL> <rangeExpression_star_510>
+
+<rangeExpression_opt_508> ::= " "
+                              | <rangeExpression_star_509> <COLON> <rangeExpression_star_510> <bitwiseDisjunctionExpression>
+
+<rangeExpression> ::= <bitwiseDisjunctionExpression> <rangeExpression_star_505> <rangeExpression_group_506> <rangeExpression_star_507> <bitwiseDisjunctionExpression> <rangeExpression_opt_508>
+                      | <bitwiseDisjunctionExpression>
+
+<bitwiseDisjunctionExpression_star_512> ::= " "
+                                            | <NL> <bitwiseDisjunctionExpression_star_512>
+
+<bitwiseDisjunctionExpression_star_513> ::= " "
+                                            | <NL> <bitwiseDisjunctionExpression_star_513>
+
+<bitwiseDisjunctionExpression_star_511> ::= " "
+                                            | <bitwiseDisjunctionExpression_star_512> <BITOR> <bitwiseDisjunctionExpression_star_513> <bitwiseXorExpression> <bitwiseDisjunctionExpression_star_511>
+
+<bitwiseDisjunctionExpression> ::= <bitwiseXorExpression> <bitwiseDisjunctionExpression_star_511>
+
+<bitwiseXorExpression_star_515> ::= " "
+                                    | <NL> <bitwiseXorExpression_star_515>
+
+<bitwiseXorExpression_star_516> ::= " "
+                                    | <NL> <bitwiseXorExpression_star_516>
+
+<bitwiseXorExpression_star_514> ::= " "
+                                    | <bitwiseXorExpression_star_515> <BITXOR> <bitwiseXorExpression_star_516> <bitwiseConjunctionExpression> <bitwiseXorExpression_star_514>
+
+<bitwiseXorExpression> ::= <bitwiseConjunctionExpression> <bitwiseXorExpression_star_514>
+
+<bitwiseConjunctionExpression_star_518> ::= " "
+                                            | <NL> <bitwiseConjunctionExpression_star_518>
+
+<bitwiseConjunctionExpression_star_519> ::= " "
+                                            | <NL> <bitwiseConjunctionExpression_star_519>
+
+<bitwiseConjunctionExpression_star_517> ::= " "
+                                            | <bitwiseConjunctionExpression_star_518> <BITAND> <bitwiseConjunctionExpression_star_519> <equalityComparisonExpression> <bitwiseConjunctionExpression_star_517>
+
+<bitwiseConjunctionExpression> ::= <equalityComparisonExpression> <bitwiseConjunctionExpression_star_517>
+
+<equalityComparisonExpression_star_521> ::= " "
+                                            | <NL> <equalityComparisonExpression_star_521>
+
+<equalityComparisonExpression_star_522> ::= " "
+                                            | <NL> <equalityComparisonExpression_star_522>
+
+<equalityComparisonExpression_opt_520> ::= " "
+                                           | <equalityComparisonExpression_star_521> <equalityOperator> <equalityComparisonExpression_star_522> <comparisonOrTypeExpression>
+
+<equalityComparisonExpression> ::= <comparisonOrTypeExpression> <equalityComparisonExpression_opt_520>
+
+<comparisonOrTypeExpression_star_524> ::= " "
+                                          | <NL> <comparisonOrTypeExpression_star_524>
+
+<comparisonOrTypeExpression_star_525> ::= " "
+                                          | <NL> <comparisonOrTypeExpression_star_525>
+
+<comparisonOrTypeExpression_opt_523> ::= " "
+                                         | <comparisonOrTypeExpression_star_524> <comparisonOperator> <comparisonOrTypeExpression_star_525> <shiftingExpression>
+
+<comparisonOrTypeExpression_star_527> ::= " "
+                                          | <NL> <comparisonOrTypeExpression_star_527>
+
+<comparisonOrTypeExpression_star_528> ::= " "
+                                          | <NL> <comparisonOrTypeExpression_star_528>
+
+<comparisonOrTypeExpression_opt_526> ::= " "
+                                         | <comparisonOrTypeExpression_star_527> <IS> <comparisonOrTypeExpression_star_528> <type>
+
+<comparisonOrTypeExpression_star_530> ::= " "
+                                          | <NL> <comparisonOrTypeExpression_star_530>
+
+<comparisonOrTypeExpression_star_531> ::= " "
+                                          | <NL> <comparisonOrTypeExpression_star_531>
+
+<comparisonOrTypeExpression_opt_529> ::= " "
+                                         | <comparisonOrTypeExpression_star_530> <AS> <comparisonOrTypeExpression_star_531> <type>
+
+<comparisonOrTypeExpression> ::= <shiftingExpression> <comparisonOrTypeExpression_opt_523>
+                                 | <shiftingExpression> <comparisonOrTypeExpression_opt_526>
+                                 | <shiftingExpression> <comparisonOrTypeExpression_opt_529>
+
+<shiftingExpression_star_533> ::= " "
+                                  | <NL> <shiftingExpression_star_533>
+
+<shiftingExpression_star_534> ::= " "
+                                  | <NL> <shiftingExpression_star_534>
+
+<shiftingExpression_star_532> ::= " "
+                                  | <shiftingExpression_star_533> <shiftingOperator> <shiftingExpression_star_534> <additiveExpression> <shiftingExpression_star_532>
+
+<shiftingExpression> ::= <additiveExpression> <shiftingExpression_star_532>
+
+<additiveExpression_star_536> ::= " "
+                                  | <NL> <additiveExpression_star_536>
+
+<additiveExpression_star_537> ::= " "
+                                  | <NL> <additiveExpression_star_537>
+
+<additiveExpression_star_535> ::= " "
+                                  | <additiveExpression_star_536> <additiveOperator> <additiveExpression_star_537> <multiplicativeExpression> <additiveExpression_star_535>
+
+<additiveExpression> ::= <multiplicativeExpression> <additiveExpression_star_535>
+
+<multiplicativeExpression_star_539> ::= " "
+                                        | <NL> <multiplicativeExpression_star_539>
+
+<multiplicativeExpression_star_540> ::= " "
+                                        | <NL> <multiplicativeExpression_star_540>
+
+<multiplicativeExpression_star_538> ::= " "
+                                        | <multiplicativeExpression_star_539> <multiplicativeOperator> <multiplicativeExpression_star_540> <exponentExpression> <multiplicativeExpression_star_538>
+
+<multiplicativeExpression> ::= <exponentExpression> <multiplicativeExpression_star_538>
+
+<exponentExpression_star_542> ::= " "
+                                  | <NL> <exponentExpression_star_542>
+
+<exponentExpression_star_543> ::= " "
+                                  | <NL> <exponentExpression_star_543>
+
+<exponentExpression_star_541> ::= " "
+                                  | <exponentExpression_star_542> <exponentOperator> <exponentExpression_star_543> <prefixUnaryExpression> <exponentExpression_star_541>
+
+<exponentExpression> ::= <prefixUnaryExpression> <exponentExpression_star_541>
+
+<prefixUnaryExpression_star_544> ::= " "
+                                     | <prefixUnaryOperator> <prefixUnaryExpression_star_544>
+
+<prefixUnaryExpression> ::= <prefixUnaryExpression_star_544> <incAndDecExpression>
+
+<incAndDecExpression_group_546> ::= <INC>
+                                    | <DEC>
+
+<incAndDecExpression_opt_545> ::= " "
+                                  | <incAndDecExpression_group_546>
+
+<incAndDecExpression> ::= <postfixExpression> <incAndDecExpression_opt_545>
+
+<postfixExpression_star_547> ::= " "
+                                 | <NL> <postfixExpression_star_547>
+
+<postfixExpression_star_548> ::= " "
+                                 | <NL> <postfixExpression_star_548>
+
+<postfixExpression_star_549> ::= " "
+                                 | <NL> <postfixExpression_star_549>
+
+<postfixExpression_star_550> ::= " "
+                                 | <NL> <postfixExpression_star_550>
+
+<postfixExpression_star_552> ::= " "
+                                 | <NL> <postfixExpression_star_552>
+
+<postfixExpression_opt_551> ::= " "
+                                | <postfixExpression_star_552> <typeArguments>
+
+<postfixExpression_star_553> ::= " "
+                                 | <NL> <postfixExpression_star_553>
+
+<postfixExpression_star_554> ::= " "
+                                 | <NL> <postfixExpression_star_554>
+
+<postfixExpression_opt_555> ::= " "
+                                | <callSuffix>
+
+<postfixExpression_opt_556> ::= " "
+                                | <callSuffix>
+
+<postfixExpression_plus_557> ::= <QUEST> <questSeperatedItems>
+                                 | <QUEST> <questSeperatedItems> <postfixExpression_plus_557>
+
+<postfixExpression> ::= <atomicExpression>
+                        | <type> <postfixExpression_star_547> <DOT> <postfixExpression_star_548> <identifier>
+                        | <postfixExpression> <postfixExpression_star_549> <DOT> <postfixExpression_star_550> <identifier> <postfixExpression_opt_551>
+                        | <postfixExpression> <callSuffix>
+                        | <postfixExpression> <indexAccess>
+                        | <postfixExpression> <postfixExpression_star_553> <DOT> <postfixExpression_star_554> <identifier> <postfixExpression_opt_555> <trailingLambdaExpression>
+                        | <identifier> <postfixExpression_opt_556> <trailingLambdaExpression>
+                        | <postfixExpression> <postfixExpression_plus_557>
+
+<questSeperatedItems_plus_558> ::= <questSeperatedItem>
+                                   | <questSeperatedItem> <questSeperatedItems_plus_558>
+
+<questSeperatedItems> ::= <questSeperatedItems_plus_558>
+
+<questSeperatedItem_opt_561> ::= " "
+                                 | <callSuffix>
+
+<questSeperatedItem_group_560> ::= <callSuffix>
+                                   | <questSeperatedItem_opt_561> <trailingLambdaExpression>
+                                   | <indexAccess>
+
+<questSeperatedItem_opt_559> ::= " "
+                                 | <questSeperatedItem_group_560>
+
+<questSeperatedItem> ::= <itemAfterQuest> <questSeperatedItem_opt_559>
+
+<itemAfterQuest_star_563> ::= " "
+                              | <NL> <itemAfterQuest_star_563>
+
+<itemAfterQuest_opt_562> ::= " "
+                             | <itemAfterQuest_star_563> <typeArguments>
+
+<itemAfterQuest> ::= <DOT> <identifier> <itemAfterQuest_opt_562>
+                     | <callSuffix>
+                     | <indexAccess>
+                     | <trailingLambdaExpression>
+
+<callSuffix_star_564> ::= " "
+                          | <NL> <callSuffix_star_564>
+
+<callSuffix_star_567> ::= " "
+                          | <NL> <callSuffix_star_567>
+
+<callSuffix_star_568> ::= " "
+                          | <NL> <callSuffix_star_568>
+
+<callSuffix_star_566> ::= " "
+                          | <callSuffix_star_567> <COMMA> <callSuffix_star_568> <valueArgument> <callSuffix_star_566>
+
+<callSuffix_star_569> ::= " "
+                          | <NL> <callSuffix_star_569>
+
+<callSuffix_opt_565> ::= " "
+                         | <valueArgument> <callSuffix_star_566> <callSuffix_star_569>
+
+<callSuffix> ::= <LPAREN> <callSuffix_star_564> <callSuffix_opt_565> <RPAREN>
+
+<valueArgument_star_570> ::= " "
+                             | <NL> <valueArgument_star_570>
+
+<valueArgument_star_571> ::= " "
+                             | <NL> <valueArgument_star_571>
+
+<valueArgument> ::= <identifier> <valueArgument_star_570> <COLON> <valueArgument_star_571> <expression>
+                    | <expression>
+                    | <refTransferExpression>
+
+<refTransferExpression_opt_572> ::= " "
+                                    | <expression> <DOT>
+
+<refTransferExpression> ::= <INOUT> <refTransferExpression_opt_572> <identifier>
+
+<indexAccess_star_573> ::= " "
+                           | <NL> <indexAccess_star_573>
+
+<indexAccess_group_574> ::= <expression>
+                            | <rangeElement>
+
+<indexAccess_star_575> ::= " "
+                           | <NL> <indexAccess_star_575>
+
+<indexAccess> ::= <LSQUARE> <indexAccess_star_573> <indexAccess_group_574> <indexAccess_star_575> <RSQUARE>
+
+<rangeElement_group_576> ::= <CLOSEDRANGEOP>
+                             | <RANGEOP>
+
+<rangeElement_star_577> ::= " "
+                            | <NL> <rangeElement_star_577>
+
+<rangeElement_star_578> ::= " "
+                            | <NL> <rangeElement_star_578>
+
+<rangeElement> ::= <RANGEOP>
+                   | <rangeElement_group_576> <rangeElement_star_577> <expression>
+                   | <expression> <rangeElement_star_578> <RANGEOP>
+
+<atomicExpression_star_580> ::= " "
+                                | <NL> <atomicExpression_star_580>
+
+<atomicExpression_opt_579> ::= " "
+                               | <atomicExpression_star_580> <typeArguments>
+
+<atomicExpression> ::= <literalConstant>
+                       | <collectionLiteral>
+                       | <tupleLiteral>
+                       | <identifier> <atomicExpression_opt_579>
+                       | <unitLiteral>
+                       | <ifExpression>
+                       | <matchExpression>
+                       | <loopExpression>
+                       | <tryExpression>
+                       | <jumpExpression>
+                       | <numericTypeConvExpr>
+                       | <thisSuperExpression>
+                       | <spawnExpression>
+                       | <synchronizedExpression>
+                       | <parenthesizedExpression>
+                       | <lambdaExpression>
+                       | <quoteExpression>
+                       | <macroExpression>
+                       | <unsafeExpression>
+
+<literalConstant> ::= <IntegerLiteral>
+                      | <FloatLiteral>
+                      | <RuneLiteral>
+                      | <ByteLiteral>
+                      | <booleanLiteral>
+                      | <stringLiteral>
+                      | <ByteStringArrayLiteral>
+                      | <unitLiteral>
+
+<booleanLiteral> ::= <TRUE>
+                     | <FALSE>
+
+<stringLiteral> ::= <lineStringLiteral>
+                    | <multiLineStringLiteral>
+                    | <MultiLineRawStringLiteral>
+
+<lineStringContent> ::= <LineStrText>
+
+<lineStringLiteral_group_582> ::= <lineStringExpression>
+                                  | <lineStringContent>
+
+<lineStringLiteral_star_581> ::= " "
+                                 | <lineStringLiteral_group_582> <lineStringLiteral_star_581>
+
+<lineStringLiteral> ::= <QUOTE_OPEN> <lineStringLiteral_star_581> <QUOTE_CLOSE>
+
+<lineStringExpression_star_583> ::= " "
+                                    | <SEMI> <lineStringExpression_star_583>
+
+<lineStringExpression_plus_586> ::= <SEMI>
+                                    | <SEMI> <lineStringExpression_plus_586>
+
+<lineStringExpression_opt_587> ::= " "
+                                   | <expressionOrDeclaration>
+
+<lineStringExpression_star_585> ::= " "
+                                    | <lineStringExpression_plus_586> <lineStringExpression_opt_587> <lineStringExpression_star_585>
+
+<lineStringExpression_group_584> ::= <expressionOrDeclaration> <lineStringExpression_star_585>
+
+<lineStringExpression_star_588> ::= " "
+                                    | <SEMI> <lineStringExpression_star_588>
+
+<lineStringExpression> ::= <LineStrExprStart> <lineStringExpression_star_583> <lineStringExpression_group_584> <lineStringExpression_star_588> <RCURL>
+
+<multiLineStringContent> ::= <MultiLineStrText>
+
+<multiLineStringLiteral_group_590> ::= <multiLineStringExpression>
+                                       | <multiLineStringContent>
+
+<multiLineStringLiteral_star_589> ::= " "
+                                      | <multiLineStringLiteral_group_590> <multiLineStringLiteral_star_589>
+
+<multiLineStringLiteral> ::= <TRIPLE_QUOTE_OPEN> <multiLineStringLiteral_star_589> <TRIPLE_QUOTE_CLOSE>
+
+<multiLineStringExpression_star_591> ::= " "
+                                         | <end> <multiLineStringExpression_star_591>
+
+<multiLineStringExpression_plus_594> ::= <end>
+                                         | <end> <multiLineStringExpression_plus_594>
+
+<multiLineStringExpression_opt_595> ::= " "
+                                        | <expressionOrDeclaration>
+
+<multiLineStringExpression_star_593> ::= " "
+                                         | <multiLineStringExpression_plus_594> <multiLineStringExpression_opt_595> <multiLineStringExpression_star_593>
+
+<multiLineStringExpression_group_592> ::= <expressionOrDeclaration> <multiLineStringExpression_star_593>
+
+<multiLineStringExpression_star_596> ::= " "
+                                         | <end> <multiLineStringExpression_star_596>
+
+<multiLineStringExpression> ::= <MultiLineStrExprStart> <multiLineStringExpression_star_591> <multiLineStringExpression_group_592> <multiLineStringExpression_star_596> <RCURL>
+
+<collectionLiteral> ::= <arrayLiteral>
+
+<arrayLiteral_star_598> ::= " "
+                            | <NL> <arrayLiteral_star_598>
+
+<arrayLiteral_opt_597> ::= " "
+                           | <arrayLiteral_star_598> <elements>
+
+<arrayLiteral_star_599> ::= " "
+                            | <NL> <arrayLiteral_star_599>
+
+<arrayLiteral> ::= <LSQUARE> <arrayLiteral_opt_597> <arrayLiteral_star_599> <RSQUARE>
+
+<elements_star_601> ::= " "
+                        | <NL> <elements_star_601>
+
+<elements_star_602> ::= " "
+                        | <NL> <elements_star_602>
+
+<elements_star_600> ::= " "
+                        | <elements_star_601> <COMMA> <elements_star_602> <element> <elements_star_600>
+
+<elements> ::= <element> <elements_star_600>
+
+<element> ::= <expressionElement>
+              | <spreadElement>
+
+<expressionElement> ::= <expression>
+
+<spreadElement> ::= <MUL> <expression>
+
+<tupleLiteral_star_603> ::= " "
+                            | <NL> <tupleLiteral_star_603>
+
+<tupleLiteral_star_605> ::= " "
+                            | <NL> <tupleLiteral_star_605>
+
+<tupleLiteral_star_606> ::= " "
+                            | <NL> <tupleLiteral_star_606>
+
+<tupleLiteral_plus_604> ::= <tupleLiteral_star_605> <COMMA> <tupleLiteral_star_606> <expression>
+                            | <tupleLiteral_star_605> <COMMA> <tupleLiteral_star_606> <expression> <tupleLiteral_plus_604>
+
+<tupleLiteral_star_607> ::= " "
+                            | <NL> <tupleLiteral_star_607>
+
+<tupleLiteral> ::= <LPAREN> <tupleLiteral_star_603> <expression> <tupleLiteral_plus_604> <tupleLiteral_star_607> <RPAREN>
+
+<unitLiteral_star_608> ::= " "
+                           | <NL> <unitLiteral_star_608>
+
+<unitLiteral> ::= <LPAREN> <unitLiteral_star_608> <RPAREN>
+
+<ifExpression_star_609> ::= " "
+                            | <NL> <ifExpression_star_609>
+
+<ifExpression_star_610> ::= " "
+                            | <NL> <ifExpression_star_610>
+
+<ifExpression_star_612> ::= " "
+                            | <NL> <ifExpression_star_612>
+
+<ifExpression_star_613> ::= " "
+                            | <NL> <ifExpression_star_613>
+
+<ifExpression_star_614> ::= " "
+                            | <NL> <ifExpression_star_614>
+
+<ifExpression_opt_611> ::= " "
+                           | <LET> <ifExpression_star_612> <deconstructPattern> <ifExpression_star_613> <BACKARROW> <ifExpression_star_614>
+
+<ifExpression_star_615> ::= " "
+                            | <NL> <ifExpression_star_615>
+
+<ifExpression_star_616> ::= " "
+                            | <NL> <ifExpression_star_616>
+
+<ifExpression_star_618> ::= " "
+                            | <NL> <ifExpression_star_618>
+
+<ifExpression_star_620> ::= " "
+                            | <NL> <ifExpression_star_620>
+
+<ifExpression_star_621> ::= " "
+                            | <NL> <ifExpression_star_621>
+
+<ifExpression_group_619> ::= <ifExpression_star_620> <ifExpression>
+                             | <ifExpression_star_621> <block>
+
+<ifExpression_opt_617> ::= " "
+                           | <ifExpression_star_618> <ELSE> <ifExpression_group_619>
+
+<ifExpression> ::= <IF> <ifExpression_star_609> <LPAREN> <ifExpression_star_610> <ifExpression_opt_611> <expression> <ifExpression_star_615> <RPAREN> <ifExpression_star_616> <block> <ifExpression_opt_617>
+
+<deconstructPattern> ::= <constantPattern>
+                         | <wildcardPattern>
+                         | <varBindingPattern>
+                         | <tuplePattern>
+                         | <enumPattern>
+
+<matchExpression_star_622> ::= " "
+                               | <NL> <matchExpression_star_622>
+
+<matchExpression_star_623> ::= " "
+                               | <NL> <matchExpression_star_623>
+
+<matchExpression_star_624> ::= " "
+                               | <NL> <matchExpression_star_624>
+
+<matchExpression_star_625> ::= " "
+                               | <NL> <matchExpression_star_625>
+
+<matchExpression_star_626> ::= " "
+                               | <NL> <matchExpression_star_626>
+
+<matchExpression_plus_627> ::= <matchCase>
+                               | <matchCase> <matchExpression_plus_627>
+
+<matchExpression_star_628> ::= " "
+                               | <NL> <matchExpression_star_628>
+
+<matchExpression_star_629> ::= " "
+                               | <NL> <matchExpression_star_629>
+
+<matchExpression_star_630> ::= " "
+                               | <NL> <matchExpression_star_630>
+
+<matchExpression_star_632> ::= " "
+                               | <NL> <matchExpression_star_632>
+
+<matchExpression_group_633> ::= <expression>
+                                | <WILDCARD>
+
+<matchExpression_star_634> ::= " "
+                               | <NL> <matchExpression_star_634>
+
+<matchExpression_star_635> ::= " "
+                               | <NL> <matchExpression_star_635>
+
+<matchExpression_plus_637> ::= <end>
+                               | <end> <matchExpression_plus_637>
+
+<matchExpression_opt_638> ::= " "
+                              | <expressionOrDeclaration>
+
+<matchExpression_star_636> ::= " "
+                               | <matchExpression_plus_637> <matchExpression_opt_638> <matchExpression_star_636>
+
+<matchExpression_plus_631> ::= <CASE> <matchExpression_star_632> <matchExpression_group_633> <matchExpression_star_634> <DOUBLE_ARROW> <matchExpression_star_635> <expressionOrDeclaration> <matchExpression_star_636>
+                               | <CASE> <matchExpression_star_632> <matchExpression_group_633> <matchExpression_star_634> <DOUBLE_ARROW> <matchExpression_star_635> <expressionOrDeclaration> <matchExpression_star_636> <matchExpression_plus_631>
+
+<matchExpression_star_639> ::= " "
+                               | <NL> <matchExpression_star_639>
+
+<matchExpression> ::= <MATCH> <matchExpression_star_622> <LPAREN> <matchExpression_star_623> <expression> <matchExpression_star_624> <RPAREN> <matchExpression_star_625> <LCURL> <matchExpression_star_626> <matchExpression_plus_627> <matchExpression_star_628> <RCURL>
+                      | <MATCH> <matchExpression_star_629> <LCURL> <matchExpression_star_630> <matchExpression_plus_631> <matchExpression_star_639> <RCURL>
+
+<matchCase_star_640> ::= " "
+                         | <NL> <matchCase_star_640>
+
+<matchCase_star_641> ::= " "
+                         | <NL> <matchCase_star_641>
+
+<matchCase_opt_642> ::= " "
+                        | <patternGuard>
+
+<matchCase_star_643> ::= " "
+                         | <NL> <matchCase_star_643>
+
+<matchCase_star_644> ::= " "
+                         | <NL> <matchCase_star_644>
+
+<matchCase_plus_646> ::= <end>
+                         | <end> <matchCase_plus_646>
+
+<matchCase_opt_647> ::= " "
+                        | <expressionOrDeclaration>
+
+<matchCase_star_645> ::= " "
+                         | <matchCase_plus_646> <matchCase_opt_647> <matchCase_star_645>
+
+<matchCase> ::= <CASE> <matchCase_star_640> <pattern> <matchCase_star_641> <matchCase_opt_642> <matchCase_star_643> <DOUBLE_ARROW> <matchCase_star_644> <expressionOrDeclaration> <matchCase_star_645>
+
+<patternGuard_star_648> ::= " "
+                            | <NL> <patternGuard_star_648>
+
+<patternGuard> ::= <WHERE> <patternGuard_star_648> <expression>
+
+<pattern> ::= <constantPattern>
+              | <wildcardPattern>
+              | <varBindingPattern>
+              | <tuplePattern>
+              | <typePattern>
+              | <enumPattern>
+
+<constantPattern_star_649> ::= " "
+                               | <NL> <constantPattern_star_649>
+
+<constantPattern_star_651> ::= " "
+                               | <NL> <constantPattern_star_651>
+
+<constantPattern_star_652> ::= " "
+                               | <NL> <constantPattern_star_652>
+
+<constantPattern_star_650> ::= " "
+                               | <constantPattern_star_651> <BITOR> <constantPattern_star_652> <literalConstant> <constantPattern_star_650>
+
+<constantPattern> ::= <literalConstant> <constantPattern_star_649> <constantPattern_star_650>
+
+<wildcardPattern> ::= <WILDCARD>
+
+<varBindingPattern> ::= <identifier>
+
+<tuplePattern_star_653> ::= " "
+                            | <NL> <tuplePattern_star_653>
+
+<tuplePattern_star_655> ::= " "
+                            | <NL> <tuplePattern_star_655>
+
+<tuplePattern_star_656> ::= " "
+                            | <NL> <tuplePattern_star_656>
+
+<tuplePattern_plus_654> ::= <tuplePattern_star_655> <COMMA> <tuplePattern_star_656> <pattern>
+                            | <tuplePattern_star_655> <COMMA> <tuplePattern_star_656> <pattern> <tuplePattern_plus_654>
+
+<tuplePattern_star_657> ::= " "
+                            | <NL> <tuplePattern_star_657>
+
+<tuplePattern> ::= <LPAREN> <tuplePattern_star_653> <pattern> <tuplePattern_plus_654> <tuplePattern_star_657> <RPAREN>
+
+<typePattern_group_658> ::= <WILDCARD>
+                            | <identifier>
+
+<typePattern_star_659> ::= " "
+                           | <NL> <typePattern_star_659>
+
+<typePattern_star_660> ::= " "
+                           | <NL> <typePattern_star_660>
+
+<typePattern> ::= <typePattern_group_658> <typePattern_star_659> <COLON> <typePattern_star_660> <type>
+
+<enumPattern_star_661> ::= " "
+                           | <NL> <enumPattern_star_661>
+
+<enumPattern_star_664> ::= " "
+                           | <NL> <enumPattern_star_664>
+
+<enumPattern_star_665> ::= " "
+                           | <NL> <enumPattern_star_665>
+
+<enumPattern_opt_663> ::= " "
+                          | <userType> <enumPattern_star_664> <DOT> <enumPattern_star_665>
+
+<enumPattern_opt_666> ::= " "
+                          | <enumPatternParameters>
+
+<enumPattern_group_662> ::= <enumPattern_opt_663> <identifier> <enumPattern_opt_666>
+
+<enumPattern_star_668> ::= " "
+                           | <NL> <enumPattern_star_668>
+
+<enumPattern_star_669> ::= " "
+                           | <NL> <enumPattern_star_669>
+
+<enumPattern_star_672> ::= " "
+                           | <NL> <enumPattern_star_672>
+
+<enumPattern_star_673> ::= " "
+                           | <NL> <enumPattern_star_673>
+
+<enumPattern_opt_671> ::= " "
+                          | <userType> <enumPattern_star_672> <DOT> <enumPattern_star_673>
+
+<enumPattern_opt_674> ::= " "
+                          | <enumPatternParameters>
+
+<enumPattern_group_670> ::= <enumPattern_opt_671> <identifier> <enumPattern_opt_674>
+
+<enumPattern_star_667> ::= " "
+                           | <enumPattern_star_668> <BITOR> <enumPattern_star_669> <enumPattern_group_670> <enumPattern_star_667>
+
+<enumPattern> ::= <enumPattern_star_661> <enumPattern_group_662> <enumPattern_star_667>
+
+<enumPatternParameters_star_675> ::= " "
+                                     | <NL> <enumPatternParameters_star_675>
+
+<enumPatternParameters_star_677> ::= " "
+                                     | <NL> <enumPatternParameters_star_677>
+
+<enumPatternParameters_star_678> ::= " "
+                                     | <NL> <enumPatternParameters_star_678>
+
+<enumPatternParameters_star_676> ::= " "
+                                     | <enumPatternParameters_star_677> <COMMA> <enumPatternParameters_star_678> <pattern> <enumPatternParameters_star_676>
+
+<enumPatternParameters_star_679> ::= " "
+                                     | <NL> <enumPatternParameters_star_679>
+
+<enumPatternParameters> ::= <LPAREN> <enumPatternParameters_star_675> <pattern> <enumPatternParameters_star_676> <enumPatternParameters_star_679> <RPAREN>
+
+<loopExpression> ::= <forInExpression>
+                     | <whileExpression>
+                     | <doWhileExpression>
+
+<forInExpression_star_680> ::= " "
+                               | <NL> <forInExpression_star_680>
+
+<forInExpression_star_681> ::= " "
+                               | <NL> <forInExpression_star_681>
+
+<forInExpression_star_682> ::= " "
+                               | <NL> <forInExpression_star_682>
+
+<forInExpression_star_683> ::= " "
+                               | <NL> <forInExpression_star_683>
+
+<forInExpression_star_684> ::= " "
+                               | <NL> <forInExpression_star_684>
+
+<forInExpression_opt_685> ::= " "
+                              | <patternGuard>
+
+<forInExpression_star_686> ::= " "
+                               | <NL> <forInExpression_star_686>
+
+<forInExpression_star_687> ::= " "
+                               | <NL> <forInExpression_star_687>
+
+<forInExpression> ::= <FOR> <forInExpression_star_680> <LPAREN> <forInExpression_star_681> <patternsMaybeIrrefutable> <forInExpression_star_682> <IN> <forInExpression_star_683> <expression> <forInExpression_star_684> <forInExpression_opt_685> <forInExpression_star_686> <RPAREN> <forInExpression_star_687> <block>
+
+<patternsMaybeIrrefutable> ::= <wildcardPattern>
+                               | <varBindingPattern>
+                               | <tuplePattern>
+                               | <enumPattern>
+
+<whileExpression_star_688> ::= " "
+                               | <NL> <whileExpression_star_688>
+
+<whileExpression_star_689> ::= " "
+                               | <NL> <whileExpression_star_689>
+
+<whileExpression_star_691> ::= " "
+                               | <NL> <whileExpression_star_691>
+
+<whileExpression_star_692> ::= " "
+                               | <NL> <whileExpression_star_692>
+
+<whileExpression_star_693> ::= " "
+                               | <NL> <whileExpression_star_693>
+
+<whileExpression_opt_690> ::= " "
+                              | <LET> <whileExpression_star_691> <deconstructPattern> <whileExpression_star_692> <BACKARROW> <whileExpression_star_693>
+
+<whileExpression_star_694> ::= " "
+                               | <NL> <whileExpression_star_694>
+
+<whileExpression_star_695> ::= " "
+                               | <NL> <whileExpression_star_695>
+
+<whileExpression> ::= <WHILE> <whileExpression_star_688> <LPAREN> <whileExpression_star_689> <whileExpression_opt_690> <expression> <whileExpression_star_694> <RPAREN> <whileExpression_star_695> <block>
+
+<doWhileExpression_star_696> ::= " "
+                                 | <NL> <doWhileExpression_star_696>
+
+<doWhileExpression_star_697> ::= " "
+                                 | <NL> <doWhileExpression_star_697>
+
+<doWhileExpression_star_698> ::= " "
+                                 | <NL> <doWhileExpression_star_698>
+
+<doWhileExpression_star_699> ::= " "
+                                 | <NL> <doWhileExpression_star_699>
+
+<doWhileExpression_star_700> ::= " "
+                                 | <NL> <doWhileExpression_star_700>
+
+<doWhileExpression> ::= <DO> <doWhileExpression_star_696> <block> <doWhileExpression_star_697> <WHILE> <doWhileExpression_star_698> <LPAREN> <doWhileExpression_star_699> <expression> <doWhileExpression_star_700> <RPAREN>
+
+<tryExpression_star_701> ::= " "
+                             | <NL> <tryExpression_star_701>
+
+<tryExpression_star_702> ::= " "
+                             | <NL> <tryExpression_star_702>
+
+<tryExpression_star_703> ::= " "
+                             | <NL> <tryExpression_star_703>
+
+<tryExpression_star_704> ::= " "
+                             | <NL> <tryExpression_star_704>
+
+<tryExpression_star_706> ::= " "
+                             | <NL> <tryExpression_star_706>
+
+<tryExpression_star_707> ::= " "
+                             | <NL> <tryExpression_star_707>
+
+<tryExpression_star_708> ::= " "
+                             | <NL> <tryExpression_star_708>
+
+<tryExpression_star_709> ::= " "
+                             | <NL> <tryExpression_star_709>
+
+<tryExpression_star_710> ::= " "
+                             | <NL> <tryExpression_star_710>
+
+<tryExpression_plus_705> ::= <tryExpression_star_706> <CATCH> <tryExpression_star_707> <LPAREN> <tryExpression_star_708> <catchPattern> <tryExpression_star_709> <RPAREN> <tryExpression_star_710> <block>
+                             | <tryExpression_star_706> <CATCH> <tryExpression_star_707> <LPAREN> <tryExpression_star_708> <catchPattern> <tryExpression_star_709> <RPAREN> <tryExpression_star_710> <block> <tryExpression_plus_705>
+
+<tryExpression_star_712> ::= " "
+                             | <NL> <tryExpression_star_712>
+
+<tryExpression_star_713> ::= " "
+                             | <NL> <tryExpression_star_713>
+
+<tryExpression_opt_711> ::= " "
+                            | <tryExpression_star_712> <FINALLY> <tryExpression_star_713> <block>
+
+<tryExpression_star_714> ::= " "
+                             | <NL> <tryExpression_star_714>
+
+<tryExpression_star_715> ::= " "
+                             | <NL> <tryExpression_star_715>
+
+<tryExpression_star_716> ::= " "
+                             | <NL> <tryExpression_star_716>
+
+<tryExpression_star_717> ::= " "
+                             | <NL> <tryExpression_star_717>
+
+<tryExpression_star_719> ::= " "
+                             | <NL> <tryExpression_star_719>
+
+<tryExpression_star_720> ::= " "
+                             | <NL> <tryExpression_star_720>
+
+<tryExpression_star_721> ::= " "
+                             | <NL> <tryExpression_star_721>
+
+<tryExpression_star_722> ::= " "
+                             | <NL> <tryExpression_star_722>
+
+<tryExpression_star_723> ::= " "
+                             | <NL> <tryExpression_star_723>
+
+<tryExpression_star_718> ::= " "
+                             | <tryExpression_star_719> <CATCH> <tryExpression_star_720> <LPAREN> <tryExpression_star_721> <catchPattern> <tryExpression_star_722> <RPAREN> <tryExpression_star_723> <block> <tryExpression_star_718>
+
+<tryExpression_star_725> ::= " "
+                             | <NL> <tryExpression_star_725>
+
+<tryExpression_star_726> ::= " "
+                             | <NL> <tryExpression_star_726>
+
+<tryExpression_opt_724> ::= " "
+                            | <tryExpression_star_725> <FINALLY> <tryExpression_star_726> <block>
+
+<tryExpression> ::= <TRY> <tryExpression_star_701> <block> <tryExpression_star_702> <FINALLY> <tryExpression_star_703> <block>
+                    | <TRY> <tryExpression_star_704> <block> <tryExpression_plus_705> <tryExpression_opt_711>
+                    | <TRY> <tryExpression_star_714> <LPAREN> <tryExpression_star_715> <resourceSpecifications> <tryExpression_star_716> <RPAREN> <tryExpression_star_717> <block> <tryExpression_star_718> <tryExpression_opt_724>
+
+<catchPattern> ::= <wildcardPattern>
+                   | <exceptionTypePattern>
+
+<exceptionTypePattern_group_727> ::= <WILDCARD>
+                                     | <identifier>
+
+<exceptionTypePattern_star_728> ::= " "
+                                    | <NL> <exceptionTypePattern_star_728>
+
+<exceptionTypePattern_star_729> ::= " "
+                                    | <NL> <exceptionTypePattern_star_729>
+
+<exceptionTypePattern_star_731> ::= " "
+                                    | <NL> <exceptionTypePattern_star_731>
+
+<exceptionTypePattern_star_732> ::= " "
+                                    | <NL> <exceptionTypePattern_star_732>
+
+<exceptionTypePattern_star_730> ::= " "
+                                    | <exceptionTypePattern_star_731> <BITOR> <exceptionTypePattern_star_732> <type> <exceptionTypePattern_star_730>
+
+<exceptionTypePattern> ::= <exceptionTypePattern_group_727> <exceptionTypePattern_star_728> <COLON> <exceptionTypePattern_star_729> <type> <exceptionTypePattern_star_730>
+
+<resourceSpecifications_star_734> ::= " "
+                                      | <NL> <resourceSpecifications_star_734>
+
+<resourceSpecifications_star_735> ::= " "
+                                      | <NL> <resourceSpecifications_star_735>
+
+<resourceSpecifications_star_733> ::= " "
+                                      | <resourceSpecifications_star_734> <COMMA> <resourceSpecifications_star_735> <resourceSpecification> <resourceSpecifications_star_733>
+
+<resourceSpecifications> ::= <resourceSpecification> <resourceSpecifications_star_733>
+
+<resourceSpecification_star_737> ::= " "
+                                     | <NL> <resourceSpecification_star_737>
+
+<resourceSpecification_star_738> ::= " "
+                                     | <NL> <resourceSpecification_star_738>
+
+<resourceSpecification_opt_736> ::= " "
+                                    | <resourceSpecification_star_737> <COLON> <resourceSpecification_star_738> <classType>
+
+<resourceSpecification_star_739> ::= " "
+                                     | <NL> <resourceSpecification_star_739>
+
+<resourceSpecification_star_740> ::= " "
+                                     | <NL> <resourceSpecification_star_740>
+
+<resourceSpecification> ::= <identifier> <resourceSpecification_opt_736> <resourceSpecification_star_739> <ASSIGN> <resourceSpecification_star_740> <expression>
+
+<jumpExpression_star_741> ::= " "
+                              | <NL> <jumpExpression_star_741>
+
+<jumpExpression_star_743> ::= " "
+                              | <NL> <jumpExpression_star_743>
+
+<jumpExpression_opt_742> ::= " "
+                             | <jumpExpression_star_743> <expression>
+
+<jumpExpression> ::= <THROW> <jumpExpression_star_741> <expression>
+                     | <RETURN> <jumpExpression_opt_742>
+                     | <CONTINUE>
+                     | <BREAK>
+
+<numericTypeConvExpr_star_744> ::= " "
+                                   | <NL> <numericTypeConvExpr_star_744>
+
+<numericTypeConvExpr_star_745> ::= " "
+                                   | <NL> <numericTypeConvExpr_star_745>
+
+<numericTypeConvExpr> ::= <numericTypes> <LPAREN> <numericTypeConvExpr_star_744> <expression> <numericTypeConvExpr_star_745> <RPAREN>
+
+<thisSuperExpression> ::= <THIS>
+                          | <SUPER>
+
+<lambdaExpression_star_746> ::= " "
+                                | <NL> <lambdaExpression_star_746>
+
+<lambdaExpression_opt_747> ::= " "
+                               | <lambdaParameters>
+
+<lambdaExpression_star_748> ::= " "
+                                | <NL> <lambdaExpression_star_748>
+
+<lambdaExpression_star_749> ::= " "
+                                | <NL> <lambdaExpression_star_749>
+
+<lambdaExpression_opt_750> ::= " "
+                               | <expressionOrDeclarations>
+
+<lambdaExpression> ::= <LCURL> <lambdaExpression_star_746> <lambdaExpression_opt_747> <lambdaExpression_star_748> <DOUBLE_ARROW> <lambdaExpression_star_749> <lambdaExpression_opt_750> <RCURL>
+
+<trailingLambdaExpression_star_751> ::= " "
+                                        | <NL> <trailingLambdaExpression_star_751>
+
+<trailingLambdaExpression_opt_753> ::= " "
+                                       | <lambdaParameters>
+
+<trailingLambdaExpression_star_754> ::= " "
+                                        | <NL> <trailingLambdaExpression_star_754>
+
+<trailingLambdaExpression_star_755> ::= " "
+                                        | <NL> <trailingLambdaExpression_star_755>
+
+<trailingLambdaExpression_opt_752> ::= " "
+                                       | <trailingLambdaExpression_opt_753> <trailingLambdaExpression_star_754> <DOUBLE_ARROW> <trailingLambdaExpression_star_755>
+
+<trailingLambdaExpression_opt_756> ::= " "
+                                       | <expressionOrDeclarations>
+
+<trailingLambdaExpression> ::= <LCURL> <trailingLambdaExpression_star_751> <trailingLambdaExpression_opt_752> <trailingLambdaExpression_opt_756> <RCURL>
+
+<lambdaParameters_star_758> ::= " "
+                                | <NL> <lambdaParameters_star_758>
+
+<lambdaParameters_star_759> ::= " "
+                                | <NL> <lambdaParameters_star_759>
+
+<lambdaParameters_star_757> ::= " "
+                                | <lambdaParameters_star_758> <COMMA> <lambdaParameters_star_759> <lambdaParameter> <lambdaParameters_star_757>
+
+<lambdaParameters> ::= <lambdaParameter> <lambdaParameters_star_757>
+
+<lambdaParameter_group_760> ::= <identifier>
+                                | <WILDCARD>
+
+<lambdaParameter_star_762> ::= " "
+                               | <NL> <lambdaParameter_star_762>
+
+<lambdaParameter_star_763> ::= " "
+                               | <NL> <lambdaParameter_star_763>
+
+<lambdaParameter_opt_761> ::= " "
+                              | <lambdaParameter_star_762> <COLON> <lambdaParameter_star_763> <type>
+
+<lambdaParameter> ::= <lambdaParameter_group_760> <lambdaParameter_opt_761>
+
+<spawnExpression_star_765> ::= " "
+                               | <NL> <spawnExpression_star_765>
+
+<spawnExpression_star_766> ::= " "
+                               | <NL> <spawnExpression_star_766>
+
+<spawnExpression_opt_764> ::= " "
+                              | <LPAREN> <spawnExpression_star_765> <expression> <spawnExpression_star_766> <RPAREN>
+
+<spawnExpression_star_767> ::= " "
+                               | <NL> <spawnExpression_star_767>
+
+<spawnExpression> ::= <SPAWN> <spawnExpression_opt_764> <spawnExpression_star_767> <trailingLambdaExpression>
+
+<synchronizedExpression_star_768> ::= " "
+                                      | <NL> <synchronizedExpression_star_768>
+
+<synchronizedExpression_star_769> ::= " "
+                                      | <NL> <synchronizedExpression_star_769>
+
+<synchronizedExpression_star_770> ::= " "
+                                      | <NL> <synchronizedExpression_star_770>
+
+<synchronizedExpression> ::= <SYNCHRONIZED> <LPAREN> <synchronizedExpression_star_768> <expression> <synchronizedExpression_star_769> <RPAREN> <synchronizedExpression_star_770> <block>
+
+<parenthesizedExpression_star_771> ::= " "
+                                       | <NL> <parenthesizedExpression_star_771>
+
+<parenthesizedExpression_star_772> ::= " "
+                                       | <NL> <parenthesizedExpression_star_772>
+
+<parenthesizedExpression> ::= <LPAREN> <parenthesizedExpression_star_771> <expression> <parenthesizedExpression_star_772> <RPAREN>
+
+<block> ::= <LCURL> <expressionOrDeclarations> <RCURL>
+
+<unsafeExpression_star_773> ::= " "
+                                | <NL> <unsafeExpression_star_773>
+
+<unsafeExpression> ::= <UNSAFE> <unsafeExpression_star_773> <block>
+
+<expressionOrDeclarations_star_774> ::= " "
+                                        | <end> <expressionOrDeclarations_star_774>
+
+<expressionOrDeclarations_plus_777> ::= <end>
+                                        | <end> <expressionOrDeclarations_plus_777>
+
+<expressionOrDeclarations_opt_778> ::= " "
+                                       | <expressionOrDeclaration>
+
+<expressionOrDeclarations_star_776> ::= " "
+                                        | <expressionOrDeclarations_plus_777> <expressionOrDeclarations_opt_778> <expressionOrDeclarations_star_776>
+
+<expressionOrDeclarations_opt_775> ::= " "
+                                       | <expressionOrDeclaration> <expressionOrDeclarations_star_776>
+
+<expressionOrDeclarations> ::= <expressionOrDeclarations_star_774> <expressionOrDeclarations_opt_775>
+
+<expressionOrDeclaration> ::= <expression>
+                              | <varOrfuncDeclaration>
+
+<varOrfuncDeclaration> ::= <functionDefinition>
+                           | <variableDeclaration>
+
+<quoteExpression> ::= <QUOTE> <quoteExpr>
+
+<quoteExpr_star_779> ::= " "
+                         | <NL> <quoteExpr_star_779>
+
+<quoteExpr_star_780> ::= " "
+                         | <NL> <quoteExpr_star_780>
+
+<quoteExpr> ::= <LPAREN> <quoteExpr_star_779> <quoteParameters> <quoteExpr_star_780> <RPAREN>
+
+<quoteParameters_star_783> ::= " "
+                               | <NL> <quoteParameters_star_783>
+
+<quoteParameters_star_784> ::= " "
+                               | <NL> <quoteParameters_star_784>
+
+<quoteParameters_star_785> ::= " "
+                               | <NL> <quoteParameters_star_785>
+
+<quoteParameters_group_782> ::= <quoteParameters_star_783> <quoteToken>
+                                | <quoteParameters_star_784> <quoteInterpolate>
+                                | <quoteParameters_star_785> <macroExpression>
+
+<quoteParameters_plus_781> ::= <quoteParameters_group_782>
+                               | <quoteParameters_group_782> <quoteParameters_plus_781>
+
+<quoteParameters> ::= <quoteParameters_plus_781>
+
+<quoteToken> ::= <DOT>
+                 | <COMMA>
+                 | <LPAREN>
+                 | <RPAREN>
+                 | <LSQUARE>
+                 | <RSQUARE>
+                 | <LCURL>
+                 | <RCURL>
+                 | <EXP>
+                 | <MUL>
+                 | <MOD>
+                 | <DIV>
+                 | <ADD>
+                 | <SUB>
+                 | <PIPELINE>
+                 | <COMPOSITION>
+                 | <INC>
+                 | <DEC>
+                 | <AND>
+                 | <OR>
+                 | <NOT>
+                 | <BITAND>
+                 | <BITOR>
+                 | <BITXOR>
+                 | <LSHIFT>
+                 | <RSHIFT>
+                 | <COLON>
+                 | <SEMI>
+                 | <ASSIGN>
+                 | <ADD_ASSIGN>
+                 | <SUB_ASSIGN>
+                 | <MUL_ASSIGN>
+                 | <EXP_ASSIGN>
+                 | <DIV_ASSIGN>
+                 | <MOD_ASSIGN>
+                 | <AND_ASSIGN>
+                 | <OR_ASSIGN>
+                 | <BITAND_ASSIGN>
+                 | <BITOR_ASSIGN>
+                 | <BITXOR_ASSIGN>
+                 | <LSHIFT_ASSIGN>
+                 | <RSHIFT_ASSIGN>
+                 | <ARROW>
+                 | <BACKARROW>
+                 | <DOUBLE_ARROW>
+                 | <ELLIPSIS>
+                 | <CLOSEDRANGEOP>
+                 | <RANGEOP>
+                 | <HASH>
+                 | <AT>
+                 | <QUEST>
+                 | <UPPERBOUND>
+                 | <LT>
+                 | <GT>
+                 | <LE>
+                 | <GE>
+                 | <NOTEQUAL>
+                 | <EQUAL>
+                 | <WILDCARD>
+                 | <BACKSLASH>
+                 | <QUOTESYMBOL>
+                 | <DOLLAR>
+                 | <INT8>
+                 | <INT16>
+                 | <INT32>
+                 | <INT64>
+                 | <INTNATIVE>
+                 | <UINT8>
+                 | <UINT16>
+                 | <UINT32>
+                 | <UINT64>
+                 | <UINTNATIVE>
+                 | <FLOAT16>
+                 | <FLOAT32>
+                 | <FLOAT64>
+                 | <RUNE>
+                 | <BOOL>
+                 | <UNIT>
+                 | <NOTHING>
+                 | <STRUCT>
+                 | <ENUM>
+                 | <THIS>
+                 | <PACKAGE>
+                 | <IMPORT>
+                 | <CLASS>
+                 | <INTERFACE>
+                 | <FUNC>
+                 | <LET>
+                 | <VAR>
+                 | <CONST>
+                 | <TYPE>
+                 | <INIT>
+                 | <SUPER>
+                 | <IF>
+                 | <ELSE>
+                 | <CASE>
+                 | <TRY>
+                 | <CATCH>
+                 | <FINALLY>
+                 | <FOR>
+                 | <DO>
+                 | <WHILE>
+                 | <THROW>
+                 | <RETURN>
+                 | <CONTINUE>
+                 | <BREAK>
+                 | <AS>
+                 | <IN>
+                 | <MATCH>
+                 | <FROM>
+                 | <WHERE>
+                 | <EXTEND>
+                 | <SPAWN>
+                 | <SYNCHRONIZED>
+                 | <MACRO>
+                 | <QUOTE>
+                 | <TRUE>
+                 | <FALSE>
+                 | <STATIC>
+                 | <PUBLIC>
+                 | <PRIVATE>
+                 | <PROTECTED>
+                 | <OVERRIDE>
+                 | <ABSTRACT>
+                 | <OPEN>
+                 | <OPERATOR>
+                 | <FOREIGN>
+                 | <Identifier>
+                 | <DollarIdentifier>
+                 | <literalConstant>
+
+<quoteInterpolate_star_786> ::= " "
+                                | <NL> <quoteInterpolate_star_786>
+
+<quoteInterpolate_star_787> ::= " "
+                                | <NL> <quoteInterpolate_star_787>
+
+<quoteInterpolate> ::= <DOLLAR> <LPAREN> <quoteInterpolate_star_786> <expression> <quoteInterpolate_star_787> <RPAREN>
+
+<macroExpression_opt_788> ::= " "
+                              | <macroAttrExpr>
+
+<macroExpression_star_789> ::= " "
+                               | <NL> <macroExpression_star_789>
+
+<macroExpression_group_790> ::= <macroInputExprWithoutParens>
+                                | <macroInputExprWithParens>
+
+<macroExpression> ::= <AT> <Identifier> <macroExpression_opt_788> <macroExpression_star_789> <macroExpression_group_790>
+
+<macroAttrExpr_star_791> ::= " "
+                             | <NL> <macroAttrExpr_star_791>
+
+<macroAttrExpr_star_792> ::= " "
+                             | <quoteToken> <macroAttrExpr_star_792>
+
+<macroAttrExpr_star_793> ::= " "
+                             | <NL> <macroAttrExpr_star_793>
+
+<macroAttrExpr> ::= <LSQUARE> <macroAttrExpr_star_791> <macroAttrExpr_star_792> <macroAttrExpr_star_793> <RSQUARE>
+
+<macroInputExprWithoutParens> ::= <functionDefinition>
+                                  | <operatorFunctionDefinition>
+                                  | <staticInit>
+                                  | <structDefinition>
+                                  | <structPrimaryInit>
+                                  | <structInit>
+                                  | <enumDefinition>
+                                  | <caseBody>
+                                  | <classDefinition>
+                                  | <classPrimaryInit>
+                                  | <classInit>
+                                  | <interfaceDefinition>
+                                  | <variableDeclaration>
+                                  | <propertyDefinition>
+                                  | <extendDefinition>
+                                  | <macroExpression>
+
+<macroInputExprWithParens_star_794> ::= " "
+                                        | <NL> <macroInputExprWithParens_star_794>
+
+<macroInputExprWithParens_star_795> ::= " "
+                                        | <NL> <macroInputExprWithParens_star_795>
+
+<macroInputExprWithParens> ::= <LPAREN> <macroInputExprWithParens_star_794> <macroTokens> <macroInputExprWithParens_star_795> <RPAREN>
+
+<macroTokens_group_797> ::= <quoteToken>
+                            | <macroExpression>
+
+<macroTokens_star_796> ::= " "
+                           | <macroTokens_group_797> <macroTokens_star_796>
+
+<macroTokens> ::= <macroTokens_star_796>
+
+<assignmentOperator> ::= <ASSIGN>
+                         | <ADD_ASSIGN>
+                         | <SUB_ASSIGN>
+                         | <EXP_ASSIGN>
+                         | <MUL_ASSIGN>
+                         | <DIV_ASSIGN>
+                         | <MOD_ASSIGN>
+                         | <AND_ASSIGN>
+                         | <OR_ASSIGN>
+                         | <BITAND_ASSIGN>
+                         | <BITOR_ASSIGN>
+                         | <BITXOR_ASSIGN>
+                         | <LSHIFT_ASSIGN>
+                         | <RSHIFT_ASSIGN>
+
+<equalityOperator> ::= <NOTEQUAL>
+                       | <EQUAL>
+
+<comparisonOperator> ::= <LT>
+                         | <GT>
+                         | <LE>
+                         | <GE>
+
+<shiftingOperator> ::= <LSHIFT>
+                       | <RSHIFT>
+
+<flowOperator> ::= <PIPELINE>
+                   | <COMPOSITION>
+
+<additiveOperator> ::= <ADD>
+                       | <SUB>
+
+<exponentOperator> ::= <EXP>
+
+<multiplicativeOperator> ::= <MUL>
+                             | <DIV>
+                             | <MOD>
+
+<prefixUnaryOperator> ::= <SUB>
+                          | <NOT>
+
+<overloadedOperators> ::= <LSQUARE> <RSQUARE>
+                          | <NOT>
+                          | <ADD>
+                          | <SUB>
+                          | <EXP>
+                          | <MUL>
+                          | <DIV>
+                          | <MOD>
+                          | <LSHIFT>
+                          | <RSHIFT>
+                          | <LT>
+                          | <GT>
+                          | <LE>
+                          | <GE>
+                          | <EQUAL>
+                          | <NOTEQUAL>
+                          | <BITAND>
+                          | <BITXOR>
+                          | <BITOR>
