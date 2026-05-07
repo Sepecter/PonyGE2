@@ -7,25 +7,33 @@ from stats.stats import stats
 import math
 import os
 import random
+import re
 import shutil
 import subprocess
 from datetime import datetime
 
 
-_CANGJIE_ICE_PATTERNS = (
-    "internal compiler error",
-    "please submit a bug report",
-    "assertion failed",
-    "segmentation fault",
-    "stack dump",
-    "panic:",
-    "fatal error",
-    "core dumped",
-    "abort trap",
-    "illegal instruction",
-    "report",
-    "Internal Compiler Error"
+_ANSI_ESCAPE_RE = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
+_CANGJIE_ICE_REGEXES = (
+    re.compile(r"\binternal compiler error\b", re.IGNORECASE),
+    re.compile(r"\bplease submit (?:a )?bug report\b", re.IGNORECASE),
+    re.compile(r"\bassertion(?: failed)?\b", re.IGNORECASE),
+    re.compile(r"\bsegmentation fault\b", re.IGNORECASE),
+    re.compile(r"\bstack dump\b", re.IGNORECASE),
+    re.compile(r"\bpanic:\b", re.IGNORECASE),
+    re.compile(r"\bfatal error\b", re.IGNORECASE),
+    re.compile(r"\bcore dumped\b", re.IGNORECASE),
+    re.compile(r"\babort trap\b", re.IGNORECASE),
+    re.compile(r"\billegal instruction\b", re.IGNORECASE),
+    re.compile(r"\bcompiler crashed\b", re.IGNORECASE),
+    re.compile(r"\bcjc: .*assertion.*failed\b", re.IGNORECASE),
 )
+_CANGJIE_KNOWN_BUG_REGEXES = [
+    re.compile(
+        r"DiagnosticEmitter\.cpp:\d+: .*Assertion .*range\.end\.line == range\.begin\.line.*failed",
+        re.IGNORECASE,
+    ),
+]
 
 
 def calculate_fitness(length, number, ice_or_crash=False):
@@ -89,6 +97,12 @@ def _results_root():
     return path.join(getcwd(), "..", "results")
 
 
+def _strip_ansi(text):
+    if not text:
+        return ""
+    return _ANSI_ESCAPE_RE.sub("", text)
+
+
 def save_generated_code(code, stamp=None):
     output_dir = path.join(_results_root(), "code", "cangjie")
     os.makedirs(output_dir, exist_ok=True)
@@ -105,12 +119,20 @@ def _artifact_path(stamp):
     return path.join(_results_root(), "bin", "cangjie", stamp)
 
 
-def _looks_like_ice(stderr_text, stdout_text=""):
-    merged = "\n".join([stdout_text or "", stderr_text or ""]).lower()
-    for pattern in _CANGJIE_ICE_PATTERNS:
-        if pattern in merged:
-            return True
-    return False
+def _match_ice_regex(stderr_text, stdout_text=""):
+    merged = _strip_ansi("\n".join([stdout_text or "", stderr_text or ""]))
+    for regex in _CANGJIE_ICE_REGEXES:
+        if regex.search(merged):
+            return regex.pattern
+    return None
+
+
+def _match_known_bug_regex(stderr_text, stdout_text=""):
+    merged = _strip_ansi("\n".join([stdout_text or "", stderr_text or ""]))
+    for regex in _CANGJIE_KNOWN_BUG_REGEXES:
+        if regex.search(merged):
+            return regex.pattern
+    return None
 
 
 def _save_bug_case(code_path, code, compile_info, stamp):
@@ -131,12 +153,30 @@ def _save_bug_case(code_path, code, compile_info, stamp):
         info_file.write(f"returncode: {compile_info['returncode']}\n")
         info_file.write(f"success: {compile_info['success']}\n")
         info_file.write(f"ice_or_crash: {compile_info['ice_or_crash']}\n")
+        info_file.write(f"ice_match: {compile_info['ice_match']}\n")
+        info_file.write(f"known_bug: {compile_info['known_bug']}\n")
+        info_file.write(f"known_bug_match: {compile_info['known_bug_match']}\n")
         info_file.write(f"source: {compile_info['source_path']}\n")
         info_file.write(f"artifact: {compile_info['artifact_path']}\n")
         info_file.write("\n=== stdout ===\n")
-        info_file.write(compile_info['stdout'])
+        info_file.write(_strip_ansi(compile_info['stdout']))
         info_file.write("\n=== stderr ===\n")
-        info_file.write(compile_info['stderr'])
+        info_file.write(_strip_ansi(compile_info['stderr']))
+
+
+def _cleanup_known_bug_outputs(code_path, compile_info):
+    if code_path and path.exists(code_path):
+        try:
+            os.remove(code_path)
+        except OSError:
+            pass
+
+    artifact_path = compile_info.get("artifact_path")
+    if artifact_path and path.exists(artifact_path):
+        try:
+            os.remove(artifact_path)
+        except OSError:
+            pass
 
 
 def compile_cangjie_code(code, source_path, output_name=None):
@@ -155,6 +195,10 @@ def compile_cangjie_code(code, source_path, output_name=None):
     artifact_path = path.join(artifact_dir, stamp)
 
     compile_command = ["cjc", source_path, "-o", artifact_path]
+    compile_env = os.environ.copy()
+    compile_env["NO_COLOR"] = "1"
+    compile_env["CLICOLOR"] = "0"
+    compile_env["TERM"] = "dumb"
 
     try:
         process = subprocess.run(
@@ -166,6 +210,7 @@ def compile_cangjie_code(code, source_path, output_name=None):
             errors="replace",
             timeout=60,
             check=False,
+            env=compile_env,
         )
         stdout_text = process.stdout or ""
         stderr_text = process.stderr or ""
@@ -183,7 +228,9 @@ def compile_cangjie_code(code, source_path, output_name=None):
         stderr_text = str(exc)
         returncode = -1
 
-    ice_or_crash = _looks_like_ice(stderr_text, stdout_text) or returncode < 0
+    ice_match = _match_ice_regex(stderr_text, stdout_text)
+    known_bug_match = _match_known_bug_regex(stderr_text, stdout_text)
+    ice_or_crash = (ice_match is not None) or returncode < 0
 
     return {
         "success": returncode == 0,
@@ -193,6 +240,9 @@ def compile_cangjie_code(code, source_path, output_name=None):
         "artifact_path": artifact_path,
         "source_path": source_path,
         "ice_or_crash": ice_or_crash,
+        "ice_match": ice_match,
+        "known_bug": known_bug_match is not None,
+        "known_bug_match": known_bug_match,
     }
 
 
@@ -209,7 +259,9 @@ class code_eval(base_ff):
         code_path = save_generated_code(code, stamp=stamp)
         compile_info = compile_cangjie_code(code, code_path, output_name=stamp)
 
-        if compile_info["ice_or_crash"]:
+        if compile_info["known_bug"]:
+            _cleanup_known_bug_outputs(code_path, compile_info)
+        elif compile_info["ice_or_crash"]:
             _save_bug_case(code_path, code, compile_info, stamp)
 
         length = calculate_length(raw_code)
