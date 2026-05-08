@@ -4,6 +4,7 @@ from fitness.base_ff_classes.base_ff import base_ff
 from os import getcwd, path
 from algorithm.parameters import params
 from stats.stats import stats
+import json
 import math
 import os
 import random
@@ -34,6 +35,37 @@ _CANGJIE_KNOWN_BUG_REGEXES = [
         re.IGNORECASE,
     ),
 ]
+
+
+def _src_root():
+    return path.abspath(path.join(path.dirname(__file__), "..", ".."))
+
+
+_SEEN_LINES_FILE = path.join(_src_root(), "cangjie_seen_lines.json")
+
+
+def _load_seen_lines():
+    if not path.exists(_SEEN_LINES_FILE):
+        return set()
+    try:
+        with open(_SEEN_LINES_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, list):
+            return set(item for item in data if isinstance(item, str))
+    except Exception:
+        pass
+    return set()
+
+
+def _save_seen_lines(seen_lines):
+    try:
+        with open(_SEEN_LINES_FILE, "w", encoding="utf-8") as f:
+            json.dump(sorted(seen_lines), f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+
+_SEEN_MATCHED_LINES = _load_seen_lines()
 
 
 def calculate_fitness(length, number, ice_or_crash=False):
@@ -119,20 +151,26 @@ def _artifact_path(stamp):
     return path.join(_results_root(), "bin", "cangjie", stamp)
 
 
-def _match_ice_regex(stderr_text, stdout_text=""):
+def _match_regex_line(stderr_text, stdout_text, regexes):
     merged = _strip_ansi("\n".join([stdout_text or "", stderr_text or ""]))
-    for regex in _CANGJIE_ICE_REGEXES:
-        if regex.search(merged):
-            return regex.pattern
-    return None
+    for line in merged.splitlines():
+        clean_line = line.strip()
+        if not clean_line:
+            continue
+        for regex in regexes:
+            if regex.search(clean_line):
+                return regex.pattern, clean_line
+    return None, None
 
 
-def _match_known_bug_regex(stderr_text, stdout_text=""):
-    merged = _strip_ansi("\n".join([stdout_text or "", stderr_text or ""]))
-    for regex in _CANGJIE_KNOWN_BUG_REGEXES:
-        if regex.search(merged):
-            return regex.pattern
-    return None
+def _is_duplicate_match(matched_line):
+    if not matched_line:
+        return False
+    if matched_line in _SEEN_MATCHED_LINES:
+        return True
+    _SEEN_MATCHED_LINES.add(matched_line)
+    _save_seen_lines(_SEEN_MATCHED_LINES)
+    return False
 
 
 def _save_bug_case(code_path, code, compile_info, stamp):
@@ -154,8 +192,12 @@ def _save_bug_case(code_path, code, compile_info, stamp):
         info_file.write(f"success: {compile_info['success']}\n")
         info_file.write(f"ice_or_crash: {compile_info['ice_or_crash']}\n")
         info_file.write(f"ice_match: {compile_info['ice_match']}\n")
+        info_file.write(f"ice_line: {compile_info['ice_line']}\n")
         info_file.write(f"known_bug: {compile_info['known_bug']}\n")
         info_file.write(f"known_bug_match: {compile_info['known_bug_match']}\n")
+        info_file.write(f"known_bug_line: {compile_info['known_bug_line']}\n")
+        info_file.write(f"duplicate_bug: {compile_info['duplicate_bug']}\n")
+        info_file.write(f"duplicate_line: {compile_info['duplicate_line']}\n")
         info_file.write(f"source: {compile_info['source_path']}\n")
         info_file.write(f"artifact: {compile_info['artifact_path']}\n")
         info_file.write("\n=== stdout ===\n")
@@ -228,9 +270,15 @@ def compile_cangjie_code(code, source_path, output_name=None):
         stderr_text = str(exc)
         returncode = -1
 
-    ice_match = _match_ice_regex(stderr_text, stdout_text)
-    known_bug_match = _match_known_bug_regex(stderr_text, stdout_text)
+    ice_match, ice_line = _match_regex_line(
+        stderr_text, stdout_text, _CANGJIE_ICE_REGEXES
+    )
+    known_bug_match, known_bug_line = _match_regex_line(
+        stderr_text, stdout_text, _CANGJIE_KNOWN_BUG_REGEXES
+    )
     ice_or_crash = (ice_match is not None) or returncode < 0
+    duplicate_line = known_bug_line or ice_line
+    duplicate_bug = _is_duplicate_match(duplicate_line)
 
     return {
         "success": returncode == 0,
@@ -241,8 +289,12 @@ def compile_cangjie_code(code, source_path, output_name=None):
         "source_path": source_path,
         "ice_or_crash": ice_or_crash,
         "ice_match": ice_match,
+        "ice_line": ice_line,
         "known_bug": known_bug_match is not None,
         "known_bug_match": known_bug_match,
+        "known_bug_line": known_bug_line,
+        "duplicate_bug": duplicate_bug,
+        "duplicate_line": duplicate_line,
     }
 
 
@@ -259,11 +311,16 @@ class code_eval(base_ff):
         code_path = save_generated_code(code, stamp=stamp)
         compile_info = compile_cangjie_code(code, code_path, output_name=stamp)
 
-        if compile_info["known_bug"]:
+        if compile_info["known_bug"] or compile_info["duplicate_bug"]:
             _cleanup_known_bug_outputs(code_path, compile_info)
         elif compile_info["ice_or_crash"]:
             _save_bug_case(code_path, code, compile_info, stamp)
 
         length = calculate_length(raw_code)
         number = calculate_number(raw_code)
-        return calculate_fitness(length, number, compile_info["ice_or_crash"])
+        reward_ice = (
+            compile_info["ice_or_crash"]
+            and not compile_info["known_bug"]
+            and not compile_info["duplicate_bug"]
+        )
+        return calculate_fitness(length, number, reward_ice)
