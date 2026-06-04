@@ -12,6 +12,10 @@ from datetime import datetime
 import math
 
 
+def _ponyge2_root():
+    return path.abspath(path.join(path.dirname(__file__), "..", "..", ".."))
+
+
 def calculate_fitness(length, number, compiling_result, differential_testing_result):
     if differential_testing_result == 1:
         return 0, True
@@ -202,14 +206,14 @@ class code_eval(base_ff):
         found_new_bug = (differential_testing_result != 0)
 
         if triggered_bug and not found_new_bug:
-            target_path = "/home/syc/GE/PonyGE2/results/diff_exclude_errors/diff_dup.txt"
+            target_path = path.join(_ponyge2_root(), "results", "diff_exclude_errors", "diff_dup.txt")
             if not os.path.exists(target_path):
                 os.makedirs(os.path.dirname(target_path), exist_ok=True)
                 with open(target_path, "w") as f:
                     f.write("")
 
         if result:
-            target_path = "/home/syc/GE/PonyGE2/results/diff_exclude_errors/diff_new.txt"
+            target_path = path.join(_ponyge2_root(), "results", "diff_exclude_errors", "diff_new.txt")
             if not os.path.exists(target_path):
                 os.makedirs(os.path.dirname(target_path), exist_ok=True)
                 with open(target_path, "w") as f:

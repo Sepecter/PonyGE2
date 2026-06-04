@@ -10,6 +10,10 @@ from datetime import datetime
 import math
 
 
+def _ponyge2_root():
+    return path.abspath(path.join(path.dirname(__file__), "..", "..", ".."))
+
+
 def calculate_fitness(length, number, compiling_result, differential_testing_result):
     # print(stats)
 
@@ -222,7 +226,7 @@ class code_eval(base_ff):
 
         if result:
 
-            target_path = "/home/syc/GE/PonyGE2/results/diff/diff.txt"
+            target_path = path.join(_ponyge2_root(), "results", "diff", "diff.txt")
 
             if result:
                 if not os.path.exists(target_path):
